@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "name": "Terriers",
+    "profileImg": "https://images.dog.ceo/breeds/terrier-sealyham/n02095889_4762.jpg",
+    "members": ["Tina", "Jan"],
+    "challenges": ["2", "3"]
+  },
+  {
+    "id": "2",
+    "name": "Waterdogs",
+    "profileImg": "https://images.dog.ceo/breeds/waterdog-spanish/20180723_185559.jpg",
+    "challenges": ["1", "2"],
+    "members": ["Joseph", "Ollie"]
+  },
+  {
+    "id": "3",
+    "name": "Bulls",
+    "profileImg": "https://images.dog.ceo/breeds/mastiff-bull/n02108422_1548.jpg",
+    "challenges": ["2", "3", "4"],
+    "members": ["Johannes", "Michael"]
+  },
+  {
+    "id": "4",
+    "name": "Spaniels",
+    "profileImg": "https://images.dog.ceo/breeds/spaniel-blenheim/n02086646_1234.jpg",
+    "challenges": ["3", "5"],
+    "members": ["Yvana", "Kitty"]
+  }
+]
