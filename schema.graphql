@@ -1,0 +1,28 @@
+type User {
+  name: String!
+  team: Team! @relation(name: "team_member")
+}
+
+type Team {
+  name: String!
+  logoSrc: String
+  members: [User!] @relation(name: "team_member")
+  challengesCompleted: [ChallengeCompleted]
+}
+
+type Challenge {
+  name: String!
+  description: String!
+}
+
+type ChallengeCompleted {
+  challenge: Challenge!
+  team: Team!
+  solution: String! # lets start with a simple string, later we add images and whatnot
+}
+
+
+type Query {
+  allChallenges: [Challenge!]
+  allTeams: [Team!]
+}

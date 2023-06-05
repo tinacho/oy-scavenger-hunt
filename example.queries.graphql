@@ -1,0 +1,72 @@
+# create a team with one initial user johi
+mutation createTeam {
+  createTeam(data: { name: "Boo", members: { create: [{ name: "johi" }] } }) {
+    name
+    members {
+      data {
+        name
+      }
+    }
+  }
+} 
+
+# result
+# {
+#   "data": {
+#     "createTeam": {
+#       "name": "Boo",
+#       "members": {
+#         "data": [
+#           {
+#             "name": "johi"
+#           }
+#         ]
+#       }
+#     }
+#   }
+# }
+
+
+# create a user and add it to the team with id '366722023291879628' 
+mutation {
+  createUser(data: {
+    name: "tina",
+    team: {
+      connect: "366722023291879628"
+    }
+  }) {
+    _id
+    name
+    team {
+      name
+    }
+  }
+}
+
+# result
+# {
+#   "data": {
+#     "createUser": {
+#       "_id": "366723160012226765",
+#       "name": "tina",
+#       "team": {
+#         "name": "Bike gang"
+#       }
+#     }
+#   }
+# }
+
+# query all teams and their members
+query {
+  allTeams {
+  	data {
+      name
+      _id
+      members {
+        data {
+          name
+        }
+      }
+    }
+  }
+}
