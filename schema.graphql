@@ -1,17 +1,17 @@
 type User {
-  name: String!
+  name: String! @unique
   team: Team! @relation(name: "team_member")
 }
 
 type Team {
-  name: String!
+  name: String! @unique
   logoSrc: String
   members: [User!] @relation(name: "team_member")
   challengesCompleted: [ChallengeCompleted]
 }
 
 type Challenge {
-  name: String!
+  name: String! @unique
   description: String!
 }
 
