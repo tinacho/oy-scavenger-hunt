@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --text-primary: #fffded;
+  --text-invert: rgba(14, 1, 50, 1);
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  min-height: 100vh;
+  color: var(--text-primary);
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    156deg,
+    rgba(14, 1, 50, 1) 0%,
+    rgba(39, 41, 109, 1) 49%,
+    rgba(103, 12, 212, 1) 91%,
+    rgba(130, 0, 255, 1) 100%
+  );
+}
+
+button {
+  padding: 15px 20px;
+  background-color: bisque;
+  color: var(--text-invert);
+  border-radius: 100px;
 }

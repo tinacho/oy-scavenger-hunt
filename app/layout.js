@@ -14,9 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${gluten.className} text-xl`}>
-        <nav>
-          <ul className="flex items-center justify-between p-24">
+      <body className={`${lexend.className} text-xl`}>
+        <nav className="bg-orange-100 text-gray-800 p-12">
+          <ul className="flex items-center justify-between">
             <li>
               <a href="/">OY Scavenger Hunt</a>
             </li>
