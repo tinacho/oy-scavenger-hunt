@@ -1,0 +1,103 @@
+# create a team
+mutation createTeam {
+  createTeam(
+    data: { 
+      name: "Bike Gang",
+      members: [{ name: "Tina" }, { name: "Jan" }] 
+    }
+  ) {
+    _id
+    name
+    members {
+      name
+    }
+  }
+}
+
+mutation updateTeam {
+  partialUpdateTeam(
+    id: "366821575551353037"
+    data: { members: [{ name: "Johi" }] } # overwrites all members
+  ) {
+    _id
+    name
+    members {
+      name
+    }
+  }
+}
+
+mutation {
+  createChallenge(data: {
+    name: "first one",
+    description: "this is the first of many!",
+    score:2
+  }) {
+    _id
+    name
+  }
+}
+
+mutation {
+  createSolution(
+    data: {
+      team: { connect: "366821575551353037" }
+      challenge: { connect: "366821830494781644" }
+      solution: "WE DID IT LIKE THIS!!"
+      media: ["FIRST SCREENSHOT"]
+    }
+  ) {
+    team {
+      name
+    }
+    challenge {
+      name
+    }
+    solution
+  }
+}
+
+# teams and their solutions
+query {
+  allTeams {
+    data {
+      _id
+      name
+      members {
+        name
+      }
+      logoSrc
+      solutions {
+        data {
+          _id
+          solution
+          media
+          challenge {
+            _id
+            name
+            description
+          }
+        }
+      }
+    }
+  }
+}
+
+# challenges and their solutions
+query {
+  allChallenges {
+    data {
+      _id
+      name
+      solutions {
+        data {
+          _id
+          solution
+          team {
+            name
+          }
+        }
+      }
+    }
+  }
+}
