@@ -1,8 +1,9 @@
 
 import { gql } from '@apollo/client';
 
+// all data needed to render the homepage view, 
+// teams and their solutions atm
 export const home = gql`
-  # teams and their solutions
   query home{
     allTeams {
       data {
