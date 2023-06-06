@@ -7,22 +7,27 @@ type Team {
   name: String! @unique
   logoSrc: String
   members: [User!] @relation(name: "team_member")
-  challengesCompleted: [ChallengeCompleted]
+  solutions: [Solutions] @relation(name: "team_solution")
 }
 
 type Challenge {
   name: String! @unique
   description: String!
+  score: Int!
+  solutions: [Solutions] @relation(name: "challenge_solution")
 }
 
-type ChallengeCompleted {
-  challenge: Challenge!
-  team: Team!
+type Solutions {
+  challenge: Challenge! @relation(name: "challenge_solution")
+  team: Team! @relation(name: "team_solution")
   solution: String! # lets start with a simple string, later we add images and whatnot
+  media: [String]
 }
 
 
 type Query {
   allChallenges: [Challenge!]
   allTeams: [Team!]
+
+  findTeamByName(name: String!): Team!
 }
