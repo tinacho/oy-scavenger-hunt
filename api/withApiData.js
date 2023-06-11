@@ -9,8 +9,6 @@ export function withApiData(query, propMapper = () => ({})) {
       variables: propMapper(props),
     });
 
-    console.log({loading, error, data})
-
     if(loading) {
       return <Loading></Loading>
     }
