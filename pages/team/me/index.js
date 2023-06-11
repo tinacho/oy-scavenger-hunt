@@ -1,4 +1,4 @@
-import Challenges from "app/components/Challenges";
+import Challenges from "../../../components/Challenges";
 
 export default function Team() {
   return (
