@@ -1,10 +1,6 @@
 /* eslint-disable react/display-name */
-import { useQuery, gql } from '@apollo/client';
-
-// TODO move to components folder
-function Loading() {
-  return <div>loading....</div>
-}
+import { useQuery } from '@apollo/client';
+import Loading from '../components/Loading';
 
 export function withApiData(query, propMapper = () => ({})) {
   return Component => props => {
@@ -12,6 +8,8 @@ export function withApiData(query, propMapper = () => ({})) {
     const { loading, error, data } = useQuery(query, {
       variables: propMapper(props),
     });
+
+    console.log({loading, error, data})
 
     if(loading) {
       return <Loading></Loading>
@@ -22,7 +20,7 @@ export function withApiData(query, propMapper = () => ({})) {
       throw error;
     }
 
-    <Component {...props} data={data}/>
+    return <Component {...props} data={data}/>
 
   }
 }
