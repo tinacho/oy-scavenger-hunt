@@ -1,8 +1,8 @@
-import Challenges from "app/components/Challenges";
+import Challenges from "../../../components/Challenges";
 
 export default function Team() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold text-center">Team page name</h1>
       <div>Team profile image</div>
       <div>
@@ -14,6 +14,6 @@ export default function Team() {
         </ul>
       </div>
       <Challenges />
-    </main>
+    </div>
   );
 }
