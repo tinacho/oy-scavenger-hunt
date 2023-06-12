@@ -8,7 +8,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = process.env.FAUNA_KEY
+  const token = process.env.NEXT_PUBLIC_FAUNA_KEY
 
   // return the headers to the context so httpLink can read them
   return {
