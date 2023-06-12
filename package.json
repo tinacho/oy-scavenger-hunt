@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "{ test -f .env && { echo 'loading .env file' ; export $(cat .env | xargs); } || echo 'no .env file'; } && next dev;",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

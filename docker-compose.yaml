@@ -4,5 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - NEXT_PUBLIC_FAUNA_KEY=${NEXT_PUBLIC_FAUNA_KEY}
     ports:
       - "3000:3000"
