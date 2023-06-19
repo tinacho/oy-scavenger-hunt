@@ -1,9 +1,17 @@
 import Image from "next/image";
+import { useQuery } from "@apollo/client";
 import Layout from "../components/Layout";
 import teams from "../mock-data/teams.json";
 import challenges from "../mock-data/challenges.json";
+import { queries, withApiData } from "../api";
 
-export default function Home() {
+function Home({ data }) {
+  console.log(
+    "%c ------------------------data------------------------",
+    "background: green; color: white; display: block;",
+    data
+  );
+
   const orderedTeams = teams.sort((a, b) => b.score - a.score);
   return (
     <div>
@@ -44,3 +52,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default withApiData(queries.home)(Home);
