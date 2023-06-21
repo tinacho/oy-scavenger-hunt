@@ -26,4 +26,5 @@ type Solution {
 type Query {
   allChallenges: [Challenge!]
   allTeams: [Team!]
+  allSolutions: [Solution!]
 }

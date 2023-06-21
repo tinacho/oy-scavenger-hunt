@@ -25,3 +25,7 @@ button {
   color: var(--text-invert);
   border-radius: 100px;
 }
+
+table, tr, th, td {
+  border: 1px solid var(--text-primary);
+}

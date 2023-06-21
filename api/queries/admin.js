@@ -3,8 +3,8 @@ import { gql } from '@apollo/client';
 
 // all data needed to render the homepage view, 
 // teams and their solutions atm
-export const home = gql`
-  query home{
+export const admin = gql`
+  query admin{
     allTeams {
       data {
         _id
@@ -26,6 +26,18 @@ export const home = gql`
             }
           }
         }
+      }
+    }
+    allChallenges {
+      data {
+        _id
+        name
+        description
+      }
+    }
+    allSolutions {
+      data {
+        _id
       }
     }
   }
