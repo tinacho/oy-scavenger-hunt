@@ -1,56 +1,139 @@
-import Image from "next/image";
+"use client";
+import { useState, useMemo } from "react";
 import { useQuery } from "@apollo/client";
+import styled from "styled-components";
+import Image from "next/image";
 import Layout from "../components/Layout";
 import teams from "../mock-data/teams.json";
 import challenges from "../mock-data/challenges.json";
 import { queries, withApiData } from "../api";
 
-function Home({ data }) {
+function Home() {
+  const { loading, error, data } = useQuery(queries.home, {
+    pollInterval: 1000,
+  });
+
+  // const orderedTeams = [...data?.allTeams?.data];
+  const orderedTeams = useMemo(() => {
+    const teams = [...data?.allTeams?.data];
+    console.log(
+      "%c a colorful message",
+      "background: green; color: white; display: block;"
+    );
+
+    return teams;
+  }, [data]);
+
+  if (loading) {
+    return <div> Loading ...</div>;
+  }
+
   console.log(
-    "%c ------------------------data------------------------",
+    "%c a colorful message",
     "background: green; color: white; display: block;",
-    data
+    orderedTeams
   );
 
-  const orderedTeams = teams.sort((a, b) => b.score - a.score);
   return (
-    <div>
-      <div className="w-full bg-neutral-950/20 border rounded-md border-orange-200/100 p-6">
-        <h1>Scoreboard</h1>
-        <table className="w-full">
+    <Box>
+      <Title>Scoreboard</Title>
+      <TableBox>
+        <Table>
           <thead>
             <tr>
-              <th>Team</th>
+              <TeamNameHeader as="th">Team</TeamNameHeader>
               <th>Score</th>
             </tr>
           </thead>
           <tbody>
             {orderedTeams.map((team) => (
-              <tr key={team.id}>
-                <td className="flex items-center">
-                  <div className="rounded-full overflow-hidden w-20 h-20 mr-3">
-                    <Image
-                      src={team.profileImg}
-                      alt="profile image"
-                      width={100}
-                      height={100}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
+              <tr key={team._id}>
+                <TeamNameCell>
+                  <LogoBox>
+                    {team.logoSrc && (
+                      <Image
+                        src={team.logoSrc}
+                        alt="profile image"
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </LogoBox>
                   <span>{team.name}</span>
-                </td>
-                <td>{team.score}</td>
+                </TeamNameCell>
+                <Cell>20</Cell>
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+        </Table>
+      </TableBox>
       <a href="/team/new">
         <button>Create team</button>
       </a>
-    </div>
+    </Box>
   );
 }
 
-export default withApiData(queries.home)(Home);
+const Title = styled.h1`
+  padding: 15px 25px;
+  border-radius: 10px 10px 0 0;
+  border: 2px solid hsl(53deg, 100%, 50%);
+  border-bottom: none;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+const TableBox = styled.div`
+  border: 2px solid hsl(53deg, 100%, 50%);
+  border-radius: 10px;
+  background-color: rgb(10 10 10 / 0.2);
+  width: 100%;
+  margin-bottom: 40px;
+  padding: 20px;
+  padding-top: 10px;
+`;
+
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+`;
+
+const LogoBox = styled.div`
+  border-radius: 300px;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+`;
+
+const Cell = styled.td`
+  vertical-align: middle;
+  height: 80px;
+  text-align: center;
+`;
+
+const TeamNameCell = styled(Cell)`
+  display: flex;
+  align-items: center;
+`;
+
+const TeamNameHeader = styled(Cell)`
+  text-align: left;
+  padding-left: 70px;
+`;
+const ScoreCell = styled(Cell)`
+  text-align: center;
+`;
+
+// export default withApiData({
+//   query: queries.home,
+//   options: { pollInterval: 5000 },
+// })(Home);
+
+export default Home;
