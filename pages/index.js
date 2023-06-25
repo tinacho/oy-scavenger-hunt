@@ -1,38 +1,33 @@
-"use client";
 import { useState, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import Image from "next/image";
 import Layout from "../components/Layout";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 import teams from "../mock-data/teams.json";
 import challenges from "../mock-data/challenges.json";
 import { queries, withApiData } from "../api";
 
 function Home() {
   const { loading, error, data } = useQuery(queries.home, {
-    pollInterval: 1000,
+    pollInterval: 3000,
   });
 
-  // const orderedTeams = [...data?.allTeams?.data];
   const orderedTeams = useMemo(() => {
-    const teams = [...data?.allTeams?.data];
-    console.log(
-      "%c a colorful message",
-      "background: green; color: white; display: block;"
-    );
-
-    return teams;
+    if (data?.allTeams?.data) {
+      return data.allTeams.data;
+    }
+    return [];
   }, [data]);
 
-  if (loading) {
-    return <div> Loading ...</div>;
+  if (error) {
+    return <Error />;
   }
 
-  console.log(
-    "%c a colorful message",
-    "background: green; color: white; display: block;",
-    orderedTeams
-  );
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Box>
