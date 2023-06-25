@@ -9,25 +9,13 @@ import teams from "../mock-data/teams.json";
 import challenges from "../mock-data/challenges.json";
 import { queries, withApiData } from "../api";
 
-function Home() {
-  const { loading, error, data } = useQuery(queries.home, {
-    pollInterval: 3000,
-  });
-
+function Home({ data }) {
   const orderedTeams = useMemo(() => {
     if (data?.allTeams?.data) {
       return data.allTeams.data;
     }
     return [];
   }, [data]);
-
-  if (error) {
-    return <Error />;
-  }
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <Box>
@@ -126,9 +114,7 @@ const ScoreCell = styled(Cell)`
   text-align: center;
 `;
 
-// export default withApiData({
-//   query: queries.home,
-//   options: { pollInterval: 5000 },
-// })(Home);
-
-export default Home;
+export default withApiData({
+  query: queries.home,
+  options: { pollInterval: 3000 },
+})(Home);
