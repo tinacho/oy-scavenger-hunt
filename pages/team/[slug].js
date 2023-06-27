@@ -1,10 +1,12 @@
-import Challenges from "../../../components/Challenges";
+import { useRouter } from "next/router";
+import Challenges from "../../components/Challenges";
 
 export default function Team() {
+  const router = useRouter();
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold text-center">Team page name</h1>
-      <div>Team profile image</div>
+      <div>{router.query.slug}</div>
       <div>
         <h2>Members:</h2>
         <ul>

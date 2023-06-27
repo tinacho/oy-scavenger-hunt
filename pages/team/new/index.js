@@ -1,9 +1,11 @@
 import { useState } from "react";
+import styled from "styled-components";
 import { mutations, withApiDataMutation } from "../../../api";
 import { gql } from "@apollo/client";
 
 function CreateNewTeam(props) {
   const { createTeam } = props;
+  const [logoSrc, setLogoSrc] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -19,15 +21,30 @@ function CreateNewTeam(props) {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold text-center">Create team page</h1>
+    <Box>
+      <Title>Create team page</Title>
       <form onSubmit={onSubmit}>
         <input />
         <button type="submit">Create new team</button>
       </form>
-    </div>
+    </Box>
   );
 }
+
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px;
+`;
+
+const Title = styled.h1`
+  padding: 15px 25px;
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+`;
 
 export default withApiDataMutation(
   mutations.createTeam,
