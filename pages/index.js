@@ -1,13 +1,7 @@
-import { useState, useMemo } from "react";
-import { useQuery } from "@apollo/client";
+import { useMemo } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
-import Layout from "../components/Layout";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
-import teams from "../mock-data/teams.json";
-import challenges from "../mock-data/challenges.json";
 import { queries, withApiData } from "../api";
 
 function Home({ data }) {
@@ -54,9 +48,9 @@ function Home({ data }) {
           </tbody>
         </Table>
       </TableBox>
-      <a href="/team/new">
+      <Link href="/team/new">
         <button>Create team</button>
-      </a>
+      </Link>
     </Box>
   );
 }
@@ -112,9 +106,6 @@ const StyledLink = styled(Link)`
 const TeamNameHeader = styled(Cell)`
   text-align: left;
   padding-left: 70px;
-`;
-const ScoreCell = styled(Cell)`
-  text-align: center;
 `;
 
 export default withApiData({

@@ -1,9 +1,11 @@
-import { Cabin, DynaPuff, Lexend, Gluten } from "next/font/google";
+// import { Cabin, DynaPuff, Lexend, Gluten } from "next/font/google";
+import { Lexend } from "next/font/google";
+import Link from "next/link";
 
-const cabin = Cabin({ subsets: ["latin"] });
-const dyna = DynaPuff({ subsets: ["latin"] });
+// const cabin = Cabin({ subsets: ["latin"] });
+// const dyna = DynaPuff({ subsets: ["latin"] });
+// const gluten = Gluten({ subsets: ["latin"] });
 const lexend = Lexend({ subsets: ["latin"] });
-const gluten = Gluten({ subsets: ["latin"] });
 
 export default function Layout({ children }) {
   return (
@@ -11,10 +13,10 @@ export default function Layout({ children }) {
       <nav className="bg-orange-100 text-gray-800 p-12">
         <ul className="flex items-center justify-between">
           <li>
-            <a href="/">OY Scavenger Hunt</a>
+            <Link href="/">OY Scavenger Hunt</Link>
           </li>
           <li>
-            <a href="/team/me">My team</a>
+            <Link href="/team/me">My team</Link>
           </li>
         </ul>
       </nav>

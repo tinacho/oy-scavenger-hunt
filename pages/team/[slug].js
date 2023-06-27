@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { compose } from "ramda";
 import Challenges from "../../components/Challenges";
 import { withRouter } from "../../components/withRouter";

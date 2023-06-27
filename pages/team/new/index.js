@@ -1,14 +1,12 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { mutations, withApiDataMutation } from "../../../api";
-import { gql } from "@apollo/client";
 
 function CreateNewTeam(props) {
   const { createTeam } = props;
-  const [logoSrc, setLogoSrc] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
+    // just for testing
     createTeam({
       variables: {
         data: {
@@ -50,4 +48,3 @@ export default withApiDataMutation(
   mutations.createTeam,
   "createTeam"
 )(CreateNewTeam);
-// export default CreateNewTeam;
