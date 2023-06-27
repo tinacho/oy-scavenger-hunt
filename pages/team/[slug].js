@@ -5,7 +5,6 @@ import { withRouter } from "../../components/withRouter";
 import { queries, withApiData } from "../../api";
 
 function Team({ data }) {
-  console.log("-----------------data", data);
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>Team:</div>
