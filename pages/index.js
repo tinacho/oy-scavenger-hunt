@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import Image from "next/image";
+import Link from "next/link";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
@@ -31,20 +32,22 @@ function Home({ data }) {
           <tbody>
             {orderedTeams.map((team) => (
               <tr key={team._id}>
-                <TeamNameCell>
-                  <LogoBox>
-                    {team.logoSrc && (
-                      <Image
-                        src={team.logoSrc}
-                        alt="profile image"
-                        width={100}
-                        height={100}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </LogoBox>
-                  <span>{team.name}</span>
-                </TeamNameCell>
+                <Cell>
+                  <StyledLink href={`/team/${team._id}`}>
+                    <LogoBox>
+                      {team.logoSrc && (
+                        <Image
+                          src={team.logoSrc}
+                          alt="profile image"
+                          width={100}
+                          height={100}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </LogoBox>
+                    <span>{team.name}</span>
+                  </StyledLink>
+                </Cell>
                 <Cell>20</Cell>
               </tr>
             ))}
@@ -101,7 +104,7 @@ const Cell = styled.td`
   text-align: center;
 `;
 
-const TeamNameCell = styled(Cell)`
+const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
 `;

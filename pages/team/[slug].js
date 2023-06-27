@@ -1,12 +1,15 @@
 import { useRouter } from "next/router";
+import { compose } from "ramda";
 import Challenges from "../../components/Challenges";
+import { withRouter } from "../../components/withRouter";
+import { queries, withApiData } from "../../api";
 
-export default function Team() {
-  const router = useRouter();
+function Team({ data }) {
+  console.log("-----------------data", data);
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold text-center">Team page name</h1>
-      <div>{router.query.slug}</div>
+      <div>Team:</div>
+      <h1 className="text-4xl font-bold text-center">{data.team?.name}</h1>
       <div>
         <h2>Members:</h2>
         <ul>
@@ -19,3 +22,11 @@ export default function Team() {
     </div>
   );
 }
+
+export default compose(
+  withRouter,
+  withApiData({
+    query: queries.team,
+    propMapper: ({ router }) => ({ id: router.query.slug }),
+  })
+)(Team);
