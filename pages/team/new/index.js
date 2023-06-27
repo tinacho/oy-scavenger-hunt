@@ -20,7 +20,7 @@ function CreateNewTeam(props) {
 
   return (
     <Box>
-      <Title>Create team page</Title>
+      <Title>Create new team</Title>
       <form onSubmit={onSubmit}>
         <input />
         <button type="submit">Create new team</button>
