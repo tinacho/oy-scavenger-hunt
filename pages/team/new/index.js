@@ -1,44 +1,66 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { mutations, withApiDataMutation } from "../../../api";
+import { useMutation } from "@apollo/client";
+import { withRouter } from "next/router";
+import Error from "../../../components/Error";
+import Input from "../components/Input";
+import { Title, Form } from "../components/Styles";
+import { mutations } from "../../../api";
 
-function CreateNewTeam(props) {
+function CreateNewTeam({ router }) {
+  const [submitClicked, setSubmitClicked] = useState(false);
   const [name, setName] = useState("");
   const [logoSrc, setLogoSrc] = useState("");
-  const { createTeam } = props;
+  const [lead, setLead] = useState("");
+
+  const [createTeam, { loading, error }] = useMutation(mutations.createTeam, {
+    onCompleted: (data) => {
+      const {
+        createTeam: { _id, name, members },
+      } = data;
+      window.localStorage.setItem("credentialsTeamName", name);
+      window.localStorage.setItem("credentialsTeamId", _id);
+      window.localStorage.setItem("credentialsUser", members[0].name);
+      router.push(`/team/${_id}`);
+    },
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setSubmitClicked(true);
     createTeam({
       variables: {
         data: {
           name,
           logoSrc,
+          members: [{ name: lead }],
         },
       },
     });
   };
-  const handleNameChange = (e) => {
-    e.preventDefault();
-    setName(e.target.value);
-  };
 
-  const handleLogoChange = (e) => {
-    e.preventDefault();
-    setLogoSrc(e.target.value);
-  };
+  if (error) {
+    return <Error />;
+  }
+
+  if (submitClicked || loading) {
+    return null;
+  }
 
   return (
     <Box>
       <Title>Create new team</Title>
       <Form onSubmit={onSubmit}>
-        <InputBox>
-          <Input value={name} onChange={handleNameChange} type="text" />
-        </InputBox>
-        <InputBox>
-          <Input value={logoSrc} onChange={handleLogoChange} type="url" />
-        </InputBox>
-        <button type="submit" disabled={!(name && logoSrc)}>
+        {/* handle duplicate name error (or check before sending if the same name exists in teams) */}
+        <Input value={name} title="Team name:" setter={setName} />
+        <Input
+          value={logoSrc}
+          title="Team picture:"
+          setter={setLogoSrc}
+          type="url"
+        />
+        <Input value={lead} title="Team lead:" setter={setLead} />
+        <button type="submit" disabled={!(name && logoSrc && lead)}>
           Create new team
         </button>
       </Form>
@@ -54,31 +76,4 @@ const Box = styled.div`
   padding: 40px 20px;
 `;
 
-const Title = styled.h1`
-  padding: 15px 25px;
-  font-weight: 700;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-`;
-
-const InputBox = styled.div`
-  margin-bottom: 20px;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  background-color: transparent;
-  border: 2px solid var(--light-secondary);
-  height: 48px;
-  border-radius: 300px;
-  padding: 0 20px;
-`;
-
-export default withApiDataMutation(
-  mutations.createTeam,
-  "createTeam"
-)(CreateNewTeam);
+export default withRouter(CreateNewTeam);

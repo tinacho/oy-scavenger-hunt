@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 

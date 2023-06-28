@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import CreateTeamLink from "../components/CreateTeamLink";
 import { queries, withApiData } from "../api";
 
 function Home({ data }) {
@@ -48,9 +49,7 @@ function Home({ data }) {
           </tbody>
         </Table>
       </TableBox>
-      <Link href="/team/new">
-        <button>Create team</button>
-      </Link>
+      <CreateTeamLink />
     </Box>
   );
 }
