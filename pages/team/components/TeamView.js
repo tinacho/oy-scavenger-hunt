@@ -1,12 +1,13 @@
 import { compose } from "ramda";
 import Challenges from "../../../components/Challenges";
 import { queries, withApiData } from "../../../api";
+import { Title } from "./Styles";
 
 function TeamView({ data }) {
   return (
-    <div className="flex flex-col items-center justify-between p-24">
-      <div>Team:</div>
-      <h1 className="text-4xl font-bold text-center">{data.team?.name}</h1>
+    <>
+      <Title>Team</Title>
+      <div>{data.team?.name}</div>
       <div>
         <h2>Members:</h2>
         <ul>
@@ -16,7 +17,7 @@ function TeamView({ data }) {
         </ul>
       </div>
       <Challenges />
-    </div>
+    </>
   );
 }
 
