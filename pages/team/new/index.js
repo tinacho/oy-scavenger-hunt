@@ -1,10 +1,9 @@
-import styled from "styled-components";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { withRouter } from "next/router";
 import Error from "../../../components/Error";
 import Input from "../components/Input";
-import { Title, Form } from "../components/Styles";
+import { Title, Form, Box } from "../components/Styles";
 import { mutations } from "../../../api";
 
 function CreateNewTeam({ router }) {
@@ -67,13 +66,5 @@ function CreateNewTeam({ router }) {
     </Box>
   );
 }
-
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 20px;
-`;
 
 export default withRouter(CreateNewTeam);
