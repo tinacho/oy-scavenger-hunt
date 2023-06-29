@@ -42,7 +42,7 @@ function AdminView(props){
   const [deleteSolution] = useMutation(mutations.deleteSolution)
 
 
-  const triggerReset = useCallback(async (e) => {
+  const triggerReset = useCallback(async () => {
     if(confirm('Are you sure you want to reset the game? All progress of all teams will be lost!')) {
       await Promise.all(solutions.map(s => deleteSolution({
         variables: {
