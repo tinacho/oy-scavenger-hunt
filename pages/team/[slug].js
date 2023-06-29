@@ -1,7 +1,7 @@
 import { compose } from "ramda";
 import { withRouter } from "next/router";
-import TeamView from "./components/TeamView";
-import { Box, Title } from "./components/Styles";
+import TeamView from "../../components/team/TeamView";
+import { Box, Title } from "../../components/team/Styles";
 
 function Team({ router }) {
   return (

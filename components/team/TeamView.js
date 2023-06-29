@@ -1,6 +1,6 @@
 import { compose } from "ramda";
-import Challenges from "../../../components/Challenges";
-import { queries, withApiData } from "../../../api";
+import Challenges from "../Challenges";
+import { queries, withApiData } from "../../api";
 
 function TeamView({ data }) {
   return (

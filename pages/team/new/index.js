@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { withRouter } from "next/router";
 import Error from "../../../components/Error";
-import Input from "../components/Input";
-import { Title, Form, Box } from "../components/Styles";
+import Input from "../../../components/team/Input";
+import { Title, Form, Box } from "../../../components/team/Styles";
 import { mutations } from "../../../api";
 
 function CreateNewTeam({ router }) {

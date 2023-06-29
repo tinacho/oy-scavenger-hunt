@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { withRouter } from "next/router";
 import CreateTeamLink from "../../../components/CreateTeamLink";
 import { queries } from "../../../api";
-import Input from "../components/Input";
+import Input from "../../../components/team/Input";
 import Error from "../../../components/Error";
-import { Title, Form, Box } from "../components/Styles";
-import TeamView from "../components/TeamView";
+import { Title, Form, Box } from "../../../components/team/Styles";
+import TeamView from "../../../components/team/TeamView";
 
 function MyTeam() {
   const [teamId, setTeamId] = useState(null);
