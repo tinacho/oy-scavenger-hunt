@@ -77,6 +77,6 @@ function AdminView(props){
   </div>
 }
 
-const Admin = withApiData(queries.admin)(AdminView)
+const Admin = withApiData({ query: queries.admin })(AdminView)
 
 export default Admin
