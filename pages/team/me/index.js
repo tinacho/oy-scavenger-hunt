@@ -1,8 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
+import { useLazyQuery } from "@apollo/client";
 import styled from "styled-components";
 import { withRouter } from "next/router";
 import CreateTeamLink from "../../../components/CreateTeamLink";
+import { queries } from "../../../api";
 import Input from "../components/Input";
+import Error from "../../../components/Error";
 import { Title, Form, Box } from "../components/Styles";
 import TeamView from "../components/TeamView";
 
@@ -18,18 +21,51 @@ function MyTeam() {
     }
   }, []);
 
+  const [getTeam, { loading, error }] = useLazyQuery(queries.team, {
+    onCompleted: (data) => {
+      const {
+        team: { _id, name, members },
+      } = data;
+
+      console.log("data", data);
+
+      // call mutation action here after getting team members data and all this is done in mutation onCompleted callback
+      window.localStorage.setItem("credentialsTeamName", name);
+      window.localStorage.setItem("credentialsTeamId", _id);
+      window.localStorage.setItem("credentialsUser", formUser);
+      setTeamId(_id);
+    },
+  });
+
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      setSubmitClicked(true);
+      getTeam({ variables: { id: formTeamId } });
+    },
+    [formTeamId, getTeam]
+  );
+
+  if (error) {
+    return <Error />;
+  }
+
+  if (loading) {
+    return null;
+  }
+
   return (
     <Box>
+      <Title>My team</Title>
       {!teamId && (
         <>
-          <Title>My team</Title>
           <Text>
             You&apos;re not yet in a team. You can join an existing team:
           </Text>
           <StyledForm>
             <Input value={formUser} title="User name:" setter={setFormUser} />
             <Input value={formTeamId} title="Team id:" setter={setFormTeamId} />
-            <button>Join</button>
+            <button onClick={onSubmit}>Join</button>
           </StyledForm>
           <Text>Or create a new team:</Text>
           <CreateTeamLink />
