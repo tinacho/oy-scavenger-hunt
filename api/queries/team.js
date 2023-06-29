@@ -23,6 +23,7 @@ export const team = gql`
             _id
             name
             description
+            score
           }
         }
       }
