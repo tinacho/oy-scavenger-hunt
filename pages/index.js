@@ -1,3 +1,4 @@
+"use client";
 import { useMemo } from "react";
 import styled from "styled-components";
 import Image from "next/image";
