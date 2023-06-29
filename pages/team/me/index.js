@@ -24,7 +24,7 @@ function MyTeam() {
   const [getTeam, { loading, error }] = useLazyQuery(queries.team, {
     onCompleted: (data) => {
       const {
-        team: { _id, name, members },
+        team: { _id, name },
       } = data;
 
       console.log("data", data);
