@@ -1,24 +1,24 @@
 /* eslint-disable react/display-name */
-import { useQuery } from '@apollo/client';
-import Loading from '../components/Loading';
+import { useQuery } from "@apollo/client";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
-export function withApiData(query, propMapper = () => ({})) {
-  return Component => props => {
-
+export function withApiData({ query, propMapper = () => ({}), options = {} }) {
+  return (Component) => (props) => {
     const { loading, error, data } = useQuery(query, {
       variables: propMapper(props),
+      ...options,
     });
 
-    if(loading) {
-      return <Loading></Loading>
+    if (loading) {
+      return <Loading />;
     }
 
     // TODO investigate error handling once we have the provider in place
-    if(error) {
-      throw error;
+    if (error) {
+      return <Error />;
     }
 
-    return <Component {...props} data={data}/>
-
-  }
+    return <Component {...props} data={data} />;
+  };
 }

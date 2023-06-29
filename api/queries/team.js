@@ -1,9 +1,8 @@
-
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 // queries team of given id and its solved challenges, queries also all available challenges
-// example variables: 
-// { 
+// example variables:
+// {
 // . id: "366821575551353037"
 // }
 export const team = gql`
@@ -37,4 +36,4 @@ export const team = gql`
       }
     }
   }
-`
+`;

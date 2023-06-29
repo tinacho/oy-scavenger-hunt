@@ -1,18 +1,16 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 // create a team with its members
-// example variables: 
-// { 
-//   data: { 
+// example variables:
+// {
+//   data: {
 //     name: "Bike Gang",
-//     members: [{ name: "Tina" }, { name: "Jan" }] 
+//     members: [{ name: "Tina" }, { name: "Jan" }]
 //   }
 // }
 export const createTeam = gql`
   mutation createTeam($data: TeamInput!) {
-    createTeam(
-      data: $data
-    ) {
+    createTeam(data: $data) {
       _id
       name
       members {
@@ -20,27 +18,27 @@ export const createTeam = gql`
       }
     }
   }
-`
+`;
 
 // partial update a team, use this to add more members
-// example variables: 
-// { 
+// example variables:
+// {
 // . id: "366821575551353037"
-//   data: { 
-//     members: [{ name: "Tina" }, { name: "Jan" }] 
+//   data: {
+//     members: [{ name: "Tina" }, { name: "Jan" }]
 //   }
 // }
-export const partialUpdateTeam = gql`
-  mutation partialUpdateTeam($id: ID!, $data: PartialUpdateTeamInput!) {
-    partialUpdateTeam(
-      id: $id,
-      data: $data
-    ) {
-      _id
-      name
-      members {
-        name
-      }
-    }
-  }
-`
+// export const partialUpdateTeam = gql`
+//   mutation partialUpdateTeam($id: ID!, $data: PartialUpdateTeamInput!) {
+//     partialUpdateTeam(
+//       id: $id,
+//       data: $data
+//     ) {
+//       _id
+//       name
+//       members {
+//         name
+//       }
+//     }
+//   }
+// `
