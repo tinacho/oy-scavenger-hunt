@@ -1,3 +1,3 @@
-export default function Loading(props) {
-  return <div>loading....</div>
+export default function Loading() {
+  return <div>loading....</div>;
 }
