@@ -1,9 +1,8 @@
 // to debug stuff like api calls
 
-import { withApiData } from "../api/withApiData";
+import { withApiData, queries } from "../api";
 // import { useMutation } from "@apollo/client";
 // import { mutations } from "@/api";
-import { queries } from "@/api";
 
 function DataView(props) {
   const { data } = props;
@@ -12,8 +11,12 @@ function DataView(props) {
   return <p>{JSON.stringify(data, null, 2)}</p>;
 }
 
-const Home = withApiData(queries.home)(DataView);
-const Team = withApiData(queries.team, (props) => ({ id: props.id }))(DataView);
+console.log(queries.home);
+const Home = withApiData({ query: queries.home })(DataView);
+const Team = withApiData({
+  query: queries.team,
+  propMapper: (props) => ({ id: props.id }),
+})(DataView);
 
 function DebugView(props) {
   // example for using mutations:
