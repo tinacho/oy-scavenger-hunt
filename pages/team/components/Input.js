@@ -3,6 +3,7 @@ import { withRouter } from "next/router";
 
 function Input({ title, value, setter, type = "text" }) {
   const handleChange = (e) => {
+    e.preventDefault();
     setter(e.target.value);
   };
 

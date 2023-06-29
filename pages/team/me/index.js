@@ -1,36 +1,37 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import styled from "styled-components";
 import { withRouter } from "next/router";
 import CreateTeamLink from "../../../components/CreateTeamLink";
 import Input from "../components/Input";
 import { Title, Form, Box } from "../components/Styles";
 import TeamView from "../components/TeamView";
 
-function MyTeam({ router }) {
-  const [user, setUser] = useState("");
-  const [teamId, setTeamId] = useState("");
+function MyTeam() {
+  const [teamId, setTeamId] = useState(null);
+  const [formUser, setFormUser] = useState("");
+  const [formTeamId, setFormTeamId] = useState("");
 
   useEffect(() => {
     const teamId = window.localStorage.getItem("credentialsTeamId");
     if (teamId) {
       setTeamId(teamId);
-      // router.push(`/team/${teamId}`);
     }
   }, []);
 
   return (
     <Box>
-      {teamId === "" && (
+      {!teamId && (
         <>
           <Title>My team</Title>
-          <div>
-            You&apos;re not yet in a team. You can either join an existing team:
-          </div>
-          <Form>
-            <Input value={user} title="User name:" setter={setUser} />
-            <Input value={teamId} title="Team id:" setter={setTeamId} />
+          <Text>
+            You&apos;re not yet in a team. You can join an existing team:
+          </Text>
+          <StyledForm>
+            <Input value={formUser} title="User name:" setter={setFormUser} />
+            <Input value={formTeamId} title="Team id:" setter={setFormTeamId} />
             <button>Join</button>
-          </Form>
-          <div>Or create a new team:</div>
+          </StyledForm>
+          <Text>Or create a new team:</Text>
           <CreateTeamLink />
         </>
       )}
@@ -39,5 +40,13 @@ function MyTeam({ router }) {
     </Box>
   );
 }
+
+const Text = styled.div`
+  margin-bottom: 30px;
+`;
+
+const StyledForm = styled(Form)`
+  margin-bottom: 60px;
+`;
 
 export default withRouter(MyTeam);
