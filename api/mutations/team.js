@@ -5,6 +5,7 @@ import { gql } from "@apollo/client";
 // {
 //   data: {
 //     name: "Bike Gang",
+//     code: "abcd",
 //     members: [{ name: "Tina" }, { name: "Jan" }]
 //   }
 // }
@@ -13,6 +14,7 @@ export const createTeam = gql`
     createTeam(data: $data) {
       _id
       name
+      code
       members {
         name
       }

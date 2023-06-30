@@ -5,7 +5,7 @@ import Error from "../components/Error";
 
 export function withApiData({ query, propMapper = () => ({}), options = {} }) {
   return (Component) => (props) => {
-    const { loading, error, data } = useQuery(query, {
+    const { loading, error, ...rest } = useQuery(query, {
       variables: propMapper(props),
       ...options,
     });
@@ -19,6 +19,6 @@ export function withApiData({ query, propMapper = () => ({}), options = {} }) {
       return <Error />;
     }
 
-    return <Component {...props} data={data} />;
+    return <Component {...props} {...rest} />;
   };
 }
