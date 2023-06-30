@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { withRouter } from "next/router";
 import Error from "../../../components/Error";
