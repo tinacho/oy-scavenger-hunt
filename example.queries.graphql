@@ -31,10 +31,12 @@ mutation {
   createChallenge(data: {
     name: "first one",
     description: "this is the first of many!",
-    score:2
+    score:2,
+    type: IMAGE
   }) {
     _id
     name
+    type
   }
 }
 
@@ -43,8 +45,7 @@ mutation {
     data: {
       team: { connect: "366821575551353037" }
       challenge: { connect: "366821830494781644" }
-      solution: "WE DID IT LIKE THIS!!"
-      media: ["FIRST SCREENSHOT"]
+      media: "some.image.url"
     }
   ) {
     team {
@@ -52,8 +53,9 @@ mutation {
     }
     challenge {
       name
+      type
     }
-    solution
+    media
   }
 }
 
@@ -76,6 +78,7 @@ query {
             _id
             name
             description
+            type
           }
         }
       }
@@ -93,6 +96,7 @@ query {
         data {
           _id
           solution
+          type
           team {
             name
           }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CreateTeamLink from "../components/CreateTeamLink";
 import { queries, withApiData } from "../api";
+import { getTeamScore } from "@/lib/getTeamScore";
 
 function Home({ data }) {
   const orderedTeams = useMemo(() => {
@@ -44,7 +45,7 @@ function Home({ data }) {
                     <span>{team.name}</span>
                   </StyledLink>
                 </Cell>
-                <Cell>20</Cell>
+                <Cell>{getTeamScore(team)}</Cell>
               </tr>
             ))}
           </tbody>

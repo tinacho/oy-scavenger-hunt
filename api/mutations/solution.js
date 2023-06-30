@@ -12,8 +12,7 @@ export const deleteSolution = gql`
 // data: {
 //       team: {connect:"366821575551353037"},
 //       challenge: { connect:"366821830494781644"},
-//       solution: "WE DID IT LIKE THIS!!"
-//       media: ["FIRST SCREENSHOT"] // those should be cloudinary urls at some point
+//       media: "FIRST SCREENSHOT" // those should be cloudinary urls at some point
 //     }
 export const createSolution = gql`
   mutation ($data: SolutionInput!) {
@@ -24,7 +23,7 @@ export const createSolution = gql`
       challenge {
         name
       }
-      solution
+      media
     }
   }
 `

@@ -16,13 +16,13 @@ export const admin = gql`
         solutions {
           data {
             _id
-            solution
             media
             challenge {
               _id
               name
               description
               score
+              type
             }
           }
         }
@@ -33,6 +33,7 @@ export const admin = gql`
         _id
         name
         description
+        type
       }
     }
     allSolutions {
