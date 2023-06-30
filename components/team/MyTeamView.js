@@ -1,6 +1,7 @@
 import { compose } from "ramda";
 import Challenges from "../Challenges";
 import { queries, withApiData } from "../../api";
+import { getTeamScore } from "@/lib/getTeamScore";
 
 
 function MyTeamView({ data }) {
@@ -8,6 +9,7 @@ function MyTeamView({ data }) {
     <>
       <div>{data.team.name}</div>
       <div>Use this code to enter this team: {data.team.code}</div>
+      <div>Current score: {getTeamScore(data.team)}</div>
       <div>
         <h2>Members:</h2>
         <ul>

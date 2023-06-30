@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { useLazyQuery } from "@apollo/client";
 import styled from "styled-components";
 import { withRouter } from "next/router";
@@ -8,9 +8,11 @@ import Input from "../../../components/team/Input";
 import Error from "../../../components/Error";
 import { Title, Form, Box } from "../../../components/team/Styles";
 import MyTeamView from "../../../components/team/MyTeamView";
+import { SessionContext } from "@/lib/session";
 
 function MyTeam() {
-  const [teamId, setTeamId] = useState(window.localStorage.getItem("credentialsTeamId"));
+  const { session, login } = useContext(SessionContext)
+
   const [formTeamCode, setFormTeamCode] = useState("");
 
   const [getTeam, { loading, error }] = useLazyQuery(queries.teamByCode, {
@@ -19,16 +21,16 @@ function MyTeam() {
         team: { _id, name },
       } = data;
 
-      window.localStorage.setItem("credentialsTeamName", name);
-      window.localStorage.setItem("credentialsTeamId", _id);
-      setTeamId(_id);
+      login({
+        teamId: _id,
+        teamName: name
+      })
     },
   });
 
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      setSubmitClicked(true);
       getTeam({ variables: { code: formTeamCode } });
     },
     [formTeamCode, getTeam]
@@ -45,7 +47,7 @@ function MyTeam() {
   return (
     <Box>
       <Title>My team</Title>
-      {!teamId && (
+      {!session.teamId && (
         <>
           <Text>
             You&apos;re not yet in a team. You can join an existing team:
@@ -58,7 +60,7 @@ function MyTeam() {
           <CreateTeamLink />
         </>
       )}
-      {teamId && <MyTeamView teamId={teamId} />}
+      {session.teamId && <MyTeamView teamId={session.teamId} />}
     </Box>
   );
 }

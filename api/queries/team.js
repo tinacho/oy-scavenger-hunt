@@ -57,5 +57,6 @@ export const teamByCode = gql`
       members {
         name
       }
+    }
   }
 `;
