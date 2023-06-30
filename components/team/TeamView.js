@@ -1,7 +1,7 @@
 import { compose } from "ramda";
-import Challenges from "../Challenges";
 import { queries, withApiData } from "../../api";
 
+// simple team view for everyone to see (also users form other teams)
 function TeamView({ data }) {
   return (
     <>
@@ -14,7 +14,6 @@ function TeamView({ data }) {
           ))}
         </ul>
       </div>
-      <Challenges />
     </>
   );
 }

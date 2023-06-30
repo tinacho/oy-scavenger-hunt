@@ -1,15 +1,11 @@
 import { gql } from "@apollo/client";
 
-// queries team of given id and its solved challenges, queries also all available challenges
-// example variables:
-// {
-// . id: "366821575551353037"
-// }
-export const team = gql`
+export const teamMe = gql`
   query team($id: ID!) {
     team: findTeamByID(id: $id) {
       _id
       name
+      code
       members {
         name
       }
@@ -34,6 +30,32 @@ export const team = gql`
         name
         description
         score
+      }
+    }
+  }
+`;
+
+export const team = gql`
+  query team($id: ID!) {
+    team: findTeamByID(id: $id) {
+      _id
+      name
+      members {
+        name
+      }
+      logoSrc
+    }
+  }
+`;
+
+export const teamByCode = gql`
+  query team($code: String!) {
+    team: findTeamByCode(code: $code) {
+      _id
+      name
+      code
+      members {
+        name
       }
     }
   }

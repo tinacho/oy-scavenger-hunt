@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { withRouter } from "next/router";
 import Error from "../../../components/Error";
 import Input from "../../../components/team/Input";
 import { Title, Form, Box } from "../../../components/team/Styles";
 import { mutations } from "../../../api";
+import { SessionContext } from "@/lib/session";
+import { generateTeamCode } from "@/lib/generateTeamCode";
 
 function CreateNewTeam({ router }) {
+  const { login } = useContext(SessionContext)
   const [submitClicked, setSubmitClicked] = useState(false);
   const [name, setName] = useState("");
   const [logoSrc, setLogoSrc] = useState("");
@@ -15,12 +18,13 @@ function CreateNewTeam({ router }) {
   const [createTeam, { loading, error }] = useMutation(mutations.createTeam, {
     onCompleted: (data) => {
       const {
-        createTeam: { _id, name, members },
+        createTeam: { _id, name },
       } = data;
-      window.localStorage.setItem("credentialsTeamName", name);
-      window.localStorage.setItem("credentialsTeamId", _id);
-      window.localStorage.setItem("credentialsUser", members[0].name);
-      router.push(`/team/${_id}`);
+      login({
+        teamId: _id,
+        teamName: name
+      })
+      router.push(`/team/me`);
     },
   });
 
@@ -33,6 +37,7 @@ function CreateNewTeam({ router }) {
           name,
           logoSrc,
           members: [{ name: lead }],
+          code: generateTeamCode()
         },
       },
     });
