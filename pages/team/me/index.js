@@ -17,6 +17,12 @@ function MyTeam() {
 
   const [getTeam, { loading, error }] = useLazyQuery(queries.teamByCode, {
     onCompleted: (data) => {
+      if(data.team === null) {
+        // maybe we add a feedback provider and let the user know that the code was wrong
+        console.log('wrong code!!')
+        return
+      }
+
       const {
         team: { _id, name },
       } = data;

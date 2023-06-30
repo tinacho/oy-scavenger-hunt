@@ -28,4 +28,6 @@ type Query {
   allChallenges: [Challenge!]
   allTeams: [Team!]
   allSolutions: [Solution!]
+
+  findTeamByCode(code: String!): Team
 }

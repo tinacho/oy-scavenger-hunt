@@ -2,7 +2,7 @@
 import { Lexend } from "next/font/google";
 import { withRouter } from "next/router";
 import Link from "next/link";
-import {  useContext } from "react";
+import {  useContext, useEffect } from "react";
 import { compose } from "ramda";
 import { SessionContext, withSessionProvider } from "@/lib/session";
 
@@ -11,31 +11,36 @@ import { SessionContext, withSessionProvider } from "@/lib/session";
 // const gluten = Gluten({ subsets: ["latin"] });
 const lexend = Lexend({ subsets: ["latin"] });
 
-function Layout({ children }) {
+function Layout({ children, router }) {
 
   const { loggedIn, logout } = useContext(SessionContext)
+
+  useEffect(() => {
+    if(!loggedIn) {
+      console.log('pushing to me route')
+      router.push('/team/me')
+    }
+  // the router seems to change on every mount so dont use it as dep
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedIn])
  
   return (
     <main className={`${lexend.className} text-xl`}>
       <nav className="bg-orange-100 text-gray-800 p-12">
         <ul className="flex items-center justify-between">
-          <li>
-            <Link href="/">OY Scavenger Hunt</Link>
-          </li>
+          {!loggedIn && (
+            <h2>Welcome to OY Scavenger Hunt!</h2>
+          )}
           {loggedIn && (
             <>
+              <li>
+                <Link href="/">OY Scavenger Hunt</Link>
+              </li>
               <li>
                 <Link href="/team/me">My team</Link>
               </li>
               <li>
                 <button onClick={logout}>logout</button>
-              </li>
-            </>
-          )}
-          {!loggedIn && (
-            <>
-              <li>
-                <Link href="/team/me">Create or Join team</Link>
               </li>
             </>
           )}
