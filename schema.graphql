@@ -4,6 +4,7 @@ type User @embedded {
 
 type Team {
   name: String! @unique
+  code: String! @unique
   logoSrc: String
   members: [User!]
   solutions: [Solution] @relation(name: "team_solution")
