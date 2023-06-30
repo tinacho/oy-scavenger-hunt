@@ -1,8 +1,9 @@
 import { compose } from "ramda";
+import Challenges from "../Challenges";
 import { queries, withApiData } from "../../api";
 
-// simple team view for everyone to see (also users form other teams)
-function TeamView({ data }) {
+
+function MyTeamView({ data }) {
   return (
     <>
       <div>{data.team?.name}</div>
@@ -13,7 +14,9 @@ function TeamView({ data }) {
             <li key={member.name}>{member.name}</li>
           ))}
         </ul>
+        {/* TODO: add member, complete challenge etc */}
       </div>
+      <Challenges />
     </>
   );
 }
@@ -23,4 +26,4 @@ export default compose(
     query: queries.team,
     propMapper: ({ teamId }) => ({ id: teamId }),
   })
-)(TeamView);
+)(MyTeamView);

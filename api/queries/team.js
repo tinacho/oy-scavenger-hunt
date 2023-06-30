@@ -38,3 +38,15 @@ export const team = gql`
     }
   }
 `;
+
+export const teamByCode = gql`
+  query team($code: String!) {
+    team: findTeamByCode(code: $code) {
+      _id
+      name
+      code
+      members {
+        name
+      }
+  }
+`;

@@ -15,12 +15,11 @@ function CreateNewTeam({ router }) {
   const [createTeam, { loading, error }] = useMutation(mutations.createTeam, {
     onCompleted: (data) => {
       const {
-        createTeam: { _id, name, members },
+        createTeam: { _id, name },
       } = data;
       window.localStorage.setItem("credentialsTeamName", name);
       window.localStorage.setItem("credentialsTeamId", _id);
-      window.localStorage.setItem("credentialsUser", members[0].name);
-      router.push(`/team/${_id}`);
+      router.push(`/team/me`);
     },
   });
 

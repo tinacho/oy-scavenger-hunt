@@ -7,32 +7,20 @@ import { queries } from "../../../api";
 import Input from "../../../components/team/Input";
 import Error from "../../../components/Error";
 import { Title, Form, Box } from "../../../components/team/Styles";
-import TeamView from "../../../components/team/TeamView";
+import MyTeamView from "../../../components/team/MyTeamView";
 
 function MyTeam() {
-  const [teamId, setTeamId] = useState(null);
-  const [formUser, setFormUser] = useState("");
-  const [formTeamId, setFormTeamId] = useState("");
+  const [teamId, setTeamId] = useState(window.localStorage.getItem("credentialsTeamId"));
+  const [formTeamCode, setFormTeamCode] = useState("");
 
-  useEffect(() => {
-    const teamId = window.localStorage.getItem("credentialsTeamId");
-    if (teamId) {
-      setTeamId(teamId);
-    }
-  }, []);
-
-  const [getTeam, { loading, error }] = useLazyQuery(queries.team, {
+  const [getTeam, { loading, error }] = useLazyQuery(queries.teamByCode, {
     onCompleted: (data) => {
       const {
         team: { _id, name },
       } = data;
 
-      console.log("data", data);
-
-      // call mutation action here after getting team members data and all this is done in mutation onCompleted callback
       window.localStorage.setItem("credentialsTeamName", name);
       window.localStorage.setItem("credentialsTeamId", _id);
-      window.localStorage.setItem("credentialsUser", formUser);
       setTeamId(_id);
     },
   });
@@ -41,9 +29,9 @@ function MyTeam() {
     (e) => {
       e.preventDefault();
       setSubmitClicked(true);
-      getTeam({ variables: { id: formTeamId } });
+      getTeam({ variables: { code: formTeamCode } });
     },
-    [formTeamId, getTeam]
+    [formTeamCode, getTeam]
   );
 
   if (error) {
@@ -63,16 +51,14 @@ function MyTeam() {
             You&apos;re not yet in a team. You can join an existing team:
           </Text>
           <StyledForm>
-            <Input value={formUser} title="User name:" setter={setFormUser} />
-            <Input value={formTeamId} title="Team id:" setter={setFormTeamId} />
+            <Input value={formTeamCode} title="Team Code:" setter={setFormTeamCode} />
             <button onClick={onSubmit}>Join</button>
           </StyledForm>
           <Text>Or create a new team:</Text>
           <CreateTeamLink />
         </>
       )}
-      {teamId && <TeamView teamId={teamId} />}
-      {/* render team view that renders the same stuff as regular team view, it's just possible to edit challenges, difference is a prop isMyTeam or something like that */}
+      {teamId && <MyTeamView teamId={teamId} />}
     </Box>
   );
 }
