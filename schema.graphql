@@ -10,18 +10,24 @@ type Team {
   solutions: [Solution] @relation(name: "team_solution")
 }
 
+enum ChallengeType {
+  SIMPLE
+  IMAGE
+  VIDEO
+}
+
 type Challenge {
   name: String! @unique
   description: String!
   score: Int!
+  type: ChallengeType!
   solutions: [Solution] @relation(name: "challenge_solution")
 }
 
 type Solution {
   challenge: Challenge! @relation(name: "challenge_solution")
   team: Team! @relation(name: "team_solution")
-  solution: String! # lets start with a simple string, later we add images and whatnot
-  media: [String]
+  media: String # we handle validation if media is a video, an image or a string on the client side
 }
 
 type Query {
