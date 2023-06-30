@@ -37,7 +37,7 @@ function MyTeam() {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      getTeam({ variables: { code: formTeamCode } });
+      getTeam({ variables: { code: formTeamCode.toLocaleLowerCase() } });
     },
     [formTeamCode, getTeam]
   );

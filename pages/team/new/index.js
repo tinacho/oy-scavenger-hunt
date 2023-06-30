@@ -6,6 +6,7 @@ import Input from "../../../components/team/Input";
 import { Title, Form, Box } from "../../../components/team/Styles";
 import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
+import { generateTeamCode } from "@/lib/generateTeamCode";
 
 function CreateNewTeam({ router }) {
   const { login } = useContext(SessionContext)
@@ -36,6 +37,7 @@ function CreateNewTeam({ router }) {
           name,
           logoSrc,
           members: [{ name: lead }],
+          code: generateTeamCode()
         },
       },
     });
