@@ -5,11 +5,11 @@ import { queries, withApiData } from "../../api";
 function TeamView({ data }) {
   return (
     <>
-      <div>{data.team?.name}</div>
+      <div>{data.team.name}</div>
       <div>
         <h2>Members:</h2>
         <ul>
-          {data.team?.members?.map((member) => (
+          {data.team.members.map((member) => (
             <li key={member.name}>{member.name}</li>
           ))}
         </ul>

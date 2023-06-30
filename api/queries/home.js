@@ -15,10 +15,10 @@ export const home = gql`
         solutions {
           data {
             _id
-            solution
             media
             challenge {
               _id
+              type
               name
               description
               score
@@ -30,6 +30,7 @@ export const home = gql`
     allChallenges {
       data {
         _id
+        type
         description
         name
         score
