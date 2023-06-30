@@ -34,10 +34,10 @@ function Layout({ children, router }) {
           {loggedIn && (
             <>
               <li>
-                <Link href="/">OY Scavenger Hunt</Link>
+                <Link href="/">Scoreboard</Link>
               </li>
               <li>
-                <Link href="/team/me">My team</Link>
+                <Link href="/team/me">My Team</Link>
               </li>
               <li>
                 <button onClick={logout}>logout</button>

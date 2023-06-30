@@ -52,9 +52,9 @@ function MyTeam() {
 
   return (
     <Box>
-      <Title>My team</Title>
       {!session.teamId && (
         <>
+          <Title>My team</Title>
           <Text>
             You&apos;re not yet in a team. You can join an existing team:
           </Text>
@@ -66,7 +66,12 @@ function MyTeam() {
           <CreateTeamLink />
         </>
       )}
-      {session.teamId && <MyTeamView teamId={session.teamId} />}
+      {session.teamId && (
+        <>
+          <Title>{session.teamName}</Title>
+          <MyTeamView teamId={session.teamId} />
+        </>
+      )}
     </Box>
   );
 }
