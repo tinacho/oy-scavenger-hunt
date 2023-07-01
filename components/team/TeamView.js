@@ -1,10 +1,14 @@
 import { compose } from "ramda";
 import { queries, withApiData } from "../../api";
+import { Preview } from "../UploadWidget";
 
 // simple team view for everyone to see (also users form other teams)
 function TeamView({ data }) {
   return (
     <>
+      <Preview
+        path={data.team.logoSrc}>
+      </Preview>
       <div>{data.team.name}</div>
       <div>
         <h2>Members:</h2>
