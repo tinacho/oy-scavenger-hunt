@@ -3,7 +3,7 @@
 function myComponent() {
   const feedback = useFeedback()
 
-  feedback({
+  feedback.open({
     message: 'hans',
     mode: 'ERROR',
     timeout: 2000, // when set to null has to be closed manually
@@ -11,11 +11,11 @@ function myComponent() {
   })
 
   // simple neutral info message visible for 3 s
-  feedback({
+  feedback.open({
     message: 'huhu',
   })
 
-  feedback({
+  feedback.open({
     message: 'amazing!',
     mode: 'SUCCESS',
     timeout: null,
@@ -23,5 +23,8 @@ function myComponent() {
       console.log('continue with user flow')
     }
   })
+
+  feedback.isOpen() // true/false
+  feedback.close() // force close programmatically
 
 }
