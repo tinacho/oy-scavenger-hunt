@@ -9,7 +9,7 @@ function Input({ title, value, setter, type = "text", inputProps = {} }) {
 
   return (
     <InputBox>
-      <InputLabel>{title}</InputLabel>
+      {title && <InputLabel>{title}</InputLabel>}
       <StyledInput
         value={value}
         onChange={handleChange}
@@ -34,7 +34,7 @@ const InputLabel = styled.span`
 
 const StyledInput = styled.input`
   background-color: transparent;
-  border: 2px solid var(--light-secondary);
+  border: var(--border-primary);
   height: var(--input-height);
   border-radius: 300px;
   padding: 0 20px;

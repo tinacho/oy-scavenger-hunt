@@ -2,7 +2,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "../api/apolloClient";
 import Layout from "../components/Layout";
 import "../globals.css";
-import GlobalStyles from "./GlobalStyles";
+import GlobalStyles from "../components/GlobalStyles";
 
 export default function MyApp({ Component, pageProps }) {
   return (

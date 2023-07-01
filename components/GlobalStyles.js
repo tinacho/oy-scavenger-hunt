@@ -4,13 +4,17 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --dark-primary: rgba(14, 1, 50, 1);
     --light-primary: rgb(255, 253, 237);
+    --pink: #ff37bf;
     --light-secondary: bisque;
 
     --text-primary: var(--light-primary);
     --text-invert: var(--dark-primary);
+    --text-accent: var(--pink);
 
     --input-height: 50px;
     --max-content-width: 600px;
+
+    --border-primary: 2px solid var(--light-secondary);
   }
 
   body {

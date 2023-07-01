@@ -14,6 +14,7 @@ const StyledButton = styled.button`
   color: var(--text-invert);
   border-radius: 100px;
   min-height: var(--input-height);
+  width: 100%;
   &[disabled] {
     opacity: 0.7;
   }

@@ -28,7 +28,9 @@ function Layout({ children, router }) {
     <main className={`${lexend.className} text-xl`}>
       <nav className="bg-orange-100 text-gray-800 p-12">
         <ul className="flex items-center justify-between">
-          {!loggedIn && <h2>Welcome to OY Scavenger Hunt!</h2>}
+          {!loggedIn && (
+            <h2>Welcome to Ollie & Yvana&apos;s Scavenger Hunt!</h2>
+          )}
           {loggedIn && (
             <>
               <li>

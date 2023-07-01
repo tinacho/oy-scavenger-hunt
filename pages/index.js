@@ -60,7 +60,7 @@ function Home({ data }) {
 const Title = styled.h1`
   padding: 15px 25px;
   border-radius: 10px 10px 0 0;
-  border: 2px solid hsl(53deg, 100%, 50%);
+  border: var(--border-primary);
   border-bottom: none;
 `;
 
@@ -70,7 +70,7 @@ const Table = styled.table`
 `;
 
 const TableBox = styled.div`
-  border: 2px solid hsl(53deg, 100%, 50%);
+  border: var(--border-primary);
   border-radius: 10px;
   background-color: rgb(10 10 10 / 0.2);
   width: 100%;

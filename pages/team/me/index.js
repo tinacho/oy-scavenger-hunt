@@ -55,21 +55,37 @@ function MyTeam() {
     <Box>
       {!session.teamId && (
         <>
-          <Title>My team</Title>
-          <Text>
-            You&apos;re not yet in a team. You can join an existing team:
-          </Text>
-          <StyledForm>
-            <Input
-              value={formTeamCode}
-              title="Team Code:"
-              setter={setFormTeamCode}
-              inputProps={{ maxLength: 4, minLength: 4, required: true }}
-            />
-            <SubmitButton onClick={onSubmit} text="Join" />
-          </StyledForm>
-          <Text>Or create a new team:</Text>
-          <CreateTeamLink />
+          <StyledTitle>Join team</StyledTitle>
+          <Section>
+            <Subtitle>
+              To access the game, you need to be part of a team.
+            </Subtitle>
+          </Section>
+          <Section>
+            <Text>
+              If you want to join an already existing team, enter a
+              <Strong> 4 letter team code</Strong>. Any member of your team can
+              see the code in &quot;My Team&quot; section.
+            </Text>
+            <Form>
+              <Input
+                value={formTeamCode}
+                setter={setFormTeamCode}
+                inputProps={{
+                  maxLength: 4,
+                  minLength: 4,
+                  required: true,
+                  placeholder: "Team Code",
+                }}
+              />
+              <SubmitButton onClick={onSubmit} text="Join" />
+            </Form>
+          </Section>
+
+          <Section>
+            <Text>If you want to create a new team, just click here:</Text>
+            <CreateTeamLink />
+          </Section>
         </>
       )}
       {session.teamId && (
@@ -82,12 +98,27 @@ function MyTeam() {
   );
 }
 
-const Text = styled.div`
-  margin-bottom: 30px;
+const Subtitle = styled.p`
+  margin: 0;
+  width: 100%;
+  text-align: left;
 `;
 
-const StyledForm = styled(Form)`
-  margin-bottom: 60px;
+const Text = styled(Subtitle)`
+  margin-bottom: 20px;
+`;
+
+const Strong = styled.strong`
+  color: var(--text-accent);
+`;
+
+const Section = styled.div`
+  width: 100%;
+  padding: 30px 0;
+`;
+
+const StyledTitle = styled(Title)`
+  margin: 0;
 `;
 
 export default withRouter(MyTeam);
