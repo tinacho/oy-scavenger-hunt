@@ -12,25 +12,22 @@ import { SessionContext, withSessionProvider } from "@/lib/session";
 const lexend = Lexend({ subsets: ["latin"] });
 
 function Layout({ children, router }) {
-
-  const { loggedIn, logout } = useContext(SessionContext)
+  const { loggedIn, logout } = useContext(SessionContext);
 
   useEffect(() => {
     if (!loggedIn) {
-      console.log('pushing to me route')
-      router.push('/team/me')
+      console.log("pushing to me route");
+      router.push("/team/me");
     }
     // the router seems to change on every mount so dont use it as dep
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn])
+  }, [loggedIn]);
 
   return (
     <main className={`${lexend.className} text-xl`}>
       <nav className="bg-orange-100 text-gray-800 p-12">
         <ul className="flex items-center justify-between">
-          {!loggedIn && (
-            <h2>Welcome to OY Scavenger Hunt!</h2>
-          )}
+          {!loggedIn && <h2>Welcome to OY Scavenger Hunt!</h2>}
           {loggedIn && (
             <>
               <li>

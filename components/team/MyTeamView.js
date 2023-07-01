@@ -3,7 +3,6 @@ import Challenges from "../Challenges";
 import { queries, withApiData } from "../../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 
-
 function MyTeamView({ data }) {
   return (
     <>
