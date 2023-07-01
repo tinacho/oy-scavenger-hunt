@@ -49,11 +49,11 @@ const MODE_MAPPER = {
   },
   ERROR: {
     backgroundColor: "var(--negative)",
-    color: "var(--text-invert)",
+    color: "var(--text-primary)",
   },
   SUCCESS: {
     backgroundColor: "var(--positive)",
-    color: "var(--text-invert)",
+    color: "var(--text-primary)",
   },
 };
 const FeedbackDisplayBox = styled.div`
@@ -116,7 +116,15 @@ function FeedbackDisplay() {
     return (
       <FeedbackDisplayBox {...setup}>
         <FeedbackDisplayMessage>{setup.message}</FeedbackDisplayMessage>
-        <FeedbackDisplayClose onClick={close}>close</FeedbackDisplayClose>
+        <FeedbackDisplayClose
+          onClick={(e) => {
+            // @TINA: is that needed? i wasnt sure with overlaying buttons and fixed position
+            e.preventDefault(); // prevent clicking through to the navbar
+            close();
+          }}
+        >
+          close
+        </FeedbackDisplayClose>
       </FeedbackDisplayBox>
     );
   }
