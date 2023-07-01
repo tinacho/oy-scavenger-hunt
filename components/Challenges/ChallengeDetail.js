@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import Image from "next/image";
+import { useMutation } from "@apollo/client";
+import { mutations, queries } from "@/api";
+import { useCallback } from "react";
+import { useSessionContext } from "@/lib/session";
+import { useFeedback } from "../Feedback";
 
 const ChallengeDetailBox = styled.div`
   display: flex;
@@ -9,6 +14,7 @@ const ChallengeDetailBox = styled.div`
   min-height: 300px;
 
   border: 2px solid var(--dark-primary);
+  border-radius: 8px;
   background-color: var(--light-primary);
   color: var(--dark-primary);
 `;
@@ -49,9 +55,50 @@ export function ChallengeDetail({ challenge, onClose, onSolve }) {
 }
 
 function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
+  const { session } = useSessionContext();
+  const feedback = useFeedback();
+
   // TODO add upload widget in here and the detail body
   const needsMedia = challenge.type !== "SIMPLE";
-  const hasMedia = false;
+  const media = "https://images.dog.ceo/breeds/mastiff-bull/n02108422_1548.jpg";
+
+  const [createSolution, { loading }] = useMutation(mutations.createSolution, {
+    onCompleted: (data) => {
+      console.log("solved!!", data);
+    },
+    // TODO investigating updating our cache ourselves
+    //https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
+    refetchQueries: [queries.teamMe],
+  });
+
+  const solveChallenge = useCallback(() => {
+    console.log("session", session);
+    createSolution({
+      variables: {
+        data: {
+          team: { connect: session.teamId },
+          challenge: { connect: challenge._id },
+          media,
+        },
+      },
+    }).then(
+      () => {
+        feedback.open({
+          message: "solution submitted!",
+          mode: "SUCCESS",
+        });
+        onSolve(true);
+        onClose();
+      },
+      (error) => {
+        feedback.open({
+          message: "Error - could not create solution: " + error.message,
+          mode: "ERROR",
+          timeout: null,
+        });
+      }
+    );
+  }, [session, challenge, media, createSolution, onSolve, onClose, feedback]);
 
   return (
     <ChallengeDetailBox>
@@ -63,8 +110,15 @@ function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
         {/* TODO display upload widget based on challenge type */}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
-        <button disabled={needsMedia && !hasMedia}>solve</button>
-        <button onClick={onClose}>close</button>
+        {loading && <div>sending...</div>}
+        {!loading && (
+          <>
+            <button disabled={needsMedia && !media} onClick={solveChallenge}>
+              solve
+            </button>
+            <button onClick={onClose}>close</button>
+          </>
+        )}
       </ChallengeDetailFooter>
     </ChallengeDetailBox>
   );
