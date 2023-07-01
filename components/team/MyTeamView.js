@@ -1,5 +1,4 @@
 import { compose } from "ramda";
-import Challenges from "../Challenges";
 import { queries, withApiData } from "../../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 
@@ -18,7 +17,6 @@ function MyTeamView({ data }) {
         </ul>
         {/* TODO: add member, complete challenge etc */}
       </div>
-      <Challenges />
     </>
   );
 }
