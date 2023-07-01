@@ -3,12 +3,11 @@ import styled from "styled-components";
 import { ChallengeDetail } from "./ChallengeDetail";
 
 const ChallengeBox = styled.div`
-  width: 150px;
+  width: 100%;
+  aspect-ratio: 1;
   height: 150px;
-  border: 2px solid var(--dark-primary);
   color: var(--dark-primary);
   padding: 10px;
-
   word-break: break;
   overflow-wrap: break-word;
   font-size: 1rem;

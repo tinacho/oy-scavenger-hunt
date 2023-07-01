@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Image from "next/image";
 
 const ChallengeDetailBox = styled.div`
   display: flex;
@@ -48,6 +49,10 @@ export function ChallengeDetail({ challenge, onClose, onSolve }) {
 }
 
 function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
+  // TODO add upload widget in here and the detail body
+  const needsMedia = challenge.type !== "SIMPLE";
+  const hasMedia = false;
+
   return (
     <ChallengeDetailBox>
       <ChallengeDetailHeader solved={false}>
@@ -58,7 +63,7 @@ function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
         {/* TODO display upload widget based on challenge type */}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
-        <button>solve</button>
+        <button disabled={needsMedia && !hasMedia}>solve</button>
         <button onClick={onClose}>close</button>
       </ChallengeDetailFooter>
     </ChallengeDetailBox>
@@ -73,6 +78,15 @@ function ChallengeDetailSolved({ challenge, onClose }) {
         <div>score: {challenge.score}</div>
       </ChallengeDetailHeader>
       <ChallengeDetailBody>
+        {/* // TODO distinguish between vids and pics */}
+        {challenge.solution.media && (
+          <Image
+            src={challenge.solution.media}
+            alt="profile image"
+            height={300}
+            width={300}
+          />
+        )}
         {/* TODO display of the solution if solved, else upload widget if needed */}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
