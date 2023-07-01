@@ -1,9 +1,9 @@
 // to debug stuff like api calls
-import { useState } from 'react';
+import { useState } from "react";
 import { withApiData, queries } from "../api";
 // import { useMutation } from "@apollo/client";
 // import { mutations } from "@/api";
-import { CldImage, CldUploadWidget } from 'next-cloudinary';
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 
 function DataView(props) {
   const { data } = props;
@@ -29,7 +29,7 @@ function DebugView(props) {
       updateUploadInfo(info);
     }
     widget.close({
-      quiet: true
+      quiet: true,
     });
   }
 
@@ -66,7 +66,11 @@ function DebugView(props) {
       <h2>Team</h2>
       <Team id="366821575551353037"></Team>
       <h1>Cloudinary Image Upload</h1>
-      <CldUploadWidget options={{ sources: ['local', 'camera'] }} onUpload={handleOnUpload} onError={handleOnUploadError}>
+      <CldUploadWidget
+        options={{ sources: ["local", "camera"] }}
+        onUpload={handleOnUpload}
+        onError={handleOnUploadError}
+      >
         {({ open }) => {
           function handleOnClick(e) {
             e.preventDefault();
@@ -83,8 +87,15 @@ function DebugView(props) {
 
       {uploadInfo && (
         <>
-          {uploadInfo.resource_type === 'image' && (
-            <p><CldImage width={uploadInfo.width} height={uploadInfo.height} src={uploadInfo.path} alt="Uploaded image" /></p>
+          {uploadInfo.resource_type === "image" && (
+            <p>
+              <CldImage
+                width={uploadInfo.width}
+                height={uploadInfo.height}
+                src={uploadInfo.path}
+                alt="Uploaded image"
+              />
+            </p>
           )}
           <p>{uploadInfo?.secure_url}</p>
         </>
