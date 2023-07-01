@@ -4,12 +4,13 @@ import { withRouter } from "next/router";
 import Error from "../../../components/Error";
 import Input from "../../../components/team/Input";
 import { Title, Form, Box } from "../../../components/team/Styles";
+import { SubmitButton } from "../../../components/Button";
 import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
 import { generateTeamCode } from "@/lib/generateTeamCode";
 
 function CreateNewTeam({ router }) {
-  const { login } = useContext(SessionContext)
+  const { login } = useContext(SessionContext);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [name, setName] = useState("");
   const [logoSrc, setLogoSrc] = useState("");
@@ -22,8 +23,8 @@ function CreateNewTeam({ router }) {
       } = data;
       login({
         teamId: _id,
-        teamName: name
-      })
+        teamName: name,
+      });
       router.push(`/team/me`);
     },
   });
@@ -37,7 +38,7 @@ function CreateNewTeam({ router }) {
           name,
           logoSrc,
           members: [{ name: lead }],
-          code: generateTeamCode()
+          code: generateTeamCode(),
         },
       },
     });
@@ -64,9 +65,11 @@ function CreateNewTeam({ router }) {
           type="url"
         />
         <Input value={lead} title="Team lead:" setter={setLead} />
-        <button type="submit" disabled={!(name && logoSrc && lead)}>
-          Create new team
-        </button>
+        <SubmitButton
+          type="submit"
+          text="Create new team"
+          disabled={!(name && logoSrc && lead)}
+        />
       </Form>
     </Box>
   );
