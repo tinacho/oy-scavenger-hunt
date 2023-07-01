@@ -1,5 +1,7 @@
 // concept
 
+const { useMemo, createContext, useContext, useCallback } = require("react")
+
 function myComponent() {
   const feedback = useFeedback()
 
@@ -27,4 +29,28 @@ function myComponent() {
   feedback.isOpen() // true/false
   feedback.close() // force close programmatically
 
+}
+
+const feedbackContext = createContext()
+
+const defaultCb = () => {}
+
+function useFeedback() {
+
+  const feedbackContext = useContext(feedbackContext)
+
+  const open = useCallback(({
+    message,
+    mode = 'INFO',
+    timeout = 3000,
+    onClose = defaultCb
+  }) =>{
+    console.log({message, mode, timeout, onClose})
+
+  }, [])
+
+
+  return useMemo(() => ({
+    open
+  }),[open])
 }
