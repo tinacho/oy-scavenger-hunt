@@ -11,16 +11,16 @@ import MyTeamView from "../../../components/team/MyTeamView";
 import { SessionContext } from "@/lib/session";
 
 function MyTeam() {
-  const { session, login } = useContext(SessionContext)
+  const { session, login } = useContext(SessionContext);
 
   const [formTeamCode, setFormTeamCode] = useState("");
 
   const [getTeam, { loading, error }] = useLazyQuery(queries.teamByCode, {
     onCompleted: (data) => {
-      if(data.team === null) {
+      if (data.team === null) {
         // maybe we add a feedback provider and let the user know that the code was wrong
-        console.log('wrong code!!')
-        return
+        console.log("wrong code!!");
+        return;
       }
 
       const {
@@ -29,8 +29,8 @@ function MyTeam() {
 
       login({
         teamId: _id,
-        teamName: name
-      })
+        teamName: name,
+      });
     },
   });
 
@@ -59,7 +59,11 @@ function MyTeam() {
             You&apos;re not yet in a team. You can join an existing team:
           </Text>
           <StyledForm>
-            <Input value={formTeamCode} title="Team Code:" setter={setFormTeamCode} />
+            <Input
+              value={formTeamCode}
+              title="Team Code:"
+              setter={setFormTeamCode}
+            />
             <button onClick={onSubmit}>Join</button>
           </StyledForm>
           <Text>Or create a new team:</Text>

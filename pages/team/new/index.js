@@ -8,12 +8,12 @@ import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
 import { generateTeamCode } from "@/lib/generateTeamCode";
 import styled from "styled-components";
-import { CldImage, CldUploadWidget } from 'next-cloudinary';
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 
 const teamUploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_TEAM;
 
 function CreateNewTeam({ router }) {
-  const { login } = useContext(SessionContext)
+  const { login } = useContext(SessionContext);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [name, setName] = useState("");
   const [logoSrc, setLogoSrc] = useState("");
@@ -27,8 +27,8 @@ function CreateNewTeam({ router }) {
       } = data;
       login({
         teamId: _id,
-        teamName: name
-      })
+        teamName: name,
+      });
       router.push(`/team/me`);
     },
   });
@@ -39,14 +39,14 @@ function CreateNewTeam({ router }) {
       setLogoSrc(info.path);
     }
     widget.close({
-      quiet: true
+      quiet: true,
     });
-  }
+  };
 
   const handleOnUploadError = (error) => {
     console.error("handleOnUploadError", error);
     updateUploadError(error);
-  }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ function CreateNewTeam({ router }) {
           name,
           logoSrc,
           members: [{ name: lead }],
-          code: generateTeamCode()
+          code: generateTeamCode(),
         },
       },
     });
@@ -80,11 +80,15 @@ function CreateNewTeam({ router }) {
         {!logoSrc && (
           <>
             <CldUploadWidget
-              options={
-                {
-                  sources: ['local', 'camera', 'url', 'image_search', 'instagram'],
-                }
-              }
+              options={{
+                sources: [
+                  "local",
+                  "camera",
+                  "url",
+                  "image_search",
+                  "instagram",
+                ],
+              }}
               uploadPreset={teamUploadPreset}
               onUpload={handleOnUpload}
               onError={handleOnUploadError}
@@ -110,7 +114,8 @@ function CreateNewTeam({ router }) {
               alt="Uploaded image"
               width={100}
               height={100}
-              className="w-full h-full object-cover" />
+              className="w-full h-full object-cover"
+            />
           </LogoBox>
         )}
         {uploadError && <p>{uploadError.status}</p>}
@@ -119,7 +124,7 @@ function CreateNewTeam({ router }) {
           Create new team
         </button>
       </Form>
-    </Box >
+    </Box>
   );
 }
 
