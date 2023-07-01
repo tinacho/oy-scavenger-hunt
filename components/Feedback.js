@@ -1,4 +1,4 @@
-// concept
+import styled from "styled-components";
 
 const {
   useMemo,
@@ -7,36 +7,8 @@ const {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } = require("react");
-
-// function myComponent() {
-//   const feedback = useFeedback();
-
-//   feedback.open({
-//     message: "hans",
-//     mode: "ERROR",
-//     timeout: 2000, // when set to null has to be closed manually
-//     onClose: (closedByUser) =>
-//       console.log("closed " + closedByUser ? "by user" : "after timeout"), // optional
-//   });
-
-//   // simple neutral info message visible for 3 s
-//   feedback.open({
-//     message: "huhu",
-//   });
-
-//   feedback.open({
-//     message: "amazing!",
-//     mode: "SUCCESS",
-//     timeout: null,
-//     onClose: () => {
-//       console.log("continue with user flow");
-//     },
-//   });
-
-//   feedback.isOpen(); // true/false
-//   feedback.close(); // force close programmatically
-// }
 
 const FeedbackContext = createContext();
 
@@ -54,7 +26,6 @@ function FeedbackProvider({ children }) {
       registerConsumer: (instance) => (consumer.current = instance),
       open: messageConsumer("open"),
       close: messageConsumer("close"),
-      isOpen: messageConsumer("isOpen"),
     }),
     []
   );
@@ -66,17 +37,69 @@ function FeedbackProvider({ children }) {
   );
 }
 
+function useFeedback() {
+  return useContext(FeedbackContext);
+}
+
+//// FEEDBACK DISPLAY IMPLEMENTATION
+const MODE_MAPPER = {
+  INFO: {
+    backgroundColor: "var(--light-secondary)",
+    color: "var(--text-invert)",
+  },
+  ERROR: {
+    backgroundColor: "var(--negative)",
+    color: "var(--text-invert)",
+  },
+  SUCCESS: {
+    backgroundColor: "var(--positive)",
+    color: "var(--text-invert)",
+  },
+};
+const FeedbackDisplayBox = styled.div`
+  position: fixed;
+  width: 100%;
+  min-height: 60px;
+  padding: 30px;
+  background-color: ${(props) => MODE_MAPPER[props.mode].backgroundColor};
+  color: ${(props) => MODE_MAPPER[props.mode].color};
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FeedbackDisplayMessage = styled.div`
+  flex-grow: 1;
+`;
+
+const FeedbackDisplayClose = styled.button``;
+
+const defaultCb = () => {};
+
 function FeedbackDisplay() {
   const context = useContext(FeedbackContext);
 
-  console.log(context);
+  const setup = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const open = useCallback(() => {
-    console.log("opening feedback consumer");
-  }, []);
+  const open = useCallback(
+    ({ message, mode = "INFO", timeout = 3000, onClose = defaultCb }) => {
+      console.log({ message, mode, timeout, onClose });
+
+      setup.current = {
+        message,
+        mode,
+        timeout,
+        onClose,
+      };
+      setIsOpen(true);
+    },
+    []
+  );
 
   const close = useCallback(() => {
     console.log("closing feedback consumer");
+    setup.current = {};
+    setIsOpen(false);
   }, []);
 
   useEffect(() => {
@@ -86,28 +109,16 @@ function FeedbackDisplay() {
     });
   }, []);
 
+  if (isOpen) {
+    return (
+      <FeedbackDisplayBox {...setup.current}>
+        <FeedbackDisplayMessage>{setup.current.message}</FeedbackDisplayMessage>
+        <FeedbackDisplayClose>close</FeedbackDisplayClose>
+      </FeedbackDisplayBox>
+    );
+  }
+
   return null;
-}
-
-// const open = useCallback(
-//   ({ message, mode = "INFO", timeout = 3000, onClose = defaultCb }) => {
-//     console.log({ message, mode, timeout, onClose });
-//     f.open;
-//   },
-//   []
-// );
-
-// return useMemo(
-//   () => ({
-//     open,
-//   }),
-//   [open]
-// );
-
-// const defaultCb = () => {};
-
-function useFeedback() {
-  return useContext(FeedbackContext);
 }
 
 export { FeedbackDisplay, FeedbackProvider, FeedbackContext, useFeedback };

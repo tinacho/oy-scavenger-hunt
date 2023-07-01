@@ -10,7 +10,13 @@ function DebugView(props) {
     <div>
       <h1>debug view</h1>
       <h2>Home</h2>
-      <button onClick={feedback.open}>open feedback</button>
+      <button
+        onClick={() =>
+          feedback.open({ message: "open that feedback box!", mode: "SUCCESS" })
+        }
+      >
+        open feedback
+      </button>
       <button onClick={feedback.close}>close feedback</button>
     </div>
   );
