@@ -6,6 +6,8 @@ const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 40px 20px;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
 `;
 
 const Title = styled.h1`
@@ -19,7 +21,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
 `;
 
 export { Box, Title, Form };

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import CreateTeamLink from "../components/CreateTeamLink";
+import { Box } from "@/components/team/Styles";
 import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 
@@ -76,13 +77,6 @@ const TableBox = styled.div`
   margin-bottom: 40px;
   padding: 20px;
   padding-top: 10px;
-`;
-
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
 `;
 
 const LogoBox = styled.div`

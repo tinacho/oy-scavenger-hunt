@@ -5,8 +5,12 @@ const GlobalStyles = createGlobalStyle`
     --dark-primary: rgba(14, 1, 50, 1);
     --light-primary: rgb(255, 253, 237);
     --light-secondary: bisque;
+
     --text-primary: var(--light-primary);
     --text-invert: var(--dark-primary);
+
+    --input-height: 50px;
+    --max-content-width: 600px;
   }
 
   body {

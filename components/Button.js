@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   background-color: var(--light-secondary);
   color: var(--text-invert);
   border-radius: 100px;
-
+  min-height: var(--input-height);
   &[disabled] {
     opacity: 0.7;
   }

@@ -35,11 +35,10 @@ const InputLabel = styled.span`
 const StyledInput = styled.input`
   background-color: transparent;
   border: 2px solid var(--light-secondary);
-  height: 48px;
+  height: var(--input-height);
   border-radius: 300px;
   padding: 0 20px;
   width: 100%;
-  max-width: 500px;
 `;
 
 export default withRouter(Input);
