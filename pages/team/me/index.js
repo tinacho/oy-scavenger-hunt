@@ -1,4 +1,4 @@
-import { useState, useCallback, useContext } from "react";
+import { useState, useCallback } from "react";
 import { useLazyQuery } from "@apollo/client";
 import styled from "styled-components";
 import { withRouter } from "next/router";
@@ -9,10 +9,10 @@ import Error from "../../../components/Error";
 import { Title, Form, Box } from "../../../components/team/Styles";
 import MyTeamView from "../../../components/team/MyTeamView";
 import { SubmitButton } from "../../../components/Button";
-import { SessionContext } from "@/lib/session";
+import { useSessionContext } from "@/lib/session";
 
 function MyTeam() {
-  const { session, login } = useContext(SessionContext);
+  const { session, login } = useSessionContext();
 
   const [formTeamCode, setFormTeamCode] = useState("");
 
