@@ -38,7 +38,7 @@ const ChallengeDetailHeader = styled.div`
   justify-content: space-between;
 `;
 
-export function ChallengeDetail({ challenge, onClose, onSolve }) {
+export function ChallengeDetail({ challenge, onClose }) {
   const solved = !!challenge.solution;
 
   const RenderComponent = solved
@@ -46,15 +46,11 @@ export function ChallengeDetail({ challenge, onClose, onSolve }) {
     : ChallengeDetailUnsolved;
 
   return (
-    <RenderComponent
-      challenge={challenge}
-      onClose={onClose}
-      onSolve={onSolve}
-    ></RenderComponent>
+    <RenderComponent challenge={challenge} onClose={onClose}></RenderComponent>
   );
 }
 
-function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
+function ChallengeDetailUnsolved({ challenge, onClose }) {
   const { session } = useSessionContext();
   const feedback = useFeedback();
 
@@ -87,8 +83,6 @@ function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
           message: "solution submitted!",
           mode: "SUCCESS",
         });
-        onSolve(true);
-        onClose();
       },
       (error) => {
         feedback.open({
@@ -98,7 +92,7 @@ function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
         });
       }
     );
-  }, [session, challenge, media, createSolution, onSolve, onClose, feedback]);
+  }, [session, challenge, media, createSolution, feedback]);
 
   return (
     <ChallengeDetailBox>
@@ -110,15 +104,17 @@ function ChallengeDetailUnsolved({ challenge, onClose, onSolve }) {
         {/* TODO display upload widget based on challenge type */}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
-        {loading && <div>sending...</div>}
-        {!loading && (
-          <>
-            <button disabled={needsMedia && !media} onClick={solveChallenge}>
-              solve
-            </button>
-            <button onClick={onClose}>close</button>
-          </>
-        )}
+        <>
+          <button
+            disabled={loading || (needsMedia && !media)}
+            onClick={solveChallenge}
+          >
+            solve
+          </button>
+          <button disabled={loading} onClick={onClose}>
+            close
+          </button>
+        </>
       </ChallengeDetailFooter>
     </ChallengeDetailBox>
   );

@@ -4,28 +4,6 @@ import { withApiData } from "../api/withApiData";
 import { useMutation } from "@apollo/client";
 import { mutations, queries } from "@/api";
 import { useCallback } from "react";
-import { getTeamScore } from "@/lib/getTeamScore";
-
-function MemberItem({ member }) {
-  return <div>{member.name}</div>;
-}
-
-function TeamItem({ team }) {
-  return (
-    <tr>
-      <td>{team.name}</td>
-      <td>
-        {team.members.map((member) => (
-          <MemberItem key={member.name} member={member} />
-        ))}
-        add member
-      </td>
-      <td>{getTeamScore(team)}</td>
-      <td>reset</td>
-      <td>delete</td>
-    </tr>
-  );
-}
 
 function AdminView(props) {
   console.log(props.data);
@@ -58,23 +36,6 @@ function AdminView(props) {
   return (
     <div>
       <h1>Admin view</h1>
-      <h2>Teams</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>name</th>
-            <th>members</th>
-            <th>score</th>
-            <th>reset score</th>
-            <th>delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.data.allTeams.data.map((team) => (
-            <TeamItem team={team} key={team._id}></TeamItem>
-          ))}
-        </tbody>
-      </table>
       <h2>Danger Zone</h2>
       <button onClick={triggerReset}>reset Game</button>
     </div>

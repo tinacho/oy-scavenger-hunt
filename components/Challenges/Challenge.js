@@ -23,7 +23,7 @@ const ChallengeBox = styled.div`
 
 export function Challenge({ challenge }) {
   const [open, setOpen] = useState(false);
-  const [solved, setSolved] = useState(!!challenge.solution);
+  const solved = !!challenge.solution;
 
   return (
     <>
@@ -35,7 +35,6 @@ export function Challenge({ challenge }) {
         <ChallengeDetail
           challenge={challenge}
           onClose={() => setOpen(false)}
-          onSolve={setSolved}
         ></ChallengeDetail>
       )}
     </>
