@@ -7,6 +7,10 @@ import { Title, Form, Box } from "../../../components/team/Styles";
 import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
 import { generateTeamCode } from "@/lib/generateTeamCode";
+import styled from "styled-components";
+import { CldImage, CldUploadWidget } from 'next-cloudinary';
+
+const teamUploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_TEAM;
 
 function CreateNewTeam({ router }) {
   const { login } = useContext(SessionContext)
@@ -14,6 +18,7 @@ function CreateNewTeam({ router }) {
   const [name, setName] = useState("");
   const [logoSrc, setLogoSrc] = useState("");
   const [lead, setLead] = useState("");
+  const [uploadError, updateUploadError] = useState();
 
   const [createTeam, { loading, error }] = useMutation(mutations.createTeam, {
     onCompleted: (data) => {
@@ -27,6 +32,21 @@ function CreateNewTeam({ router }) {
       router.push(`/team/me`);
     },
   });
+
+  const handleOnUpload = ({ event, info }, widget) => {
+    console.log("handleOnUpload", event, info);
+    if (event === "success") {
+      setLogoSrc(info.path);
+    }
+    widget.close({
+      quiet: true
+    });
+  }
+
+  const handleOnUploadError = (error) => {
+    console.error("handleOnUploadError", error);
+    updateUploadError(error);
+  }
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -57,19 +77,59 @@ function CreateNewTeam({ router }) {
       <Form onSubmit={onSubmit}>
         {/* handle duplicate name error (or check before sending if the same name exists in teams) */}
         <Input value={name} title="Team name:" setter={setName} />
-        <Input
-          value={logoSrc}
-          title="Team picture:"
-          setter={setLogoSrc}
-          type="url"
-        />
+        {!logoSrc && (
+          <>
+            <CldUploadWidget
+              options={
+                {
+                  sources: ['local', 'camera', 'url', 'image_search', 'instagram'],
+                }
+              }
+              uploadPreset={teamUploadPreset}
+              onUpload={handleOnUpload}
+              onError={handleOnUploadError}
+            >
+              {({ open }) => {
+                function handleOnClick(e) {
+                  e.preventDefault();
+                  open();
+                }
+                return (
+                  <button className="button" onClick={handleOnClick}>
+                    Upload a Team Picture
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
+          </>
+        )}
+        {logoSrc && (
+          <LogoBox>
+            <CldImage
+              src={logoSrc}
+              alt="Uploaded image"
+              width={100}
+              height={100}
+              className="w-full h-full object-cover" />
+          </LogoBox>
+        )}
+        {uploadError && <p>{uploadError.status}</p>}
         <Input value={lead} title="Team lead:" setter={setLead} />
         <button type="submit" disabled={!(name && logoSrc && lead)}>
           Create new team
         </button>
       </Form>
-    </Box>
+    </Box >
   );
 }
+
+const LogoBox = styled.div`
+  border-radius: 300px;
+  overflow: hidden;
+  width: 128px;
+  height: 128px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 export default withRouter(CreateNewTeam);
