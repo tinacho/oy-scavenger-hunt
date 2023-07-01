@@ -78,29 +78,32 @@ const defaultCb = () => {};
 function FeedbackDisplay() {
   const context = useContext(FeedbackContext);
 
-  const setup = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [setup, setSetup] = useState(null);
+  const timeoutRef = useRef(null);
+
+  const close = useCallback(() => {
+    clearTimeout(timeoutRef.current);
+    setSetup(null);
+    setIsOpen(false);
+  }, []);
 
   const open = useCallback(
     ({ message, mode = "INFO", timeout = 3000, onClose = defaultCb }) => {
-      console.log({ message, mode, timeout, onClose });
-
-      setup.current = {
+      clearTimeout(timeoutRef.current);
+      if (timeout !== null) {
+        timeoutRef.current = setTimeout(close, timeout);
+      }
+      setSetup({
         message,
         mode,
         timeout,
         onClose,
-      };
+      });
       setIsOpen(true);
     },
     []
   );
-
-  const close = useCallback(() => {
-    console.log("closing feedback consumer");
-    setup.current = {};
-    setIsOpen(false);
-  }, []);
 
   useEffect(() => {
     context.registerConsumer({
@@ -111,9 +114,9 @@ function FeedbackDisplay() {
 
   if (isOpen) {
     return (
-      <FeedbackDisplayBox {...setup.current}>
-        <FeedbackDisplayMessage>{setup.current.message}</FeedbackDisplayMessage>
-        <FeedbackDisplayClose>close</FeedbackDisplayClose>
+      <FeedbackDisplayBox {...setup}>
+        <FeedbackDisplayMessage>{setup.message}</FeedbackDisplayMessage>
+        <FeedbackDisplayClose onClick={close}>close</FeedbackDisplayClose>
       </FeedbackDisplayBox>
     );
   }
