@@ -1,9 +1,7 @@
-"use client";
 import { useMemo } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
-import CreateTeamLink from "../components/CreateTeamLink";
 import { Box } from "@/components/team/Styles";
 import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
@@ -52,7 +50,6 @@ function Home({ data }) {
           </tbody>
         </Table>
       </TableBox>
-      <CreateTeamLink />
     </Box>
   );
 }
@@ -105,5 +102,5 @@ const TeamNameHeader = styled(Cell)`
 
 export default withApiData({
   query: queries.home,
-  options: { pollInterval: 3000 },
+  // options: { pollInterval: 3000 },
 })(Home);

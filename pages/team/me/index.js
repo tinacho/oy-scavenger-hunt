@@ -34,7 +34,6 @@ function MyTeam() {
       feedback.open({
         message: `Successfully joined team: ${data.team.name}`,
         mode: "SUCCESS",
-        timeout: 90000,
       });
 
       login({
