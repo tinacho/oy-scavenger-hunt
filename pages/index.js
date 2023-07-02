@@ -111,5 +111,6 @@ const TeamNameHeader = styled(Cell)`
 
 export default withApiData({
   query: queries.home,
-  options: { pollInterval: 3000 },
+  // discuss if we want this or if a simple refetch button is enough
+  // options: { pollInterval: 3000 },
 })(Home);
