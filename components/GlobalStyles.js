@@ -6,8 +6,8 @@ const GlobalStyles = createGlobalStyle`
     --light-primary: rgb(255, 253, 237);
     --pink: #ff37bf;
     --light-secondary: bisque;
-    --positive: green;
-    --negative: red;
+    --positive: #13e244;
+    --negative: #f23434;
 
     --text-primary: var(--light-primary);
     --text-invert: var(--dark-primary);

@@ -2,31 +2,40 @@ import { useState, useCallback } from "react";
 import { useLazyQuery } from "@apollo/client";
 import styled from "styled-components";
 import { withRouter } from "next/router";
-import CreateTeamLink from "../../../components/CreateTeamLink";
-import { queries } from "../../../api";
-import Input from "../../../components/team/Input";
-import Error from "../../../components/Error";
-import { Title, Form, Box } from "../../../components/team/Styles";
-import MyTeamView from "../../../components/team/MyTeamView";
-import { SubmitButton } from "../../../components/Button";
+import CreateTeamLink from "@/components/CreateTeamLink";
+import { queries } from "@/api";
+import Input from "@/components/team/Input";
+import Error from "@/components/Error";
+import { Title, Form, Box } from "@/components/team/Styles";
+import MyTeamView from "@/components/team/MyTeamView";
+import { SubmitButton } from "@/components/Button";
+import { useFeedback } from "@/components/Feedback";
 import { useSessionContext } from "@/lib/session";
 
 function MyTeam() {
+  const feedback = useFeedback();
   const { session, login } = useSessionContext();
-
   const [formTeamCode, setFormTeamCode] = useState("");
 
   const [getTeam, { loading, error }] = useLazyQuery(queries.teamByCode, {
     onCompleted: (data) => {
       if (data.team === null) {
-        // maybe we add a feedback provider and let the user know that the code was wrong
-        console.log("wrong code!!");
+        feedback.open({
+          message: "Wrong team code",
+          mode: "ERROR",
+        });
         return;
       }
 
       const {
         team: { _id, name },
       } = data;
+
+      feedback.open({
+        message: `Successfully joined team: ${data.team.name}`,
+        mode: "SUCCESS",
+        timeout: 90000,
+      });
 
       login({
         teamId: _id,

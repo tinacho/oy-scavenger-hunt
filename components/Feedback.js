@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 const {
   useMemo,
   createContext,
@@ -9,6 +8,7 @@ const {
   useRef,
   useState,
 } = require("react");
+import { CloseIcon } from "@/components/icons";
 
 const FeedbackContext = createContext();
 
@@ -56,15 +56,20 @@ const MODE_MAPPER = {
     color: "var(--text-primary)",
   },
 };
+
 const FeedbackDisplayBox = styled.div`
   position: fixed;
   width: 100%;
-  min-height: 60px;
-  padding: 30px;
+  min-height: 120px;
+  padding: 0 30px;
   background-color: ${(props) => MODE_MAPPER[props.mode].backgroundColor};
   color: ${(props) => MODE_MAPPER[props.mode].color};
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
 `;
 
 const FeedbackDisplayMessage = styled.div`
@@ -73,11 +78,16 @@ const FeedbackDisplayMessage = styled.div`
 
 const FeedbackDisplayClose = styled.button``;
 
+const StyledClose = styled(CloseIcon)`
+  width: 35px;
+  height: 35px;
+  margin-left: 20px;
+`;
+
 const defaultCb = () => {};
 
 function FeedbackDisplay() {
   const context = useContext(FeedbackContext);
-
   const [isOpen, setIsOpen] = useState(false);
   const [setup, setSetup] = useState(null);
   const timeoutRef = useRef(null);
@@ -89,7 +99,7 @@ function FeedbackDisplay() {
   }, []);
 
   const open = useCallback(
-    ({ message, mode = "INFO", timeout = 3000, onClose = defaultCb }) => {
+    ({ message, mode = "INFO", timeout = 4000, onClose = defaultCb }) => {
       clearTimeout(timeoutRef.current);
       if (timeout !== null) {
         timeoutRef.current = setTimeout(close, timeout);
@@ -123,7 +133,7 @@ function FeedbackDisplay() {
             close();
           }}
         >
-          close
+          <StyledClose />
         </FeedbackDisplayClose>
       </FeedbackDisplayBox>
     );
