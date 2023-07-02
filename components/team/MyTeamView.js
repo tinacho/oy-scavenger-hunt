@@ -1,10 +1,49 @@
 import { compose } from "ramda";
+import { useState } from "react";
 import styled from "styled-components";
-import { queries, withApiData } from "../../api";
+import { queries, mutations, withApiData } from "../../api";
+import { useMutation } from "@apollo/client";
 import { getTeamScore } from "@/lib/getTeamScore";
 import { PlusIcon } from "@/components/icons";
+import Input from "@/components/team/Input";
+import { SubmitButton } from "@/components/Button";
 
 function MyTeamView({ data }) {
+  const [inputVisible, setInputVisible] = useState(false);
+  const [newMemberName, setNewMemberName] = useState("");
+
+  console.log("data", data);
+
+  const [addMember] = useMutation(mutations.partialUpdateTeam, {
+    onCompleted: (data) => {
+      console.log("updated!!", data);
+      resetState();
+    },
+    // TODO investigating updating our cache ourselves
+    //https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
+    refetchQueries: [queries.teamMe],
+  });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addMember({
+      variables: {
+        id: data.team._id,
+        data: {
+          members: [
+            ...data.team.members.map((member) => ({ name: member.name })),
+            { name: newMemberName },
+          ],
+        },
+      },
+    });
+  };
+
+  const resetState = () => {
+    setInputVisible(false);
+    setNewMemberName("");
+  };
+
   return (
     <>
       <Section>
@@ -23,13 +62,24 @@ function MyTeamView({ data }) {
             </li>
           ))}
         </ul>
-        {/* TODO: add member, complete challenge etc */}
       </Section>
       <Section>
-        <h2>Add members</h2>
-        <Button>
-          <PlusIcon />
-        </Button>
+        <h2>Add member to team:</h2>
+        {!inputVisible && (
+          <Button onClick={() => setInputVisible(true)}>
+            <PlusIcon />
+          </Button>
+        )}
+        {inputVisible && (
+          <form>
+            <Input
+              placeholder="Member name"
+              value={newMemberName}
+              setter={setNewMemberName}
+            />
+            <SubmitButton text="Add" onClick={onSubmit} />
+          </form>
+        )}
         {/* TODO: add member, complete challenge etc */}
       </Section>
     </>
