@@ -30,6 +30,10 @@ const GlobalStyles = createGlobalStyle`
       rgba(130, 0, 255, 1) 100%
     );
   }
+
+  strong {
+    color: var(--text-accent);
+  }
 `;
 
 export default GlobalStyles;
