@@ -30,12 +30,12 @@ export const createTeam = gql`
 //     members: [{ name: "Tina" }, { name: "Jan" }]
 //   }
 // }
-
 export const partialUpdateTeam = gql`
   mutation partialUpdateTeam($id: ID!, $data: PartialUpdateTeamInput!) {
     partialUpdateTeam(id: $id, data: $data) {
       _id
       name
+      logoSrc
       members {
         name
       }
