@@ -7,7 +7,7 @@ import { queries } from "@/api";
 import Input from "@/components/team/Input";
 import Error from "@/components/Error";
 import { Title, Form, Box } from "@/components/team/Styles";
-import MyTeamView from "@/components/team/MyTeamView";
+import TeamView from "@/components/team/TeamView";
 import { SubmitButton } from "@/components/Button";
 import { useFeedback } from "@/components/Feedback";
 import { useSessionContext } from "@/lib/session";
@@ -99,7 +99,7 @@ function MyTeam() {
       {session.teamId && (
         <>
           <Title>{session.teamName}</Title>
-          <MyTeamView teamId={session.teamId} />
+          <TeamView teamId={session.teamId} isMyTeam={true} />
         </>
       )}
     </Box>

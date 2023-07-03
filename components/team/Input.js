@@ -1,14 +1,21 @@
 import styled from "styled-components";
 import { withRouter } from "next/router";
 
-function Input({ title, value, setter, type = "text", inputProps = {} }) {
+function Input({
+  title,
+  value,
+  setter,
+  type = "text",
+  inputProps = {},
+  className,
+}) {
   const handleChange = (e) => {
     e.preventDefault();
     setter(e.target.value);
   };
 
   return (
-    <InputBox>
+    <InputBox className={className}>
       {title && <InputLabel>{title}</InputLabel>}
       <StyledInput
         value={value}
