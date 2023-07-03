@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import styled from "styled-components";
-import Image from "next/image";
 import Link from "next/link";
 import { Box } from "@/components/team/Styles";
+import ImageWithFallback from "@/components/ImageWithFallback";
 import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
+import DefaultPicture from "@/public/default-profile.jpeg";
 
 function Home({ data }) {
   const orderedTeams = useMemo(() => {
@@ -32,12 +33,12 @@ function Home({ data }) {
                   <StyledLink href={`/team/${team._id}`}>
                     <LogoBox>
                       {team.logoSrc && (
-                        <Image
+                        <StyledImage
                           src={team.logoSrc}
                           alt="profile image"
                           width={100}
                           height={100}
-                          className="w-full h-full object-cover"
+                          fallback={DefaultPicture}
                         />
                       )}
                     </LogoBox>
@@ -59,6 +60,12 @@ const Title = styled.h1`
   border-radius: 10px 10px 0 0;
   border: var(--border-primary);
   border-bottom: none;
+`;
+
+const StyledImage = styled(ImageWithFallback)`
+  width; 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Table = styled.table`
