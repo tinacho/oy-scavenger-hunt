@@ -26,34 +26,25 @@ function UploadWidget({ options, uploadPreset, setUploadInfo, previewWidth = 512
     return (
         <>
             {!uploadInfo?.path && (
-                <>
-                    <CldUploadWidget
-                        options={options}
-                        uploadPreset={uploadPreset}
-                        onUpload={handleOnUpload}
-                        onError={handleOnUploadError}
-                    >
-                        {({ open }) => {
-                            function handleOnClick(e) {
-                                e.preventDefault();
-                                open();
-                            }
-                            return (
-                                <button className="button" onClick={handleOnClick}>
-                                    Upload a Team Picture
-                                </button>
-                            );
-                        }}
-                    </CldUploadWidget>
-                </>
+                <CldUploadWidget
+                    options={options}
+                    uploadPreset={uploadPreset}
+                    onUpload={handleOnUpload}
+                    onError={handleOnUploadError}
+                >
+                    {({ open }) => {
+                        function handleOnClick(e) {
+                            e.preventDefault();
+                            open();
+                        }
+                        return (
+                            <button className="button" onClick={handleOnClick}>
+                                Upload a Team Picture
+                            </button>
+                        );
+                    }}
+                </CldUploadWidget>
             )}
-            {/* {uploadInfo?.path && (
-                <PicPreview
-                    path={uploadInfo.path}
-                    width={previewWidth}
-                    height={previewHeight}
-                ></PicPreview>
-            )} */}
             {uploadError && <p>{uploadError.status}</p>}
         </>
     );

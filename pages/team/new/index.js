@@ -34,6 +34,10 @@ function CreateNewTeam({ router }) {
     },
   });
 
+  const handleUpload = ({ path }) => {
+    setLogoSrc(path);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitClicked(true);
@@ -64,17 +68,8 @@ function CreateNewTeam({ router }) {
         {/* handle duplicate name error (or check before sending if the same name exists in teams) */}
         {!logoSrc && (
           <UploadWidget
-            options={{
-              sources: [
-                "local",
-                "camera",
-                "url",
-                "image_search",
-                "instagram",
-              ],
-            }}
             uploadPreset={teamUploadPreset}
-            setUploadInfo={setLogoSrc}
+            setUploadInfo={handleUpload}
           > </UploadWidget>
         )}
         {logoSrc && (
