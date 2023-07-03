@@ -70,11 +70,11 @@ function CreateNewTeam({ router }) {
           <UploadWidget
             uploadPreset={teamUploadPreset}
             setUploadInfo={handleUpload}
-          > </UploadWidget>
+          >
+            {" "}
+          </UploadWidget>
         )}
-        {logoSrc && (
-          <LogoPreview path={logoSrc} />
-        )}
+        {logoSrc && <LogoPreview path={logoSrc} />}
 
         <Input value={name} title="Team name:" setter={setName} />
         <Input value={lead} title="Team lead:" setter={setLead} />
