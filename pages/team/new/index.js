@@ -3,6 +3,8 @@ import { useMutation } from "@apollo/client";
 import { withRouter } from "next/router";
 import Error from "../../../components/Error";
 import Input from "../../../components/team/Input";
+import { LogoPreview } from "../../../components/team/TeamLogo";
+
 import { UploadWidget } from "../../../components/UploadWidget";
 import { Title, Form, Box } from "../../../components/team/Styles";
 import { mutations } from "../../../api";
@@ -60,18 +62,25 @@ function CreateNewTeam({ router }) {
       <Title>Create new team</Title>
       <Form onSubmit={onSubmit}>
         {/* handle duplicate name error (or check before sending if the same name exists in teams) */}
-        <UploadWidget options={{
-          sources: [
-            "local",
-            "camera",
-            "url",
-            "image_search",
-            "instagram",
-          ],
-        }}
-          uploadPreset={teamUploadPreset}
-          setUploadInfo={setLogoSrc}
-        > </UploadWidget>
+        {!logoSrc && (
+          <UploadWidget
+            options={{
+              sources: [
+                "local",
+                "camera",
+                "url",
+                "image_search",
+                "instagram",
+              ],
+            }}
+            uploadPreset={teamUploadPreset}
+            setUploadInfo={setLogoSrc}
+          > </UploadWidget>
+        )}
+        {logoSrc && (
+          <LogoPreview path={logoSrc} />
+        )}
+
         <Input value={name} title="Team name:" setter={setName} />
         <Input value={lead} title="Team lead:" setter={setLead} />
         <button type="submit" disabled={!(name && logoSrc && lead)}>

@@ -47,44 +47,18 @@ function UploadWidget({ options, uploadPreset, setUploadInfo, previewWidth = 512
                     </CldUploadWidget>
                 </>
             )}
-            {uploadInfo?.path && (
-                <Preview
+            {/* {uploadInfo?.path && (
+                <PicPreview
                     path={uploadInfo.path}
                     width={previewWidth}
                     height={previewHeight}
-                ></Preview>
-            )}
+                ></PicPreview>
+            )} */}
             {uploadError && <p>{uploadError.status}</p>}
         </>
     );
 }
 
-function Preview({ path, width = 512, height = 512 }) {
-    return (
-        <>
-            <LogoBox>
-                <CldImage
-                    src={path}
-                    alt="Uploaded image"
-                    width={width}
-                    height={height}
-                    className="w-full h-full object-cover"
-                />
-            </LogoBox>
-            <div>
-                <button></button>
-            </div>
-        </>
-    );
-}
 
-const LogoBox = styled.div`
-  border-radius: 300px;
-  overflow: hidden;
-  width: 128px;
-  height: 128px;
-  margin-left: auto;
-  margin-right: auto;
-`;
 
-export { Preview, UploadWidget };
+export { UploadWidget };
