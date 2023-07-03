@@ -1,11 +1,11 @@
 "use client";
 import { useMemo } from "react";
 import styled from "styled-components";
-import Image from "next/image";
 import Link from "next/link";
 import CreateTeamLink from "../components/CreateTeamLink";
 import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
+import { CldImage } from "next-cloudinary";
 
 function Home({ data }) {
   const orderedTeams = useMemo(() => {
@@ -33,7 +33,7 @@ function Home({ data }) {
                   <StyledLink href={`/team/${team._id}`}>
                     <LogoBox>
                       {team.logoSrc && (
-                        <Image
+                        <CldImage
                           src={team.logoSrc}
                           alt="profile image"
                           width={100}
