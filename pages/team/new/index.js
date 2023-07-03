@@ -4,13 +4,11 @@ import { withRouter } from "next/router";
 import Error from "../../../components/Error";
 import Input from "../../../components/team/Input";
 import { LogoPreview } from "../../../components/team/TeamLogo";
-
 import { UploadWidget } from "../../../components/UploadWidget";
 import { Title, Form, Box } from "../../../components/team/Styles";
 import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
 import { generateTeamCode } from "@/lib/generateTeamCode";
-import styled from "styled-components";
 
 const teamUploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_TEAM;
 
@@ -85,14 +83,5 @@ function CreateNewTeam({ router }) {
     </Box>
   );
 }
-
-const LogoBox = styled.div`
-  border-radius: 300px;
-  overflow: hidden;
-  width: 128px;
-  height: 128px;
-  margin-left: auto;
-  margin-right: auto;
-`;
 
 export default withRouter(CreateNewTeam);
