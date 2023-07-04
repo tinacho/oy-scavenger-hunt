@@ -7,7 +7,8 @@ import { AddMember } from "./AddMember";
 import TeamPictureUpload from "./TeamPictureUpload";
 import { Challenges } from "@/components/challenges";
 import { Button } from "../Button";
-import { Section, Strong, Member } from "./Styles";
+import { Section, Strong } from "./Styles";
+import { MemberRm } from "./Member";
 
 function TeamView({ data, isMyTeam = false }) {
   const [scorecardOpen, setScorecardOpen] = useState(false);
@@ -18,6 +19,7 @@ function TeamView({ data, isMyTeam = false }) {
     () => addTeamSolutionsToChallenges(data.allChallenges.data, data.team),
     [data]
   );
+
 
   return (
     <>
@@ -51,9 +53,7 @@ function TeamView({ data, isMyTeam = false }) {
         <h2>Members</h2>
         <ul>
           {data.team.members.map((member, index) => (
-            <Member key={index}>
-              <Strong>{member.name}</Strong>
-            </Member>
+            <MemberRm key={index} data={data} name={member.name}></MemberRm>
           ))}
         </ul>
       </Section>
