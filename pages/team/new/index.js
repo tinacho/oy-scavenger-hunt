@@ -89,6 +89,7 @@ function CreateNewTeam({ router }) {
             <UploadWidget
               uploadPreset={teamUploadPreset}
               setUploadInfo={handleUpload}
+              buttonText="Upload a Team Picture"
             />
           )}
         </Section>

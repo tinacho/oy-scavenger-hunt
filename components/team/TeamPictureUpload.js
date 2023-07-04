@@ -39,6 +39,7 @@ function TeamPictureUpload({ data, isMyTeam }) {
         <UploadWidget
           uploadPreset={teamUploadPreset}
           setUploadInfo={handleTeamLogoUpdate}
+          buttonText="Upload a Team Picture"
         ></UploadWidget>
       )}
     </>
