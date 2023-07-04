@@ -9,7 +9,7 @@ function SubmitButton(props) {
 }
 
 const StyledButton = styled.button`
-  padding: 13px 22px 14px;
+  padding: 13px 22px;
   background-color: var(--light-secondary);
   color: var(--text-invert);
   border-radius: 100px;

@@ -5,57 +5,67 @@ import { mutations, queries } from "@/api";
 import { useCallback } from "react";
 import { useSessionContext } from "@/lib/session";
 import { useFeedback } from "../Feedback";
-import { CloseIcon, CheckmarkIcon } from "../icons";
-
-// const Box = styled.div`
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   padding: 20px;
-//   padding-top: 60px;
-//   overflow-y: auto;
-//   display: flex;
-//   flex-direction: column;
-// `;
-
-// const Overlay = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   background-color: rgb(10 10 10 / 0.5);
-// `;
+import { CloseIcon } from "../icons";
+import { Button } from "../Button";
+import { Footer, StyledCheckmark, Points } from "./Styles";
 
 const Box = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(10 10 10 / 0.9);
+  z-index: 0;
+`;
+
+const InnerBox = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
   width: 100%;
   min-height: 300px;
   background-color: var(--light-primary);
   color: var(--dark-primary);
+  z-index: 1;
+  position: relative;
+  padding: 15px;
+  max-width: var(--max-content-width);
+  margin: auto;
 `;
 
 const Content = styled.div`
-  padding: 20px;
   flex-grow: 1;
 `;
 
-const Footer = styled.div`
-  padding: 20px;
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
 `;
 
-const Header = styled.div`
-  padding: 20px;
+const StyledPoints = styled(Points)`
+  height: var(--input-height);
+  padding: 0 20px;
+  width: fit-content;
   background-color: ${(props) =>
-    props.solved ? "var(--positive-light)" : "var(--light-primary)"};
-  display: flex;
-  justify-content: space-between;
+    props.solved ? "var(--positive-dark)" : "var(--light-secondary)"};
+`;
+
+const StyledButton = styled(Button)`
+  height: var(--input-height);
+  padding: 0 20px;
+  margin: 0;
+  margin-left: auto;
 `;
 
 export function ChallengeDetail({ challenge, onClose, isMyTeam }) {
@@ -127,26 +137,32 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
 
   return (
     <Box>
-      <Header solved={false}>
-        <div>{challenge.name}</div>
-        <button onClick={onClose} disabled={loading}>
-          <CloseIcon />
-        </button>
-      </Header>
-      <Content>
-        <div>possible score: {challenge.score}</div>
-        {/* TODO display upload widget based on challenge type */}
-      </Content>
-      <Footer>
-        {isMyTeam && (
-          <button
-            disabled={loading || (needsMedia && !media)}
-            onClick={solveChallenge}
-          >
-            Solve
+      <InnerBox>
+        <Header solved={false}>
+          <div>{challenge.name}</div>
+          <button onClick={onClose} disabled={loading}>
+            <CloseIcon />
           </button>
-        )}
-      </Footer>
+        </Header>
+        <Content>
+          {/* TODO display upload widget based on challenge type */}
+        </Content>
+        <Footer>
+          <StyledPoints
+            solved={false}
+          >{`Points: ${challenge.score}`}</StyledPoints>
+          <StyledCheckmark solved={false} />
+          {isMyTeam && (
+            <StyledButton
+              disabled={loading || (needsMedia && !media)}
+              onClick={solveChallenge}
+              text="Solve"
+              small
+            />
+          )}
+        </Footer>
+      </InnerBox>
+      <Overlay onClick={onClose} />
     </Box>
   );
 }
@@ -194,32 +210,42 @@ function Solved({ challenge, onClose, isMyTeam }) {
 
   return (
     <Box>
-      <Header solved={true}>
-        <div>{challenge.name}</div>
-        <button onClick={onClose}>
-          <CloseIcon />
-        </button>
-      </Header>
-      <Content>
-        <div>score: {challenge.score}</div>
-        {/* // TODO distinguish between vids and pics */}
-        {challenge.solution.media && (
-          <Image
-            src={challenge.solution.media}
-            alt="profile image"
-            height={300}
-            width={300}
-          />
-        )}
-        {/* TODO display of the solution if solved, else upload widget if needed */}
-      </Content>
-      <Footer>
-        {isMyTeam && (
-          <button disabled={loading} onClick={resetChallenge}>
-            Reset
+      <InnerBox>
+        <Header solved={true}>
+          <div>{challenge.name}</div>
+          <button onClick={onClose}>
+            <CloseIcon />
           </button>
-        )}
-      </Footer>
+        </Header>
+        <Content>
+          <div>score: {challenge.score}</div>
+          {/* // TODO distinguish between vids and pics */}
+          {challenge.solution.media && (
+            <Image
+              src={challenge.solution.media}
+              alt="profile image"
+              height={300}
+              width={300}
+            />
+          )}
+          {/* TODO display of the solution if solved, else upload widget if needed */}
+        </Content>
+        <Footer>
+          <StyledPoints
+            solved={true}
+          >{`Score: ${challenge.score}`}</StyledPoints>
+          <StyledCheckmark solved={true} />
+          {isMyTeam && (
+            <StyledButton
+              disabled={loading}
+              onClick={resetChallenge}
+              text="Reset"
+              small
+            />
+          )}
+        </Footer>
+      </InnerBox>
+      <Overlay onClick={onClose} />
     </Box>
   );
 }
