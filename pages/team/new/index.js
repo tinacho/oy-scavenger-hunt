@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 import { withRouter } from "next/router";
 import Error from "../../../components/Error";
 import Input from "../../../components/team/Input";
-import { LogoPreview } from "../../../components/team/TeamLogo";
+import { LogoPreview } from "../../../components/team/TeamPicture";
 import { UploadWidget } from "../../../components/UploadWidget";
 import { Title, Form, Box } from "../../../components/team/Styles";
 import { SubmitButton } from "../../../components/Button";

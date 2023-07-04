@@ -13,7 +13,7 @@ function LogoActions({ handlePicChange }) {
   );
 }
 
-function LogoPreview({
+function TeamPicture({
   path,
   handlePicChange,
   width = 512,
@@ -85,4 +85,4 @@ const LogoFullScreen = styled.div`
     justify-content: center;
 }`;
 
-export { LogoPreview };
+export default TeamPicture;

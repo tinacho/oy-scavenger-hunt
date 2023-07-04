@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { queries, withApiData } from "../../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 import AddMember from "./AddMember";
+import TeamPictureUpload from "./TeamPictureUpload";
 
 function TeamView({ data, isMyTeam = false }) {
   return (
@@ -13,6 +14,7 @@ function TeamView({ data, isMyTeam = false }) {
           <Strong>{data.team.code}</Strong>
         </Section>
       )}
+      <TeamPictureUpload data={data} isMyTeam={isMyTeam} />
       <Section>
         Current score<Strong>{getTeamScore(data.team)}</Strong>
       </Section>
