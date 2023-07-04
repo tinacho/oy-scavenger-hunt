@@ -142,33 +142,33 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
         {challenge.type !== "SIMPLE" && !media && (
           <UploadWidget
             setUploadInfo={handleMediaUpload}
-            buttonText={"Upload a " + (challenge.type === "IMAGE" ? "Picture" : "Video")}
+            buttonText={
+              "Upload a " + (challenge.type === "IMAGE" ? "Picture" : "Video")
+            }
             options={{
-              sources: [
-                "local",
-                "camera",
-              ],
-              resourceType: (challenge.type === "IMAGE" ? "image" : "video"),
+              sources: ["local", "camera"],
+              resourceType: challenge.type === "IMAGE" ? "image" : "video",
             }}
           ></UploadWidget>
         )}
-        {media && (
-          challenge.type === "IMAGE" ? (
+        {media &&
+          (challenge.type === "IMAGE" ? (
             <CldImage
               src={media}
               alt="challenge picture"
               width={300}
               height={300}
             ></CldImage>
-          ) : challenge.type === "VIDEO" && (
-            <CldVideoPlayer
-              src={media}
-              alt="challenge video"
-              width={300}
-              height={300}
-            ></CldVideoPlayer>
-          )
-        )}
+          ) : (
+            challenge.type === "VIDEO" && (
+              <CldVideoPlayer
+                src={media}
+                alt="challenge video"
+                width={300}
+                height={300}
+              ></CldVideoPlayer>
+            )
+          ))}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
         <>
@@ -235,8 +235,8 @@ function ChallengeDetailSolved({ challenge, onClose }) {
       </ChallengeDetailHeader>
       <ChallengeDetailBody>
         {/* // TODO distinguish between vids and pics */}
-        {challenge.solution.media && (
-          challenge.type === "IMAGE" ? (
+        {challenge.solution.media &&
+          (challenge.type === "IMAGE" ? (
             <CldImage
               src={challenge.solution.media}
               alt="challenge picture"
@@ -250,8 +250,7 @@ function ChallengeDetailSolved({ challenge, onClose }) {
               width={300}
               height={300}
             ></CldVideoPlayer>
-          )
-        )}
+          ))}
         {/* TODO display of the solution if solved, else upload widget if needed */}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
