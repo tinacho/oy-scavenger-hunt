@@ -5,16 +5,17 @@ import { ChallengeDetail } from "./ChallengeDetail";
 const ChallengeBox = styled.div`
   width: 100%;
   aspect-ratio: 1;
-  height: 150px;
   color: var(--dark-primary);
   padding: 10px;
   word-break: break;
   overflow-wrap: break-word;
-  font-size: 1rem;
+  font-size: 16px;
+  text-align: left;
+  border: 5px solid transparent;
+  cursor: pointer;
 
-  /* bit useless for mobile still nice for desktop */
   :hover {
-    background-color: var(--light-secondary);
+    text-decoration: underline;
   }
 
   background-color: ${(props) =>

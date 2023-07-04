@@ -3,11 +3,13 @@ import { Challenge } from "./Challenge";
 
 const Box = styled.div`
   display: grid;
-  grid-template-columns: 50% 50%;
-  grid-gap: 5px;
+  align-items: stretch;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 2fr));
+  grid-gap: 2px;
   width: 100%;
   z-index: 1;
   position: relative;
+  margin-top: 10px;
 `;
 
 export function Challenges({ challenges }) {
