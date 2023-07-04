@@ -1,7 +1,8 @@
 import { compose } from "ramda";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { queries, withApiData } from "../../api";
 import { getTeamScore } from "@/lib/getTeamScore";
+import { addTeamSolutionsToChallenges } from "@/lib/addTeamSolutionsToChallenges";
 import { AddMember } from "./AddMember";
 import TeamPictureUpload from "./TeamPictureUpload";
 import { Challenges } from "@/components/challenges";
@@ -12,6 +13,12 @@ function TeamView({ data, isMyTeam = false }) {
   const [scorecardOpen, setScorecardOpen] = useState(false);
   const openScorecard = () => setScorecardOpen(true);
   const closeScorecard = () => setScorecardOpen(false);
+
+  const challengesWithSolutions = useMemo(
+    () => addTeamSolutionsToChallenges(data.allChallenges.data, data.team),
+    [data]
+  );
+
   return (
     <>
       <Section>
@@ -24,7 +31,7 @@ function TeamView({ data, isMyTeam = false }) {
         />
         {scorecardOpen && (
           <Challenges
-            challenges={data.allChallenges.data}
+            challenges={challengesWithSolutions}
             isOpen={scorecardOpen}
             closeScorecard={closeScorecard}
           />
