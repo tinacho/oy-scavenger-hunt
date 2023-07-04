@@ -90,7 +90,6 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
   });
 
   const solveChallenge = useCallback(() => {
-    console.log("session", session);
     createSolution({
       variables: {
         data: {
@@ -107,11 +106,20 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
         });
       },
       (error) => {
-        feedback.open({
-          message: "Error - could not create solution: " + error.message,
-          mode: "ERROR",
-          timeout: null,
-        });
+        // uniqueness is guaranteed by a database index
+        if (error.message.includes("is not unique")) {
+          feedback.open({
+            message: "Already Solved!",
+            mode: "ERROR",
+            timeout: null,
+          });
+        } else {
+          feedback.open({
+            message: "Error - could not create solution: " + error.message,
+            mode: "ERROR",
+            timeout: null,
+          });
+        }
       }
     );
   }, [session, challenge, media, createSolution, feedback]);
