@@ -151,6 +151,45 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
 }
 
 function ChallengeDetailSolved({ challenge, onClose }) {
+  const feedback = useFeedback();
+
+  const [deleteSolution, { loading }] = useMutation(mutations.deleteSolution, {
+    onCompleted: (data) => {
+      console.log("no longer solved!!", data);
+    },
+    // TODO investigating updating our cache ourselves
+    //https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
+    refetchQueries: [queries.teamMe],
+  });
+
+  const resetChallenge = useCallback(() => {
+    if (
+      confirm(
+        "Are you sure you want to reset this challenge? Your progress and image will be lost."
+      )
+    ) {
+      deleteSolution({
+        variables: {
+          id: challenge.solution._id,
+        },
+      }).then(
+        () => {
+          feedback.open({
+            message: "challenge resetted!",
+            mode: "SUCCESS",
+          });
+        },
+        (error) => {
+          feedback.open({
+            message: "Error - reset challenge: " + error.message,
+            mode: "ERROR",
+            timeout: null,
+          });
+        }
+      );
+    }
+  }, [challenge, deleteSolution, feedback]);
+
   return (
     <ChallengeDetailBox>
       <ChallengeDetailHeader solved={true}>
@@ -170,8 +209,9 @@ function ChallengeDetailSolved({ challenge, onClose }) {
         {/* TODO display of the solution if solved, else upload widget if needed */}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
-        {/* // empty div so the close button stays on the right corner */}
-        <div></div>
+        <button disabled={loading} onClick={resetChallenge}>
+          reset
+        </button>
         <button onClick={onClose}>close</button>
       </ChallengeDetailFooter>
     </ChallengeDetailBox>
