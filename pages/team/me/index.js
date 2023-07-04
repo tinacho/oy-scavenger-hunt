@@ -14,7 +14,7 @@ import { useSessionContext } from "@/lib/session";
 
 function MyTeam() {
   const feedback = useFeedback();
-  const { session, login } = useSessionContext();
+  const { session, login, loggedIn } = useSessionContext();
   const [formTeamCode, setFormTeamCode] = useState("");
 
   const [getTeam, { loading, error }] = useLazyQuery(queries.teamByCode, {
@@ -31,15 +31,17 @@ function MyTeam() {
         team: { _id, name },
       } = data;
 
-      feedback.open({
-        message: `Successfully joined team: ${data.team.name}`,
-        mode: "SUCCESS",
-      });
+      if (!loggedIn) {
+        feedback.open({
+          message: `Successfully joined team: ${data.team.name}`,
+          mode: "SUCCESS",
+        });
 
-      login({
-        teamId: _id,
-        teamName: name,
-      });
+        login({
+          teamId: _id,
+          teamName: name,
+        });
+      }
     },
   });
 
