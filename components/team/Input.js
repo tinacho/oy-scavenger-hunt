@@ -1,16 +1,28 @@
 import styled from "styled-components";
 import { withRouter } from "next/router";
 
-function Input({ title, value, setter, type = "text" }) {
+function Input({
+  title,
+  value,
+  setter,
+  type = "text",
+  inputProps = {},
+  className,
+}) {
   const handleChange = (e) => {
     e.preventDefault();
     setter(e.target.value);
   };
 
   return (
-    <InputBox>
-      <InputLabel>{title}</InputLabel>
-      <StyledInput value={value} onChange={handleChange} type={type} />
+    <InputBox className={className}>
+      {title && <InputLabel>{title}</InputLabel>}
+      <StyledInput
+        value={value}
+        onChange={handleChange}
+        type={type}
+        {...inputProps}
+      />
     </InputBox>
   );
 }
@@ -29,12 +41,11 @@ const InputLabel = styled.span`
 
 const StyledInput = styled.input`
   background-color: transparent;
-  border: 2px solid var(--light-secondary);
-  height: 48px;
+  border: var(--border-primary);
+  height: var(--input-height);
   border-radius: 300px;
   padding: 0 20px;
   width: 100%;
-  max-width: 500px;
 `;
 
 export default withRouter(Input);

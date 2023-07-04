@@ -1,11 +1,11 @@
-"use client";
 import { useMemo } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import CreateTeamLink from "../components/CreateTeamLink";
+import { Box } from "@/components/team/Styles";
+import ImageWithFallback from "@/components/ImageWithFallback";
 import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
-import { CldImage } from "next-cloudinary";
+import DefaultPicture from "@/public/default-profile.jpeg";
 
 function Home({ data }) {
   const orderedTeams = useMemo(() => {
@@ -33,12 +33,12 @@ function Home({ data }) {
                   <StyledLink href={`/team/${team._id}`}>
                     <LogoBox>
                       {team.logoSrc && (
-                        <CldImage
+                        <StyledImage
                           src={team.logoSrc}
                           alt="profile image"
                           width={100}
                           height={100}
-                          className="w-full h-full object-cover"
+                          fallback={DefaultPicture}
                         />
                       )}
                     </LogoBox>
@@ -51,7 +51,6 @@ function Home({ data }) {
           </tbody>
         </Table>
       </TableBox>
-      <CreateTeamLink />
     </Box>
   );
 }
@@ -59,8 +58,14 @@ function Home({ data }) {
 const Title = styled.h1`
   padding: 15px 25px;
   border-radius: 10px 10px 0 0;
-  border: 2px solid hsl(53deg, 100%, 50%);
+  border: var(--border-primary);
   border-bottom: none;
+`;
+
+const StyledImage = styled(ImageWithFallback)`
+  width; 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Table = styled.table`
@@ -69,20 +74,13 @@ const Table = styled.table`
 `;
 
 const TableBox = styled.div`
-  border: 2px solid hsl(53deg, 100%, 50%);
+  border: var(--border-primary);
   border-radius: 10px;
   background-color: rgb(10 10 10 / 0.2);
   width: 100%;
   margin-bottom: 40px;
   padding: 20px;
   padding-top: 10px;
-`;
-
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
 `;
 
 const LogoBox = styled.div`
@@ -111,6 +109,5 @@ const TeamNameHeader = styled(Cell)`
 
 export default withApiData({
   query: queries.home,
-  // discuss if we want this or if a simple refetch button is enough
   // options: { pollInterval: 3000 },
 })(Home);

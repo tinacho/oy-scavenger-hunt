@@ -1,10 +1,15 @@
 // import { Cabin, DynaPuff, Lexend, Gluten } from "next/font/google";
+import styled, { keyframes } from "styled-components";
 import { Lexend } from "next/font/google";
 import { withRouter } from "next/router";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
 import { compose } from "ramda";
+import Image from "next/image";
+
 import { SessionContext, withSessionProvider } from "@/lib/session";
+import { Button } from "./Button";
+import oy from "@/public/oy.png";
 
 // const cabin = Cabin({ subsets: ["latin"] });
 // const dyna = DynaPuff({ subsets: ["latin"] });
@@ -24,10 +29,19 @@ function Layout({ children, router }) {
   }, [loggedIn]);
 
   return (
-    <main className={`${lexend.className} text-xl`}>
-      <nav className="bg-orange-100 text-gray-800 p-12">
+    <Main className={lexend.className}>
+      <Nav>
         <ul className="flex items-center justify-between">
-          {!loggedIn && <h2>Welcome to OY Scavenger Hunt!</h2>}
+          {!loggedIn && (
+            <Greeting>
+              <StyledImage alt="ollie and yvana" src={oy} />
+              <h2>
+                Welcome to <br />
+                <strong>Ollie & Yvana</strong>&apos;s
+                <br /> Scavenger Hunt!
+              </h2>
+            </Greeting>
+          )}
           {loggedIn && (
             <>
               <li>
@@ -37,15 +51,44 @@ function Layout({ children, router }) {
                 <Link href="/team/me">My Team</Link>
               </li>
               <li>
-                <button onClick={logout}>logout</button>
+                <Button onClick={logout} text="Logout" />
               </li>
             </>
           )}
         </ul>
-      </nav>
+      </Nav>
       {children}
-    </main>
+    </Main>
   );
 }
+
+const spin = keyframes`
+    100% { transform: rotate(2turn); }
+`;
+
+const StyledImage = styled(Image)`
+  animation: ${spin} 1s forwards;
+  width: 100px;
+  margin-right: 20px;
+`;
+
+const Greeting = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  line-height: 1.2;
+  font-weight: bolder;
+`;
+
+const Nav = styled.nav`
+  padding: 20px;
+  background-color: var(--light-secondary);
+  color: var(--text-invert);
+`;
+
+const Main = styled.div`
+  overflow-x: hidden;
+`;
 
 export default compose(withRouter, withSessionProvider)(Layout);

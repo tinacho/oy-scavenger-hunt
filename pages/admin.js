@@ -4,6 +4,7 @@ import { withApiData } from "../api/withApiData";
 import { useMutation } from "@apollo/client";
 import { mutations, queries } from "@/api";
 import { useCallback } from "react";
+import { Button } from "../components/Button";
 
 function AdminView(props) {
   console.log(props.data);
@@ -37,7 +38,7 @@ function AdminView(props) {
     <div>
       <h1>Admin view</h1>
       <h2>Danger Zone</h2>
-      <button onClick={triggerReset}>reset Game</button>
+      <Button onClick={triggerReset} text="Reset game" />
     </div>
   );
 }

@@ -4,15 +4,23 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --dark-primary: rgba(14, 1, 50, 1);
     --light-primary: rgb(255, 253, 237);
+    --pink: #ff37bf;
     --light-secondary: bisque;
-    --positive: green;
-    --negative: red;
+    --positive: #13e244;
+    --negative: #f23434;
 
     --text-primary: var(--light-primary);
     --text-invert: var(--dark-primary);
+    --text-accent: var(--pink);
+
+    --input-height: 50px;
+    --max-content-width: 600px;
+
+    --border-primary: 2px solid var(--light-secondary);
   }
 
   body {
+    font-size: 20px;
     min-height: 100vh;
     color: var(--text-primary);
     background: linear-gradient(
@@ -24,18 +32,8 @@ const GlobalStyles = createGlobalStyle`
     );
   }
 
-  button,
-  [type="button"],
-  [type="reset"],
-  [type="submit"] {
-    padding: 15px 25px;
-    background-color: var(--light-secondary);
-    color: var(--text-invert);
-    border-radius: 100px;
-
-    &[disabled] {
-      opacity: 0.7;
-    }
+  strong {
+    color: var(--text-accent);
   }
 `;
 
