@@ -20,7 +20,6 @@ function TeamView({ data, isMyTeam = false }) {
     [data]
   );
 
-
   return (
     <>
       <Section>
