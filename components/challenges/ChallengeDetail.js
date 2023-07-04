@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Image from "next/image";
 import { useMutation } from "@apollo/client";
 import { mutations, queries } from "@/api";
 import { useCallback } from "react";
