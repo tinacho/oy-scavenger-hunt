@@ -1,9 +1,9 @@
-import { Strong, Member } from "./Styles";
+import { Strong, MemberItem } from "./Styles";
 import { useState } from "react";
 import { queries, mutations } from "../../api";
 import { useMutation } from "@apollo/client";
 
-function MemberRm({ data, name }) {
+function Member({ data, name }) {
   const [removeMember] = useMutation(mutations.partialUpdateTeam, {
     onCompleted: (data) => {
       console.log("updated", data);
@@ -34,11 +34,11 @@ function MemberRm({ data, name }) {
   };
 
   return (
-    <Member onClick={onClick}>
+    <MemberItem onClick={onClick}>
       <Strong>{name}</Strong>{" "}
       {removeBtn && <button onClick={onRemoveMember}>X</button>}
-    </Member>
+    </MemberItem>
   );
 }
 
-export { MemberRm };
+export default Member;

@@ -42,8 +42,8 @@ const Strong = styled.strong`
   line-height: 1;
 `;
 
-const Member = styled.li`
+const MemberItem = styled.li`
   margin-bottom: 5px;
 `;
 
-export { Box, Title, Form, Section, Strong, Member };
+export { Box, Title, Form, Section, Strong, MemberItem };
