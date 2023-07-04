@@ -17,7 +17,7 @@ function Home({ data }) {
 
   return (
     <Box>
-      <Title>Scoreboard</Title>
+      <Title>Leader board</Title>
       <TableBox>
         <Table>
           <thead>
