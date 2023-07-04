@@ -98,12 +98,7 @@ function MyTeam() {
           </Section>
         </>
       )}
-      {session.teamId && (
-        <>
-          <Title>{session.teamName}</Title>
-          <TeamView teamId={session.teamId} isMyTeam={true} />
-        </>
-      )}
+      {session.teamId && <TeamView teamId={session.teamId} isMyTeam={true} />}
     </Box>
   );
 }

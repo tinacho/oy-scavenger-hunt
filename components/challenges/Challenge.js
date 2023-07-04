@@ -19,10 +19,10 @@ const ChallengeBox = styled.div`
   }
 
   background-color: ${(props) =>
-    props.solved ? "var(--positive)" : "var(--light-primary)"};
+    props.solved ? "var(--positive-light)" : "var(--light-primary)"};
 `;
 
-export function Challenge({ challenge }) {
+export function Challenge({ challenge, isMyTeam }) {
   const [open, setOpen] = useState(false);
   const solved = !!challenge.solution;
 
@@ -36,6 +36,7 @@ export function Challenge({ challenge }) {
         <ChallengeDetail
           challenge={challenge}
           onClose={() => setOpen(false)}
+          isMyTeam={isMyTeam}
         ></ChallengeDetail>
       )}
     </>

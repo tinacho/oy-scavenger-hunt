@@ -28,15 +28,12 @@ import { useFeedback } from "../Feedback";
 //   background-color: rgb(10 10 10 / 0.5);
 // `;
 
-const ChallengeDetailBox = styled.div`
+const Box = styled.div`
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: absolute;
   width: 100%;
   min-height: 300px;
-
-  border: 2px solid var(--dark-primary);
-  border-radius: 8px;
   background-color: var(--light-primary);
   color: var(--dark-primary);
 `;
@@ -55,24 +52,26 @@ const ChallengeDetailFooter = styled.div`
 const ChallengeDetailHeader = styled.div`
   padding: 20px;
   background-color: ${(props) =>
-    props.solved ? "var(--positive)" : "var(--light-primary)"};
+    props.solved ? "var(--positive-light)" : "var(--light-primary)"};
   display: flex;
   justify-content: space-between;
 `;
 
-export function ChallengeDetail({ challenge, onClose }) {
+export function ChallengeDetail({ challenge, onClose, isMyTeam }) {
   const solved = !!challenge.solution;
 
-  const RenderComponent = solved
-    ? ChallengeDetailSolved
-    : ChallengeDetailUnsolved;
+  const RenderComponent = solved ? Solved : Unsolved;
 
   return (
-    <RenderComponent challenge={challenge} onClose={onClose}></RenderComponent>
+    <RenderComponent
+      challenge={challenge}
+      onClose={onClose}
+      isMyTeam={isMyTeam}
+    ></RenderComponent>
   );
 }
 
-function ChallengeDetailUnsolved({ challenge, onClose }) {
+function Unsolved({ challenge, onClose, isMyTeam }) {
   const { session } = useSessionContext();
   const feedback = useFeedback();
 
@@ -83,6 +82,7 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
   const [createSolution, { loading }] = useMutation(mutations.createSolution, {
     onCompleted: (data) => {
       console.log("solved!!", data);
+      onClose();
     },
     // TODO investigating updating our cache ourselves
     //https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
@@ -125,7 +125,7 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
   }, [session, challenge, media, createSolution, feedback]);
 
   return (
-    <ChallengeDetailBox>
+    <Box>
       <ChallengeDetailHeader solved={false}>
         <div>{challenge.name}</div>
         <div>possible score: {challenge.score}</div>
@@ -139,18 +139,18 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
             disabled={loading || (needsMedia && !media)}
             onClick={solveChallenge}
           >
-            solve
+            Solve
           </button>
           <button disabled={loading} onClick={onClose}>
             close
           </button>
         </>
       </ChallengeDetailFooter>
-    </ChallengeDetailBox>
+    </Box>
   );
 }
 
-function ChallengeDetailSolved({ challenge, onClose }) {
+function Solved({ challenge, onClose, isMyTeam }) {
   const feedback = useFeedback();
 
   const [deleteSolution, { loading }] = useMutation(mutations.deleteSolution, {
@@ -175,9 +175,10 @@ function ChallengeDetailSolved({ challenge, onClose }) {
       }).then(
         () => {
           feedback.open({
-            message: "challenge resetted!",
+            message: "Challenge successfully reset!",
             mode: "SUCCESS",
           });
+          onClose();
         },
         (error) => {
           feedback.open({
@@ -188,10 +189,10 @@ function ChallengeDetailSolved({ challenge, onClose }) {
         }
       );
     }
-  }, [challenge, deleteSolution, feedback]);
+  }, [challenge, deleteSolution, feedback, onClose]);
 
   return (
-    <ChallengeDetailBox>
+    <Box>
       <ChallengeDetailHeader solved={true}>
         <div>{challenge.name}</div>
         <div>score: {challenge.score}</div>
@@ -210,10 +211,10 @@ function ChallengeDetailSolved({ challenge, onClose }) {
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
         <button disabled={loading} onClick={resetChallenge}>
-          reset
+          Reset
         </button>
         <button onClick={onClose}>close</button>
       </ChallengeDetailFooter>
-    </ChallengeDetailBox>
+    </Box>
   );
 }
