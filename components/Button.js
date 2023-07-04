@@ -18,6 +18,7 @@ const StyledButton = styled.button`
   &[disabled] {
     opacity: 0.7;
   }
+  ${(props) => props.small && "width: fit-content;"}
 `;
 
 export { Button, SubmitButton };

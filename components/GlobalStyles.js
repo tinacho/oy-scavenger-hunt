@@ -20,6 +20,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    font-size: 20px;
     min-height: 100vh;
     color: var(--text-primary);
     background: linear-gradient(

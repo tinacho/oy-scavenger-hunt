@@ -86,4 +86,4 @@ const LogoFullScreen = styled.div`
     justify-content: center;
 }`;
 
-export default TeamPicture;
+export { TeamPicture };

@@ -48,7 +48,7 @@ function MyTeam() {
       e.preventDefault();
       getTeam({ variables: { code: formTeamCode.toLocaleLowerCase() } });
     },
-    [formTeamCode, getTeam]
+    [getTeam, formTeamCode]
   );
 
   if (error) {
@@ -75,7 +75,7 @@ function MyTeam() {
               <Strong> 4 letter team code</Strong>. Any member of your team can
               see the code in &quot;My Team&quot; section.
             </Text>
-            <Form>
+            <Form id="team-code-form" onSubmit={onSubmit}>
               <Input
                 value={formTeamCode}
                 setter={setFormTeamCode}
@@ -86,7 +86,7 @@ function MyTeam() {
                   placeholder: "Team Code",
                 }}
               />
-              <SubmitButton onClick={onSubmit} text="Join" />
+              <SubmitButton text="Join" form="team-code-form" />
             </Form>
           </Section>
 

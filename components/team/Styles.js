@@ -24,4 +24,26 @@ const Form = styled.form`
   width: 100%;
 `;
 
-export { Box, Title, Form };
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 40px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+`;
+
+const Strong = styled.strong`
+  color: var(--text-accent);
+  text-transform: uppercase;
+  font-size: 32px;
+  line-height: 1;
+`;
+
+const Member = styled.li`
+  margin-bottom: 5px;
+`;
+
+export { Box, Title, Form, Section, Strong, Member };

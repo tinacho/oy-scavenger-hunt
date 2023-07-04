@@ -1,12 +1,20 @@
 import { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { withRouter } from "next/router";
-import Error from "../../../components/Error";
-import Input from "../../../components/team/Input";
-import { LogoPreview } from "../../../components/team/TeamPicture";
-import { UploadWidget } from "../../../components/UploadWidget";
-import { Title, Form, Box } from "../../../components/team/Styles";
-import { SubmitButton } from "../../../components/Button";
+import Error from "@/components/Error";
+import Input from "@/components/team/Input";
+import { TeamPicture } from "@/components/team/TeamPicture";
+import { UploadWidget } from "@/components/UploadWidget";
+import {
+  Title,
+  Form,
+  Box,
+  Section,
+  Member,
+  Strong,
+} from "@/components/team/Styles";
+import { AddMemberView } from "@/components/team/AddMemberView";
+import { SubmitButton } from "@/components/Button";
 import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
 import { generateTeamCode } from "@/lib/generateTeamCode";
@@ -17,8 +25,17 @@ function CreateNewTeam({ router }) {
   const { login } = useContext(SessionContext);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [name, setName] = useState("");
+  const [members, setMembers] = useState([]);
   const [logoSrc, setLogoSrc] = useState("");
-  const [lead, setLead] = useState("");
+  const [inputVisible, setInputVisible] = useState(false);
+  const [newMemberName, setNewMemberName] = useState("");
+
+  const onAddMemberSubmit = (e) => {
+    e.preventDefault();
+    setMembers([...members, { name: newMemberName }]);
+    setInputVisible(false);
+    setNewMemberName("");
+  };
 
   const [createTeam, { loading, error }] = useMutation(mutations.createTeam, {
     onCompleted: (data) => {
@@ -45,7 +62,7 @@ function CreateNewTeam({ router }) {
         data: {
           name,
           logoSrc,
-          members: [{ name: lead }],
+          members,
           code: generateTeamCode(),
         },
       },
@@ -63,26 +80,44 @@ function CreateNewTeam({ router }) {
   return (
     <Box>
       <Title>Create new team</Title>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} id="create-team-form">
         {/* handle duplicate name error (or check before sending if the same name exists in teams) */}
-        {!logoSrc && (
-          <UploadWidget
-            uploadPreset={teamUploadPreset}
-            setUploadInfo={handleUpload}
-          >
-            {" "}
-          </UploadWidget>
-        )}
-        {logoSrc && <LogoPreview path={logoSrc} />}
-
-        <Input value={name} title="Team name:" setter={setName} />
-        <Input value={lead} title="Team lead:" setter={setLead} />
-        <SubmitButton
-          type="submit"
-          text="Create new team"
-          disabled={!(name && logoSrc && lead)}
-        />
+        <Section>
+          {logoSrc ? (
+            <TeamPicture path={logoSrc} />
+          ) : (
+            <UploadWidget
+              uploadPreset={teamUploadPreset}
+              setUploadInfo={handleUpload}
+            />
+          )}
+        </Section>
+        <Input value={name} title="Team name" setter={setName} />
       </Form>
+      <Section>
+        <h2>Members</h2>
+        <ul>
+          {members.map((member, index) => (
+            <Member key={index}>
+              <Strong>{member.name}</Strong>
+            </Member>
+          ))}
+        </ul>
+        <AddMemberView
+          inputVisible={inputVisible}
+          setInputVisible={setInputVisible}
+          newMemberName={newMemberName}
+          setNewMemberName={setNewMemberName}
+          onSubmit={onAddMemberSubmit}
+          hideIcon
+        />
+      </Section>
+      <SubmitButton
+        type="submit"
+        text="Create new team"
+        disabled={!(name && logoSrc && members.length > 0)}
+        form="create-team-form"
+      />
     </Box>
   );
 }

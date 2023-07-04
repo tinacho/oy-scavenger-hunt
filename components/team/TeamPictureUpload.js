@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { mutations } from "../../api";
-import TeamPicture from "./TeamPicture";
+import { TeamPicture } from "./TeamPicture";
 import { UploadWidget } from "../UploadWidget";
 
 const teamUploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_TEAM;

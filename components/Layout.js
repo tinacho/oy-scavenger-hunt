@@ -29,7 +29,7 @@ function Layout({ children, router }) {
   }, [loggedIn]);
 
   return (
-    <main className={`${lexend.className} text-xl`}>
+    <Main className={lexend.className}>
       <Nav>
         <ul className="flex items-center justify-between">
           {!loggedIn && (
@@ -58,7 +58,7 @@ function Layout({ children, router }) {
         </ul>
       </Nav>
       {children}
-    </main>
+    </Main>
   );
 }
 
@@ -85,6 +85,10 @@ const Nav = styled.nav`
   padding: 20px;
   background-color: var(--light-secondary);
   color: var(--text-invert);
+`;
+
+const Main = styled.div`
+  overflow-x: hidden;
 `;
 
 export default compose(withRouter, withSessionProvider)(Layout);

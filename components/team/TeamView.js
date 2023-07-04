@@ -1,12 +1,12 @@
 import { compose } from "ramda";
 import { useState } from "react";
-import styled from "styled-components";
 import { queries, withApiData } from "../../api";
 import { getTeamScore } from "@/lib/getTeamScore";
-import AddMember from "./AddMember";
+import { AddMember } from "./AddMember";
 import TeamPictureUpload from "./TeamPictureUpload";
 import { Challenges } from "@/components/challenges";
 import { Button } from "../Button";
+import { Section, Strong, Member } from "./Styles";
 
 function TeamView({ data, isMyTeam = false }) {
   const [scorecardOpen, setScorecardOpen] = useState(false);
@@ -20,6 +20,7 @@ function TeamView({ data, isMyTeam = false }) {
         <Button
           text={scorecardOpen ? "Close scorecard" : "Open scorecard"}
           onClick={scorecardOpen ? closeScorecard : openScorecard}
+          small
         />
         {scorecardOpen && (
           <Challenges
@@ -60,26 +61,6 @@ function TeamView({ data, isMyTeam = false }) {
     </>
   );
 }
-
-const Member = styled.li`
-  margin-bottom: 5px;
-`;
-
-const Strong = styled.strong`
-  color: var(--text-accent);
-  text-transform: uppercase;
-  font-size: 32px;
-`;
-
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 40px;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
 
 export default compose(
   withApiData({

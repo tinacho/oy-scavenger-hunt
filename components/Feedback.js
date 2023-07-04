@@ -27,7 +27,7 @@ function FeedbackProvider({ children }) {
       open: messageConsumer("open"),
       close: messageConsumer("close"),
     }),
-    []
+    [messageConsumer]
   );
 
   return (
@@ -70,6 +70,7 @@ const FeedbackDisplayBox = styled.div`
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
+  z-index: 10;
 `;
 
 const FeedbackDisplayMessage = styled.div`
