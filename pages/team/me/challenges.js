@@ -1,5 +1,5 @@
 import { queries, withApiData } from "@/api";
-import { Challenges } from "@/components/cchallenges";
+import { Challenges } from "@/components/challenges";
 import { Title } from "@/components/team/Styles";
 import { addTeamSolutionsToChallenges } from "@/lib/addTeamSolutionsToChallenges";
 import { withSessionState } from "@/lib/session";

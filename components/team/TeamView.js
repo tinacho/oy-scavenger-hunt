@@ -4,7 +4,7 @@ import { queries, withApiData } from "../../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 import { AddMember } from "./AddMember";
 import TeamPictureUpload from "./TeamPictureUpload";
-import { Challenges } from "@/components/cchallenges";
+import { Challenges } from "@/components/challenges";
 import { Button } from "../Button";
 import { Section, Strong, Member } from "./Styles";
 

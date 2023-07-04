@@ -9,12 +9,13 @@ function SubmitButton(props) {
 }
 
 const StyledButton = styled.button`
-  padding: 13px 21px;
+  padding: 13px 22px 14px;
   background-color: var(--light-secondary);
   color: var(--text-invert);
   border-radius: 100px;
   min-height: var(--input-height);
   width: 100%;
+  margin: auto;
   &[disabled] {
     opacity: 0.7;
   }

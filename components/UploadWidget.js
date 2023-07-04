@@ -37,7 +37,11 @@ function UploadWidget({ options, uploadPreset, setUploadInfo }) {
               open();
             }
             return (
-              <Button onClick={handleOnClick} text="Upload a Team Picture" />
+              <Button
+                onClick={handleOnClick}
+                text="Upload a Team Picture"
+                small
+              />
             );
           }}
         </CldUploadWidget>
