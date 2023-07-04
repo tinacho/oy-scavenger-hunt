@@ -117,14 +117,13 @@ const StyledImage = styled(Image)`
 const Greeting = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   line-height: 1.2;
   font-weight: bolder;
 `;
 
 const Nav = styled.nav`
-  padding: 20px;
   background-color: var(--light-secondary);
   color: var(--text-invert);
   display: flex;
@@ -152,6 +151,7 @@ const Menu = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-bottom: 15px;
 `;
 
 const InnerBox = styled.div`
@@ -161,7 +161,7 @@ const InnerBox = styled.div`
   width: 100%;
   max-width: var(--max-content-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 10px 20px;
 `;
 
 const MenuItemStyles = `
