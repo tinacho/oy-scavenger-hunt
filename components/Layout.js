@@ -130,7 +130,6 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   mask: radial-gradient(5.38px at 50% calc(100% - 7.6px), #000 99%, #0000 101%)
       calc(50% - 8px) 0/16px 100%,
     radial-gradient(5.38px at 50% calc(100% + 3.6px), #0000 99%, #000 101%) 50%
