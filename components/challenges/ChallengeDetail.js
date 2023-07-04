@@ -5,6 +5,7 @@ import { mutations, queries } from "@/api";
 import { useCallback } from "react";
 import { useSessionContext } from "@/lib/session";
 import { useFeedback } from "../Feedback";
+import { CloseIcon, CheckmarkIcon } from "../icons";
 
 // const Box = styled.div`
 //   position: fixed;
@@ -38,18 +39,18 @@ const Box = styled.div`
   color: var(--dark-primary);
 `;
 
-const ChallengeDetailBody = styled.div`
+const Content = styled.div`
   padding: 20px;
   flex-grow: 1;
 `;
 
-const ChallengeDetailFooter = styled.div`
+const Footer = styled.div`
   padding: 20px;
   display: flex;
   justify-content: space-between;
 `;
 
-const ChallengeDetailHeader = styled.div`
+const Header = styled.div`
   padding: 20px;
   background-color: ${(props) =>
     props.solved ? "var(--positive-light)" : "var(--light-primary)"};
@@ -126,26 +127,26 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
 
   return (
     <Box>
-      <ChallengeDetailHeader solved={false}>
+      <Header solved={false}>
         <div>{challenge.name}</div>
+        <button onClick={onClose} disabled={loading}>
+          <CloseIcon />
+        </button>
+      </Header>
+      <Content>
         <div>possible score: {challenge.score}</div>
-      </ChallengeDetailHeader>
-      <ChallengeDetailBody>
         {/* TODO display upload widget based on challenge type */}
-      </ChallengeDetailBody>
-      <ChallengeDetailFooter>
-        <>
+      </Content>
+      <Footer>
+        {isMyTeam && (
           <button
             disabled={loading || (needsMedia && !media)}
             onClick={solveChallenge}
           >
             Solve
           </button>
-          <button disabled={loading} onClick={onClose}>
-            close
-          </button>
-        </>
-      </ChallengeDetailFooter>
+        )}
+      </Footer>
     </Box>
   );
 }
@@ -193,11 +194,14 @@ function Solved({ challenge, onClose, isMyTeam }) {
 
   return (
     <Box>
-      <ChallengeDetailHeader solved={true}>
+      <Header solved={true}>
         <div>{challenge.name}</div>
+        <button onClick={onClose}>
+          <CloseIcon />
+        </button>
+      </Header>
+      <Content>
         <div>score: {challenge.score}</div>
-      </ChallengeDetailHeader>
-      <ChallengeDetailBody>
         {/* // TODO distinguish between vids and pics */}
         {challenge.solution.media && (
           <Image
@@ -208,13 +212,14 @@ function Solved({ challenge, onClose, isMyTeam }) {
           />
         )}
         {/* TODO display of the solution if solved, else upload widget if needed */}
-      </ChallengeDetailBody>
-      <ChallengeDetailFooter>
-        <button disabled={loading} onClick={resetChallenge}>
-          Reset
-        </button>
-        <button onClick={onClose}>close</button>
-      </ChallengeDetailFooter>
+      </Content>
+      <Footer>
+        {isMyTeam && (
+          <button disabled={loading} onClick={resetChallenge}>
+            Reset
+          </button>
+        )}
+      </Footer>
     </Box>
   );
 }
