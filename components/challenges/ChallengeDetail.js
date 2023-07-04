@@ -5,6 +5,9 @@ import { mutations, queries } from "@/api";
 import { useCallback } from "react";
 import { useSessionContext } from "@/lib/session";
 import { useFeedback } from "../Feedback";
+import { useState } from "react";
+import { UploadWidget } from "../UploadWidget";
+import { CldImage, CldVideoPlayer } from "next-cloudinary";
 
 // const Box = styled.div`
 //   position: fixed;
@@ -32,7 +35,7 @@ const ChallengeDetailBox = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 100%;
+  width: 700px;
   min-height: 300px;
 
   border: 2px solid var(--dark-primary);
@@ -78,7 +81,11 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
 
   // TODO add upload widget in here and the detail body
   const needsMedia = challenge.type !== "SIMPLE";
-  const media = "https://images.dog.ceo/breeds/mastiff-bull/n02108422_1548.jpg";
+  const [media, setMedia] = useState(null);
+
+  const handleMediaUpload = ({ path }) => {
+    setMedia(path);
+  };
 
   const [createSolution, { loading }] = useMutation(mutations.createSolution, {
     onCompleted: (data) => {
@@ -132,6 +139,36 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
       </ChallengeDetailHeader>
       <ChallengeDetailBody>
         {/* TODO display upload widget based on challenge type */}
+        {challenge.type !== "SIMPLE" && !media && (
+          <UploadWidget
+            setUploadInfo={handleMediaUpload}
+            buttonText={"Upload a " + (challenge.type === "IMAGE" ? "Picture" : "Video")}
+            options={{
+              sources: [
+                "local",
+                "camera",
+              ],
+              resourceType: (challenge.type === "IMAGE" ? "image" : "video"),
+            }}
+          ></UploadWidget>
+        )}
+        {media && (
+          challenge.type === "IMAGE" ? (
+            <CldImage
+              src={media}
+              alt="challenge picture"
+              width={300}
+              height={300}
+            ></CldImage>
+          ) : challenge.type === "VIDEO" && (
+            <CldVideoPlayer
+              src={media}
+              alt="challenge video"
+              width={300}
+              height={300}
+            ></CldVideoPlayer>
+          )
+        )}
       </ChallengeDetailBody>
       <ChallengeDetailFooter>
         <>
@@ -199,12 +236,21 @@ function ChallengeDetailSolved({ challenge, onClose }) {
       <ChallengeDetailBody>
         {/* // TODO distinguish between vids and pics */}
         {challenge.solution.media && (
-          <Image
-            src={challenge.solution.media}
-            alt="profile image"
-            height={300}
-            width={300}
-          />
+          challenge.type === "IMAGE" ? (
+            <CldImage
+              src={challenge.solution.media}
+              alt="challenge picture"
+              width={300}
+              height={300}
+            ></CldImage>
+          ) : (
+            <CldVideoPlayer
+              src={challenge.solution.media}
+              alt="challenge video"
+              width={300}
+              height={300}
+            ></CldVideoPlayer>
+          )
         )}
         {/* TODO display of the solution if solved, else upload widget if needed */}
       </ChallengeDetailBody>
