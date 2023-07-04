@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CldUploadWidget } from "next-cloudinary";
+import { Button } from "./Button";
 
 function UploadWidget({ options, uploadPreset, setUploadInfo }) {
   const [uploadInfo, updateUploadInfo] = useState();
@@ -36,9 +37,7 @@ function UploadWidget({ options, uploadPreset, setUploadInfo }) {
               open();
             }
             return (
-              <button className="button" onClick={handleOnClick}>
-                Upload a Team Picture
-              </button>
+              <Button onClick={handleOnClick} text="Upload a Team Picture" />
             );
           }}
         </CldUploadWidget>

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { CldImage } from "next-cloudinary";
+import { Button } from "../Button";
 
 function LogoActions({ handlePicChange }) {
   return (
     <LogoActionBtnGrp>
-      <LogoActionBtn onClick={handlePicChange}>Change Picture</LogoActionBtn>
+      <Button onClick={handlePicChange} text="Change Picture" />
       {/* <LogoActionBtn onClick={handleFullScreen}>
                 Full Screen
             </LogoActionBtn> */}
@@ -62,8 +63,8 @@ function TeamPicture({
 const LogoBox = styled.div`
   border-radius: 300px;
   overflow: hidden;
-  width: 128px;
-  height: 128px;
+  width: 200px;
+  height: 200px;
   margin-left: auto;
   margin-right: auto;
 `;

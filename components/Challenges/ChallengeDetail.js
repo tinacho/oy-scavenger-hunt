@@ -6,6 +6,28 @@ import { useCallback } from "react";
 import { useSessionContext } from "@/lib/session";
 import { useFeedback } from "../Feedback";
 
+// const Box = styled.div`
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   padding: 20px;
+//   padding-top: 60px;
+//   overflow-y: auto;
+//   display: flex;
+//   flex-direction: column;
+// `;
+
+// const Overlay = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-color: rgb(10 10 10 / 0.5);
+// `;
+
 const ChallengeDetailBox = styled.div`
   display: flex;
   flex-direction: column;
