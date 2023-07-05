@@ -12,14 +12,15 @@ const Box = styled.div`
   margin-top: 10px;
 `;
 
-export function Challenges({ challenges, isMyTeam }) {
+export function Challenges({ challenges, team, editable }) {
   return (
     <Box>
       {challenges.map((challenge) => (
         <Challenge
           key={challenge._id}
           challenge={challenge}
-          isMyTeam={isMyTeam}
+          team={team}
+          editable={editable}
         ></Challenge>
       ))}
     </Box>
