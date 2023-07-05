@@ -10,7 +10,7 @@ import {
   Form,
   Box,
   Section,
-  Member,
+  MemberItem,
   Strong,
 } from "@/components/team/Styles";
 import { AddMemberView } from "@/components/team/AddMemberView";
@@ -99,9 +99,9 @@ function CreateNewTeam({ router }) {
         <h2>Members</h2>
         <ul>
           {members.map((member, index) => (
-            <Member key={index}>
+            <MemberItem key={index}>
               <Strong>{member.name}</Strong>
-            </Member>
+            </MemberItem>
           ))}
         </ul>
         <AddMemberView
