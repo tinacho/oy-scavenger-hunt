@@ -18,6 +18,7 @@ const StyledButton = styled.button`
   margin: auto;
   &[disabled] {
     opacity: 0.7;
+    background-color: #d0cbc5;
   }
   ${(props) => props.small && "width: fit-content;"}
 `;

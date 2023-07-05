@@ -46,6 +46,14 @@ const InnerBox = styled.div`
 
 const Content = styled.div`
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+
+  .cld-video-player {
+    height: 100% !important;
+  }
 `;
 
 const Header = styled.div`
@@ -176,8 +184,8 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
                 <CldVideoPlayer
                   src={media}
                   alt="challenge video"
-                  width={300}
-                  height={300}
+                  width="300"
+                  height="300"
                 ></CldVideoPlayer>
               )
             ))}
@@ -265,8 +273,8 @@ function Solved({ challenge, onClose, isMyTeam }) {
               <CldVideoPlayer
                 src={challenge.solution.media}
                 alt="challenge video"
-                width={300}
-                height={300}
+                width="300"
+                height="300"
               ></CldVideoPlayer>
             ))}
         </Content>
