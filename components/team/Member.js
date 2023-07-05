@@ -5,7 +5,7 @@ import { queries, mutations } from "../../api";
 import { useMutation } from "@apollo/client";
 import { CloseIcon } from "../icons";
 
-function Member({ data, name }) {
+function Member({ data, name, isMyTeam }) {
   const [removeMember] = useMutation(mutations.partialUpdateTeam, {
     onCompleted: (data) => {
       console.log("updated", data);
@@ -37,9 +37,9 @@ function Member({ data, name }) {
   return (
     <StyledMemberItem onClick={onClick}>
       <Strong>{name}</Strong>{" "}
-      {removeBtn && (
+      {removeBtn && isMyTeam && (
         <Button onClick={onRemoveMember} small>
-          <CloseIcon />
+          <StyledIcon />
         </Button>
       )}
     </StyledMemberItem>
@@ -47,8 +47,8 @@ function Member({ data, name }) {
 }
 
 const Button = styled.button`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 100px;
   background-color: #fff;
   display: flex;
@@ -57,6 +57,11 @@ const Button = styled.button`
   margin-left: 10px;
   color: var(--text-invert);
   background-color: var(--light-secondary);
+}`;
+
+const StyledIcon = styled(CloseIcon)`
+  width: 22px;
+  height: 22px;
 }`;
 
 const StyledMemberItem = styled(MemberItem)`
