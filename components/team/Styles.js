@@ -46,4 +46,19 @@ const MemberItem = styled.li`
   margin-bottom: 5px;
 `;
 
-export { Box, Title, Form, Section, Strong, MemberItem };
+const StyledButton = styled.button`
+  padding: 13px 22px;
+  background-color: var(--light-secondary);
+  color: var(--text-invert);
+  border-radius: 100px;
+  min-height: var(--input-height);
+  width: 100%;
+  margin: auto;
+  &[disabled] {
+    opacity: 0.7;
+    background-color: #d0cbc5;
+  }
+  ${(props) => props.small && "width: fit-content;"}
+`;
+
+export { Box, Title, Form, Section, Strong, MemberItem, StyledButton };
