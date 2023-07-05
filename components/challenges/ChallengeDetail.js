@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import Image from "next/image";
+import { useState } from "react";
+import { CldImage, CldVideoPlayer } from "next-cloudinary";
 import { useMutation } from "@apollo/client";
 import { mutations, queries } from "@/api";
 import { useCallback } from "react";
@@ -7,6 +8,7 @@ import { useSessionContext } from "@/lib/session";
 import { useFeedback } from "../Feedback";
 import { CloseIcon } from "../icons";
 import { Button } from "../Button";
+import { UploadWidget } from "../UploadWidget";
 import { Footer, StyledCheckmark, Points } from "./Styles";
 
 const Box = styled.div`
@@ -88,7 +90,11 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
 
   // TODO add upload widget in here and the detail body
   const needsMedia = challenge.type !== "SIMPLE";
-  const media = "https://images.dog.ceo/breeds/mastiff-bull/n02108422_1548.jpg";
+  const [media, setMedia] = useState(null);
+
+  const handleMediaUpload = ({ path }) => {
+    setMedia(path);
+  };
 
   const [createSolution, { loading }] = useMutation(mutations.createSolution, {
     onCompleted: (data) => {
@@ -145,7 +151,36 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
           </button>
         </Header>
         <Content>
-          {/* TODO display upload widget based on challenge type */}
+          {challenge.type !== "SIMPLE" && !media && (
+            <UploadWidget
+              setUploadInfo={handleMediaUpload}
+              buttonText={
+                "Upload a " + (challenge.type === "IMAGE" ? "Picture" : "Video")
+              }
+              options={{
+                sources: ["local", "camera"],
+                resourceType: challenge.type === "IMAGE" ? "image" : "video",
+              }}
+            ></UploadWidget>
+          )}
+          {media &&
+            (challenge.type === "IMAGE" ? (
+              <CldImage
+                src={media}
+                alt="challenge picture"
+                width={300}
+                height={300}
+              ></CldImage>
+            ) : (
+              challenge.type === "VIDEO" && (
+                <CldVideoPlayer
+                  src={media}
+                  alt="challenge video"
+                  width={300}
+                  height={300}
+                ></CldVideoPlayer>
+              )
+            ))}
         </Content>
         <Footer>
           <StyledPoints
@@ -218,17 +253,22 @@ function Solved({ challenge, onClose, isMyTeam }) {
           </button>
         </Header>
         <Content>
-          <div>score: {challenge.score}</div>
-          {/* // TODO distinguish between vids and pics */}
-          {challenge.solution.media && (
-            <Image
-              src={challenge.solution.media}
-              alt="profile image"
-              height={300}
-              width={300}
-            />
-          )}
-          {/* TODO display of the solution if solved, else upload widget if needed */}
+          {challenge.solution.media &&
+            (challenge.type === "IMAGE" ? (
+              <CldImage
+                src={challenge.solution.media}
+                alt="challenge picture"
+                width={300}
+                height={300}
+              ></CldImage>
+            ) : (
+              <CldVideoPlayer
+                src={challenge.solution.media}
+                alt="challenge video"
+                width={300}
+                height={300}
+              ></CldVideoPlayer>
+            ))}
         </Content>
         <Footer>
           <StyledPoints
