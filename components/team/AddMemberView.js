@@ -47,7 +47,8 @@ const Button = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 100px;
-  background-color: var(--text-accent);
+  color: var(--text-invert);
+  background-color: var(--light-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
