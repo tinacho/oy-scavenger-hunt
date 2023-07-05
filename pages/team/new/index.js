@@ -62,7 +62,10 @@ function CreateNewTeam({ router }) {
         data: {
           name,
           logoSrc,
-          members,
+          members:
+            newMemberName.length > 1
+              ? [...members, { name: newMemberName }]
+              : members,
           code: generateTeamCode(),
         },
       },
@@ -116,7 +119,9 @@ function CreateNewTeam({ router }) {
       <SubmitButton
         type="submit"
         text="Create new team"
-        disabled={!(name && logoSrc && members.length > 0)}
+        disabled={
+          !(name && logoSrc && (members.length > 0 || newMemberName.length > 1))
+        }
         form="create-team-form"
       />
     </Box>
