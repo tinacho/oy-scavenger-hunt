@@ -27,14 +27,5 @@ export const home = gql`
         }
       }
     }
-    allChallenges {
-      data {
-        _id
-        type
-        description
-        name
-        score
-      }
-    }
   }
 `;

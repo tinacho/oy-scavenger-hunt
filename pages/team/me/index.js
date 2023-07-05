@@ -6,7 +6,7 @@ import CreateTeamLink from "@/components/CreateTeamLink";
 import { queries } from "@/api";
 import Input from "@/components/team/Input";
 import Error from "@/components/Error";
-import { Title, Form, Box } from "@/components/team/Styles";
+import { Title, Form, Box } from "@/components/Styles";
 import TeamView from "@/components/team/TeamView";
 import { SubmitButton } from "@/components/Button";
 import { useFeedback } from "@/components/Feedback";

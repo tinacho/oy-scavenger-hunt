@@ -7,6 +7,7 @@ const Footer = styled.div`
   margin-top: auto;
   word-break: break;
   overflow-wrap: break-word;
+  margin-top: auto;
 `;
 
 const Points = styled.div`
