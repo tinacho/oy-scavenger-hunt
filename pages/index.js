@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import styled from "styled-components";
+import { sortWith, descend, prop } from "ramda";
 import Link from "next/link";
 import { Box } from "@/components/team/Styles";
 import ImageWithFallback from "@/components/ImageWithFallback";
@@ -7,12 +8,18 @@ import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 import DefaultPicture from "@/public/default-profile.jpeg";
 
+const sortByScore = sortWith([descend(prop("score"))]);
+
 function Home({ data }) {
   const orderedTeams = useMemo(() => {
-    if (data?.allTeams?.data) {
-      return data.allTeams.data;
+    if (!data?.allTeams?.data) {
+      return [];
     }
-    return [];
+    return sortByScore(
+      [...data.allTeams.data].map((team) => {
+        return { ...team, score: getTeamScore(team) };
+      })
+    );
   }, [data]);
 
   return (
@@ -45,7 +52,7 @@ function Home({ data }) {
                     <span>{team.name}</span>
                   </StyledLink>
                 </Cell>
-                <Cell>{getTeamScore(team)}</Cell>
+                <Cell>{team.score}</Cell>
               </tr>
             ))}
           </tbody>
