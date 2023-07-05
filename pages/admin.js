@@ -60,6 +60,7 @@ function AdminView(props) {
     return createTeam({
       variables: {
         data: GAME_MASTER,
+      },
     });
   };
 

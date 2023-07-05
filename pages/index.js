@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { sortWith, descend, prop, pipe, pathOr, map } from "ramda";
+import { sortWith, descend, prop, pipe, pathOr, map, filter } from "ramda";
 import Link from "next/link";
 import { Box, Title, StyledButton } from "@/components/Styles";
 import { RefreshIcon } from "@/components/icons";
@@ -7,10 +7,12 @@ import ImageWithFallback from "@/components/ImageWithFallback";
 import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 import DefaultPicture from "@/public/default-profile.jpeg";
+import { GAME_MASTER } from "@/lib/constants";
 
 const getOrderedTeams = pipe(
   pathOr([], ["allTeams", "data"]),
   map((team) => ({ ...team, score: getTeamScore(team) })),
+  filter((team) => team.name !== GAME_MASTER.name),
   sortWith([descend(prop("score"))])
 );
 
