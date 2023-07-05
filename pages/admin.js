@@ -100,7 +100,13 @@ function AdminView(props) {
       // cant be arsed to handle all that state bs so we just reload
       window.location.href = window.location.href;
     }
-  }, [deleteAllSolutions, deleteAllChallenges, deleteAllTeams]);
+  }, [
+    deleteAllSolutions,
+    deleteAllChallenges,
+    deleteAllTeams,
+    createChallenges,
+    createGameMasterTeam,
+  ]);
 
   return (
     <div>
