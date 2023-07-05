@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { PlusIcon } from "@/components/icons";
 import Input from "@/components/team/Input";
 import { SubmitButton } from "@/components/Button";
-import { Form } from "./Styles";
+import { Form } from "../Styles";
 
 function AddMemberView({
   inputVisible,
