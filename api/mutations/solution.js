@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const deleteSolution = gql`
   mutation deleteSolution($id: ID!) {
@@ -6,7 +6,7 @@ export const deleteSolution = gql`
       _id
     }
   }
-`
+`;
 
 // create a solution of a team and challenge (connect values are _ids of the team and the challenge)
 // data: {
@@ -26,4 +26,4 @@ export const createSolution = gql`
       media
     }
   }
-`
+`;
