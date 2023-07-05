@@ -92,6 +92,16 @@ export function ChallengeDetail({ team, challenge, onClose, editable }) {
   );
 }
 
+function getMediaUrl(resultInfo) {
+  if (resultInfo.resource_type === "video") {
+    return resultInfo.secure_url.replace(
+      new RegExp(`.${resultInfo.format}$`),
+      ".mp4"
+    );
+  }
+  return resultInfo.secure_url;
+}
+
 function Unsolved({ challenge, team, onClose, editable }) {
   const feedback = useFeedback();
 
@@ -99,8 +109,8 @@ function Unsolved({ challenge, team, onClose, editable }) {
   const needsMedia = challenge.type !== "SIMPLE";
   const [media, setMedia] = useState(null);
 
-  const handleMediaUpload = ({ path }) => {
-    setMedia(path);
+  const handleMediaUpload = (info) => {
+    setMedia(getMediaUrl(info));
   };
 
   const [createSolution, { loading }] = useMutation(mutations.createSolution, {
