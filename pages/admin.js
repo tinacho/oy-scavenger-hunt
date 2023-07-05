@@ -6,6 +6,7 @@ import { mutations, queries } from "@/api";
 import { useCallback } from "react";
 import { Button } from "../components/Button";
 import { CHALLENGES } from "@/lib/challenges";
+import { useFeedback } from "@/components/Feedback";
 
 const deleteAll = (mutation, data) => {
   return () => {
@@ -23,6 +24,7 @@ const deleteAll = (mutation, data) => {
 
 function AdminView(props) {
   console.log(props.data);
+  const feedback = useFeedback();
 
   const solutions = props.data.allSolutions.data;
   const challenges = props.data.allChallenges.data;
@@ -36,8 +38,8 @@ function AdminView(props) {
   const deleteAllChallenges = deleteAll(deleteChallenge, challenges);
   const deleteAllTeams = deleteAll(deleteTeam, teams);
 
-  const createChallenge = useMutation(mutations.createChallenge);
-  const createTeam = useMutation(mutations.createTeam);
+  const [createChallenge] = useMutation(mutations.createChallenge);
+  const [createTeam] = useMutation(mutations.createTeam);
 
   const createChallenges = () => {
     return Promise.all(
@@ -86,19 +88,28 @@ function AdminView(props) {
   }, [deleteAllSolutions]);
 
   const triggerResetGame = useCallback(async () => {
-    if (
-      confirm(
-        "Are you sure you want to reset the game? All teams together with their solutions will be reset!"
-      )
-    ) {
-      await deleteAllSolutions();
-      await deleteAllChallenges();
-      await deleteAllTeams();
-      await createChallenges();
-      await createGameMasterTeam();
+    try {
+      if (
+        confirm(
+          "Are you sure you want to reset the game? All teams together with their solutions will be reset!"
+        )
+      ) {
+        await deleteAllSolutions();
+        await deleteAllChallenges();
+        await deleteAllTeams();
+        await createChallenges();
+        await createGameMasterTeam();
 
-      // cant be arsed to handle all that state bs so we just reload
-      window.location.href = window.location.href;
+        feedback.open({
+          message: "game reset done!",
+          mode: "SUCCESS",
+        });
+        // cant be arsed to handle all that state bs so we just reload
+        window.location.href = window.location.href;
+      }
+    } catch (e) {
+      console.error(e, e.stack);
+      feedback.open({ message: e.message, mode: "ERROR" });
     }
   }, [
     deleteAllSolutions,
