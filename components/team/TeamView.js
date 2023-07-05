@@ -37,6 +37,7 @@ function TeamView({ data, isMyTeam = false }) {
             isOpen={scorecardOpen}
             closeScorecard={closeScorecard}
             isMyTeam={isMyTeam}
+            teamName={data.team.name}
           />
         )}
       </Section>

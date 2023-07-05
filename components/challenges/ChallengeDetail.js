@@ -78,7 +78,7 @@ const StyledButton = styled(Button)`
   margin-left: auto;
 `;
 
-export function ChallengeDetail({ challenge, onClose, isMyTeam }) {
+export function ChallengeDetail({ challenge, onClose, isMyTeam, teamName }) {
   const solved = !!challenge.solution;
 
   const RenderComponent = solved ? Solved : Unsolved;
@@ -88,11 +88,12 @@ export function ChallengeDetail({ challenge, onClose, isMyTeam }) {
       challenge={challenge}
       onClose={onClose}
       isMyTeam={isMyTeam}
+      teamName={teamName}
     ></RenderComponent>
   );
 }
 
-function Unsolved({ challenge, onClose, isMyTeam }) {
+function Unsolved({ challenge, onClose, isMyTeam, teamName }) {
   const { session } = useSessionContext();
   const feedback = useFeedback();
 
@@ -168,6 +169,7 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
               options={{
                 sources: ["local", "camera"],
                 resourceType: challenge.type === "IMAGE" ? "image" : "video",
+                tags: [teamName],
               }}
             ></UploadWidget>
           )}

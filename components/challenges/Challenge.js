@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ChallengeDetail } from "./ChallengeDetail";
 import { Points, StyledCheckmark, Footer } from "./Styles";
 
-export function Challenge({ challenge, isMyTeam }) {
+export function Challenge({ challenge, isMyTeam, teamName }) {
   const [open, setOpen] = useState(false);
   const solved = !!challenge.solution;
 
@@ -21,6 +21,7 @@ export function Challenge({ challenge, isMyTeam }) {
           challenge={challenge}
           onClose={() => setOpen(false)}
           isMyTeam={isMyTeam}
+          teamName={teamName}
         ></ChallengeDetail>
       )}
     </>
