@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { Box, Title, StyledButton } from "@/components/team/Styles";
+import { Box, Title, StyledButton } from "@/components/Styles";
 import { RefreshIcon } from "@/components/icons";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { queries, withApiData } from "../api";

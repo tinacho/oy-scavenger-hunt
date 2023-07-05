@@ -1,4 +1,4 @@
-import { StyledButton } from "./team/Styles";
+import { StyledButton } from "./Styles";
 
 function Button({ text = "", ...rest }) {
   return <StyledButton {...rest}>{text}</StyledButton>;

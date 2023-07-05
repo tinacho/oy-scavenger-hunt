@@ -12,7 +12,7 @@ import {
   Section,
   MemberItem,
   Strong,
-} from "@/components/team/Styles";
+} from "@/components/Styles";
 import { AddMemberView } from "@/components/team/AddMemberView";
 import { SubmitButton } from "@/components/Button";
 import { mutations } from "../../../api";
