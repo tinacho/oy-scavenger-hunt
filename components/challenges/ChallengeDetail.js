@@ -167,7 +167,7 @@ function Unsolved({ challenge, team, onClose, editable }) {
               options={{
                 sources: ["local", "camera"],
                 resourceType: challenge.type === "IMAGE" ? "image" : "video",
-                tags: [teamName],
+                tags: [team.name],
               }}
             ></UploadWidget>
           )}
