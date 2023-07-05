@@ -42,3 +42,11 @@ export const partialUpdateTeam = gql`
     }
   }
 `;
+
+export const deleteTeam = gql`
+  mutation deleteTeam($id: ID!) {
+    deleteTeam(id: $id) {
+      _id
+    }
+  }
+`;
