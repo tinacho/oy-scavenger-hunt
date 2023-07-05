@@ -9,9 +9,12 @@ import { Challenges } from "@/components/challenges";
 import { Button } from "../Button";
 import { Section, Strong, Title } from "../Styles";
 import Member from "./Member";
+import { useSessionContext } from "@/lib/session";
 
 function TeamView({ data, isMyTeam = false }) {
   const [scorecardOpen, setScorecardOpen] = useState(false);
+  const session = useSessionContext();
+  const { isGameMaster } = session;
   const openScorecard = () => setScorecardOpen(true);
   const closeScorecard = () => setScorecardOpen(false);
 
@@ -34,10 +37,10 @@ function TeamView({ data, isMyTeam = false }) {
         {scorecardOpen && (
           <Challenges
             challenges={challengesWithSolutions}
+            team={data.team}
             isOpen={scorecardOpen}
             closeScorecard={closeScorecard}
-            isMyTeam={isMyTeam}
-            teamName={data.team.name}
+            editable={isMyTeam || isGameMaster}
           />
         )}
       </Section>

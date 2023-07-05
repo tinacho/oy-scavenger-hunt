@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import { mutations, queries } from "@/api";
 import { useCallback } from "react";
 import { Button } from "../components/Button";
-import { CHALLENGES } from "@/lib/challenges";
+import { CHALLENGES, GAME_MASTER } from "@/lib/constants";
 import { useFeedback } from "@/components/Feedback";
 
 const deleteAll = (mutation, data) => {
@@ -59,17 +59,7 @@ function AdminView(props) {
   const createGameMasterTeam = () => {
     return createTeam({
       variables: {
-        data: {
-          name: "Game Master",
-          members: [
-            { name: "Ollie" },
-            { name: "Yvana" },
-            { name: "Tina" },
-            { name: "Jan" },
-            { name: "Johannes" },
-          ],
-          code: "hans",
-        },
+        data: GAME_MASTER,
       },
     });
   };
