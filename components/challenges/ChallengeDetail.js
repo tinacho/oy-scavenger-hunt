@@ -159,7 +159,7 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
           </button>
         </Header>
         <Content>
-          {challenge.type !== "SIMPLE" && !media && (
+          {isMyTeam && challenge.type !== "SIMPLE" && !media && (
             <UploadWidget
               setUploadInfo={handleMediaUpload}
               buttonText={
