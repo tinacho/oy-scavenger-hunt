@@ -10,7 +10,7 @@ import {
   Form,
   Box,
   Section,
-  Member,
+  MemberItem,
   Strong,
 } from "@/components/team/Styles";
 import { AddMemberView } from "@/components/team/AddMemberView";
@@ -62,7 +62,10 @@ function CreateNewTeam({ router }) {
         data: {
           name,
           logoSrc,
-          members,
+          members:
+            newMemberName.length > 1
+              ? [...members, { name: newMemberName }]
+              : members,
           code: generateTeamCode(),
         },
       },
@@ -99,9 +102,9 @@ function CreateNewTeam({ router }) {
         <h2>Members</h2>
         <ul>
           {members.map((member, index) => (
-            <Member key={index}>
+            <MemberItem key={index}>
               <Strong>{member.name}</Strong>
-            </Member>
+            </MemberItem>
           ))}
         </ul>
         <AddMemberView
@@ -116,7 +119,9 @@ function CreateNewTeam({ router }) {
       <SubmitButton
         type="submit"
         text="Create new team"
-        disabled={!(name && logoSrc && members.length > 0)}
+        disabled={
+          !(name && logoSrc && (members.length > 0 || newMemberName.length > 1))
+        }
         form="create-team-form"
       />
     </Box>
