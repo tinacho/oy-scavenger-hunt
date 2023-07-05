@@ -52,7 +52,7 @@ const MODE_MAPPER = {
     color: "var(--text-primary)",
   },
   SUCCESS: {
-    backgroundColor: "var(--positive)",
+    backgroundColor: "var(--positive-dark)",
     color: "var(--text-primary)",
   },
 };
@@ -100,7 +100,7 @@ function FeedbackDisplay() {
   }, []);
 
   const open = useCallback(
-    ({ message, mode = "INFO", timeout = 4000, onClose = defaultCb }) => {
+    ({ message, mode = "INFO", timeout = 3000, onClose = defaultCb }) => {
       clearTimeout(timeoutRef.current);
       if (timeout !== null) {
         timeoutRef.current = setTimeout(close, timeout);

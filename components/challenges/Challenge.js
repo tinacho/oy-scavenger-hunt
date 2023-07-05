@@ -1,40 +1,42 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { ChallengeDetail } from "./ChallengeDetail";
+import { Points, StyledCheckmark, Footer } from "./Styles";
 
-const ChallengeBox = styled.div`
+const Box = styled.div`
   width: 100%;
   aspect-ratio: 1;
-  height: 150px;
   color: var(--dark-primary);
   padding: 10px;
-  word-break: break;
-  overflow-wrap: break-word;
-  font-size: 1rem;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  background-color: var(--light-primary);
+  display: flex;
+  flex-direction: column;
 
-  /* bit useless for mobile still nice for desktop */
   :hover {
-    background-color: var(--light-secondary);
+    text-decoration: underline;
   }
-
-  background-color: ${(props) =>
-    props.solved ? "var(--positive)" : "var(--light-primary)"};
 `;
-
-export function Challenge({ challenge }) {
+export function Challenge({ challenge, isMyTeam }) {
   const [open, setOpen] = useState(false);
   const solved = !!challenge.solution;
 
   return (
     <>
-      <ChallengeBox onClick={() => setOpen(true)} solved={solved}>
-        {challenge.name}
-        {/* // TODO add thumbnail of the image if solved */}
-      </ChallengeBox>
+      <Box onClick={() => setOpen(true)} solved={solved}>
+        <span>{challenge.name}</span>
+        <Footer>
+          <Points solved={solved}>{challenge.score}</Points>
+          <StyledCheckmark solved={solved} />
+        </Footer>
+      </Box>
       {open && (
         <ChallengeDetail
           challenge={challenge}
           onClose={() => setOpen(false)}
+          isMyTeam={isMyTeam}
         ></ChallengeDetail>
       )}
     </>

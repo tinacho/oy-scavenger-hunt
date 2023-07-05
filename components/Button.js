@@ -9,7 +9,7 @@ function SubmitButton(props) {
 }
 
 const StyledButton = styled.button`
-  padding: 13px 22px 14px;
+  padding: 13px 22px;
   background-color: var(--light-secondary);
   color: var(--text-invert);
   border-radius: 100px;
@@ -18,6 +18,7 @@ const StyledButton = styled.button`
   margin: auto;
   &[disabled] {
     opacity: 0.7;
+    background-color: #d0cbc5;
   }
   ${(props) => props.small && "width: fit-content;"}
 `;

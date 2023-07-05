@@ -1,80 +1,98 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { CldImage, CldVideoPlayer } from "next-cloudinary";
 import { useMutation } from "@apollo/client";
 import { mutations, queries } from "@/api";
 import { useCallback } from "react";
 import { useSessionContext } from "@/lib/session";
 import { useFeedback } from "../Feedback";
-import { useState } from "react";
+import { CloseIcon } from "../icons";
+import { Button } from "../Button";
 import { UploadWidget } from "../UploadWidget";
-import { CldImage, CldVideoPlayer } from "next-cloudinary";
+import { Footer, StyledCheckmark, Points } from "./Styles";
 
-// const Box = styled.div`
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   padding: 20px;
-//   padding-top: 60px;
-//   overflow-y: auto;
-//   display: flex;
-//   flex-direction: column;
-// `;
+const Box = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+`;
 
-// const Overlay = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   background-color: rgb(10 10 10 / 0.5);
-// `;
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(10 10 10 / 0.9);
+  z-index: 0;
+`;
 
-const ChallengeDetailBox = styled.div`
+const InnerBox = styled.div`
   display: flex;
   flex-direction: column;
-  position: fixed;
-  width: 700px;
+  width: 100%;
   min-height: 300px;
-
-  border: 2px solid var(--dark-primary);
-  border-radius: 8px;
   background-color: var(--light-primary);
   color: var(--dark-primary);
+  z-index: 1;
+  position: relative;
+  padding: 15px;
+  max-width: var(--max-content-width);
+  margin: auto;
 `;
 
-const ChallengeDetailBody = styled.div`
-  padding: 20px;
+const Content = styled.div`
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+
+  .cld-video-player {
+    height: 100% !important;
+  }
 `;
 
-const ChallengeDetailFooter = styled.div`
-  padding: 20px;
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
 `;
 
-const ChallengeDetailHeader = styled.div`
-  padding: 20px;
+const StyledPoints = styled(Points)`
+  height: var(--input-height);
+  padding: 0 20px;
+  width: fit-content;
   background-color: ${(props) =>
-    props.solved ? "var(--positive)" : "var(--light-primary)"};
-  display: flex;
-  justify-content: space-between;
+    props.solved ? "var(--positive-dark)" : "var(--light-secondary)"};
 `;
 
-export function ChallengeDetail({ challenge, onClose }) {
+const StyledButton = styled(Button)`
+  height: var(--input-height);
+  padding: 0 20px;
+  margin: 0;
+  margin-left: auto;
+`;
+
+export function ChallengeDetail({ challenge, onClose, isMyTeam }) {
   const solved = !!challenge.solution;
 
-  const RenderComponent = solved
-    ? ChallengeDetailSolved
-    : ChallengeDetailUnsolved;
+  const RenderComponent = solved ? Solved : Unsolved;
 
   return (
-    <RenderComponent challenge={challenge} onClose={onClose}></RenderComponent>
+    <RenderComponent
+      challenge={challenge}
+      onClose={onClose}
+      isMyTeam={isMyTeam}
+    ></RenderComponent>
   );
 }
 
-function ChallengeDetailUnsolved({ challenge, onClose }) {
+function Unsolved({ challenge, onClose, isMyTeam }) {
   const { session } = useSessionContext();
   const feedback = useFeedback();
 
@@ -89,6 +107,7 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
   const [createSolution, { loading }] = useMutation(mutations.createSolution, {
     onCompleted: (data) => {
       console.log("solved!!", data);
+      onClose();
     },
     // TODO investigating updating our cache ourselves
     //https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
@@ -131,62 +150,67 @@ function ChallengeDetailUnsolved({ challenge, onClose }) {
   }, [session, challenge, media, createSolution, feedback]);
 
   return (
-    <ChallengeDetailBox>
-      <ChallengeDetailHeader solved={false}>
-        <div>{challenge.name}</div>
-        <div>possible score: {challenge.score}</div>
-      </ChallengeDetailHeader>
-      <ChallengeDetailBody>
-        {/* TODO display upload widget based on challenge type */}
-        {challenge.type !== "SIMPLE" && !media && (
-          <UploadWidget
-            setUploadInfo={handleMediaUpload}
-            buttonText={
-              "Upload a " + (challenge.type === "IMAGE" ? "Picture" : "Video")
-            }
-            options={{
-              sources: ["local", "camera"],
-              resourceType: challenge.type === "IMAGE" ? "image" : "video",
-            }}
-          ></UploadWidget>
-        )}
-        {media &&
-          (challenge.type === "IMAGE" ? (
-            <CldImage
-              src={media}
-              alt="challenge picture"
-              width={300}
-              height={300}
-            ></CldImage>
-          ) : (
-            challenge.type === "VIDEO" && (
-              <CldVideoPlayer
+    <Box>
+      <InnerBox>
+        <Header solved={false}>
+          <div>{challenge.name}</div>
+          <button onClick={onClose} disabled={loading}>
+            <CloseIcon />
+          </button>
+        </Header>
+        <Content>
+          {challenge.type !== "SIMPLE" && !media && (
+            <UploadWidget
+              setUploadInfo={handleMediaUpload}
+              buttonText={
+                "Upload a " + (challenge.type === "IMAGE" ? "Picture" : "Video")
+              }
+              options={{
+                sources: ["local", "camera"],
+                resourceType: challenge.type === "IMAGE" ? "image" : "video",
+              }}
+            ></UploadWidget>
+          )}
+          {media &&
+            (challenge.type === "IMAGE" ? (
+              <CldImage
                 src={media}
-                alt="challenge video"
+                alt="challenge picture"
                 width={300}
                 height={300}
-              ></CldVideoPlayer>
-            )
-          ))}
-      </ChallengeDetailBody>
-      <ChallengeDetailFooter>
-        <>
-          <button
-            disabled={loading || (needsMedia && !media)}
-            onClick={solveChallenge}
-          >
-            solve
-          </button>
-          <button disabled={loading} onClick={onClose}>
-            close
-          </button>
-        </>
-      </ChallengeDetailFooter>
-    </ChallengeDetailBox>
+              ></CldImage>
+            ) : (
+              challenge.type === "VIDEO" && (
+                <CldVideoPlayer
+                  src={media}
+                  alt="challenge video"
+                  width="300"
+                  height="300"
+                ></CldVideoPlayer>
+              )
+            ))}
+        </Content>
+        <Footer>
+          <StyledPoints
+            solved={false}
+          >{`Points: ${challenge.score}`}</StyledPoints>
+          <StyledCheckmark solved={false} />
+          {isMyTeam && (
+            <StyledButton
+              disabled={loading || (needsMedia && !media)}
+              onClick={solveChallenge}
+              text="Solve"
+              small
+            />
+          )}
+        </Footer>
+      </InnerBox>
+      <Overlay onClick={onClose} />
+    </Box>
   );
 }
 
-function ChallengeDetailSolved({ challenge, onClose }) {
+function Solved({ challenge, onClose, isMyTeam }) {
   const feedback = useFeedback();
 
   const [deleteSolution, { loading }] = useMutation(mutations.deleteSolution, {
@@ -211,9 +235,10 @@ function ChallengeDetailSolved({ challenge, onClose }) {
       }).then(
         () => {
           feedback.open({
-            message: "challenge resetted!",
+            message: "Challenge successfully reset!",
             mode: "SUCCESS",
           });
+          onClose();
         },
         (error) => {
           feedback.open({
@@ -224,40 +249,51 @@ function ChallengeDetailSolved({ challenge, onClose }) {
         }
       );
     }
-  }, [challenge, deleteSolution, feedback]);
+  }, [challenge, deleteSolution, feedback, onClose]);
 
   return (
-    <ChallengeDetailBox>
-      <ChallengeDetailHeader solved={true}>
-        <div>{challenge.name}</div>
-        <div>score: {challenge.score}</div>
-      </ChallengeDetailHeader>
-      <ChallengeDetailBody>
-        {/* // TODO distinguish between vids and pics */}
-        {challenge.solution.media &&
-          (challenge.type === "IMAGE" ? (
-            <CldImage
-              src={challenge.solution.media}
-              alt="challenge picture"
-              width={300}
-              height={300}
-            ></CldImage>
-          ) : (
-            <CldVideoPlayer
-              src={challenge.solution.media}
-              alt="challenge video"
-              width={300}
-              height={300}
-            ></CldVideoPlayer>
-          ))}
-        {/* TODO display of the solution if solved, else upload widget if needed */}
-      </ChallengeDetailBody>
-      <ChallengeDetailFooter>
-        <button disabled={loading} onClick={resetChallenge}>
-          reset
-        </button>
-        <button onClick={onClose}>close</button>
-      </ChallengeDetailFooter>
-    </ChallengeDetailBox>
+    <Box>
+      <InnerBox>
+        <Header solved={true}>
+          <div>{challenge.name}</div>
+          <button onClick={onClose}>
+            <CloseIcon />
+          </button>
+        </Header>
+        <Content>
+          {challenge.solution.media &&
+            (challenge.type === "IMAGE" ? (
+              <CldImage
+                src={challenge.solution.media}
+                alt="challenge picture"
+                width={300}
+                height={300}
+              ></CldImage>
+            ) : (
+              <CldVideoPlayer
+                src={challenge.solution.media}
+                alt="challenge video"
+                width="300"
+                height="300"
+              ></CldVideoPlayer>
+            ))}
+        </Content>
+        <Footer>
+          <StyledPoints
+            solved={true}
+          >{`Score: ${challenge.score}`}</StyledPoints>
+          <StyledCheckmark solved={true} />
+          {isMyTeam && (
+            <StyledButton
+              disabled={loading}
+              onClick={resetChallenge}
+              text="Reset"
+              small
+            />
+          )}
+        </Footer>
+      </InnerBox>
+      <Overlay onClick={onClose} />
+    </Box>
   );
 }

@@ -7,7 +7,7 @@ import { AddMember } from "./AddMember";
 import TeamPictureUpload from "./TeamPictureUpload";
 import { Challenges } from "@/components/challenges";
 import { Button } from "../Button";
-import { Section, Strong } from "./Styles";
+import { Section, Strong, Title } from "./Styles";
 import Member from "./Member";
 
 function TeamView({ data, isMyTeam = false }) {
@@ -22,6 +22,7 @@ function TeamView({ data, isMyTeam = false }) {
 
   return (
     <>
+      <Title>{data.team.name}</Title>
       <Section>
         <h2>Current score</h2>
         <Strong>{getTeamScore(data.team)}</Strong>
@@ -35,6 +36,7 @@ function TeamView({ data, isMyTeam = false }) {
             challenges={challengesWithSolutions}
             isOpen={scorecardOpen}
             closeScorecard={closeScorecard}
+            isMyTeam={isMyTeam}
           />
         )}
       </Section>

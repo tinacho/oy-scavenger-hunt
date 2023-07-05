@@ -15,9 +15,6 @@ function Rules() {
           <Strong>REMEMBER, PICS OR IT DIDN&apos;T HAPPEN!</Strong>
         </Item>
         <Item>
-          The winner is the peron or persons with the most points at the end
-        </Item>
-        <Item>
           The winner is the peron or persons with the most points at the end and
           gets <Strong>€50</Strong> and the undying respect of everyone
           involved.
