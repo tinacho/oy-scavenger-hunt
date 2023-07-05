@@ -54,7 +54,12 @@ function TeamView({ data, isMyTeam = false }) {
         <h2>Members</h2>
         <ul>
           {data.team.members.map((member, index) => (
-            <Member key={index} data={data} name={member.name}></Member>
+            <Member
+              key={index}
+              data={data}
+              name={member.name}
+              isMyTeam={isMyTeam}
+            ></Member>
           ))}
         </ul>
       </Section>
@@ -62,8 +67,6 @@ function TeamView({ data, isMyTeam = false }) {
         <Section>
           <h2>Add member to team:</h2>
           <AddMember data={data} />
-          {/* TODO: complete challenge etc */}
-          {/* TODO: remove member */}
         </Section>
       )}
     </>
