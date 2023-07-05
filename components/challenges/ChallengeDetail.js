@@ -4,7 +4,6 @@ import { CldImage, CldVideoPlayer } from "next-cloudinary";
 import { useMutation } from "@apollo/client";
 import { mutations, queries } from "@/api";
 import { useCallback } from "react";
-import { useSessionContext } from "@/lib/session";
 import { useFeedback } from "../Feedback";
 import { CloseIcon } from "../icons";
 import { Button } from "../Button";
@@ -78,7 +77,7 @@ const StyledButton = styled(Button)`
   margin-left: auto;
 `;
 
-export function ChallengeDetail({ challenge, onClose, isMyTeam }) {
+export function ChallengeDetail({ team, challenge, onClose, editable }) {
   const solved = !!challenge.solution;
 
   const RenderComponent = solved ? Solved : Unsolved;
@@ -86,14 +85,14 @@ export function ChallengeDetail({ challenge, onClose, isMyTeam }) {
   return (
     <RenderComponent
       challenge={challenge}
+      team={team}
       onClose={onClose}
-      isMyTeam={isMyTeam}
+      editable={editable}
     ></RenderComponent>
   );
 }
 
-function Unsolved({ challenge, onClose, isMyTeam }) {
-  const { session } = useSessionContext();
+function Unsolved({ challenge, team, onClose, editable }) {
   const feedback = useFeedback();
 
   // TODO add upload widget in here and the detail body
@@ -118,7 +117,7 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
     createSolution({
       variables: {
         data: {
-          team: { connect: session.teamId },
+          team: { connect: team._id },
           challenge: { connect: challenge._id },
           media,
         },
@@ -147,7 +146,7 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
         }
       }
     );
-  }, [session, challenge, media, createSolution, feedback]);
+  }, [team, challenge, media, createSolution, feedback]);
 
   return (
     <Box>
@@ -159,7 +158,7 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
           </button>
         </Header>
         <Content>
-          {isMyTeam && challenge.type !== "SIMPLE" && !media && (
+          {editable && challenge.type !== "SIMPLE" && !media && (
             <UploadWidget
               setUploadInfo={handleMediaUpload}
               buttonText={
@@ -195,7 +194,7 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
             solved={false}
           >{`Points: ${challenge.score}`}</StyledPoints>
           <StyledCheckmark solved={false} />
-          {isMyTeam && (
+          {editable && (
             <StyledButton
               disabled={loading || (needsMedia && !media)}
               onClick={solveChallenge}
@@ -210,7 +209,7 @@ function Unsolved({ challenge, onClose, isMyTeam }) {
   );
 }
 
-function Solved({ challenge, onClose, isMyTeam }) {
+function Solved({ challenge, onClose, editable }) {
   const feedback = useFeedback();
 
   const [deleteSolution, { loading }] = useMutation(mutations.deleteSolution, {
@@ -283,7 +282,7 @@ function Solved({ challenge, onClose, isMyTeam }) {
             solved={true}
           >{`Score: ${challenge.score}`}</StyledPoints>
           <StyledCheckmark solved={true} />
-          {isMyTeam && (
+          {editable && (
             <StyledButton
               disabled={loading}
               onClick={resetChallenge}
