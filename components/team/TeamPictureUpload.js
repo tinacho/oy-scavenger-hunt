@@ -40,6 +40,10 @@ function TeamPictureUpload({ data, isMyTeam }) {
           uploadPreset={teamUploadPreset}
           setUploadInfo={handleTeamLogoUpdate}
           buttonText="Upload a Team Picture"
+          options={{
+            sources: ["local", "camera", "url", "image_search"],
+            resourceType: "image",
+          }}
         ></UploadWidget>
       )}
     </>

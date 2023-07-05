@@ -93,6 +93,10 @@ function CreateNewTeam({ router }) {
               uploadPreset={teamUploadPreset}
               setUploadInfo={handleUpload}
               buttonText="Upload a Team Picture"
+              options={{
+                sources: ["local", "camera", "url", "image_search"],
+                resourceType: "image",
+              }}
             />
           )}
         </Section>
