@@ -7,7 +7,7 @@ import { AddMember } from "./AddMember";
 import TeamPictureUpload from "./TeamPictureUpload";
 import { Challenges } from "@/components/challenges";
 import { Button } from "../Button";
-import { Section, Strong, Title } from "./Styles";
+import { Section, Strong, Title } from "../Styles";
 import Member from "./Member";
 
 function TeamView({ data, isMyTeam = false }) {

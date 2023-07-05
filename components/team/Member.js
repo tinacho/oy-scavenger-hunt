@@ -1,4 +1,4 @@
-import { Strong, MemberItem } from "./Styles";
+import { Strong, MemberItem } from "../Styles";
 import { useState } from "react";
 import { queries, mutations } from "../../api";
 import { useMutation } from "@apollo/client";

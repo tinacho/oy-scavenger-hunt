@@ -1,13 +1,14 @@
 import { useMemo } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { Box } from "@/components/team/Styles";
+import { Box, Title, StyledButton } from "@/components/Styles";
+import { RefreshIcon } from "@/components/icons";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { queries, withApiData } from "../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 import DefaultPicture from "@/public/default-profile.jpeg";
 
-function Home({ data }) {
+function Home({ data, refetch }) {
   const orderedTeams = useMemo(() => {
     if (data?.allTeams?.data) {
       return data.allTeams.data;
@@ -15,9 +16,14 @@ function Home({ data }) {
     return [];
   }, [data]);
 
+  const refreshScores = () => {
+    refetch();
+  };
+
   return (
     <Box>
       <Title>Leader board</Title>
+
       <TableBox>
         <Table>
           <thead>
@@ -51,15 +57,24 @@ function Home({ data }) {
           </tbody>
         </Table>
       </TableBox>
+      <Button small onClick={refreshScores}>
+        <Icon />
+        <span>Refresh scores</span>
+      </Button>
     </Box>
   );
 }
 
-const Title = styled.h1`
-  padding: 15px 25px;
-  border-radius: 10px 10px 0 0;
-  border: var(--border-primary);
-  border-bottom: none;
+const Button = styled(StyledButton)`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin-bottom: 20px;
+`;
+
+const Icon = styled(RefreshIcon)`
+  width: 20px;
+  margin-right: 5px;
 `;
 
 const StyledImage = styled(ImageWithFallback)`
@@ -109,5 +124,4 @@ const TeamNameHeader = styled(Cell)`
 
 export default withApiData({
   query: queries.home,
-  // options: { pollInterval: 3000 },
 })(Home);

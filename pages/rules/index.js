@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Title, Box } from "@/components/team/Styles";
+import { Title, Box } from "@/components/Styles";
 
 function Rules() {
   return (
