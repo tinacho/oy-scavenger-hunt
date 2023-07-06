@@ -1,6 +1,6 @@
 import { compose } from "ramda";
 import { useState, useMemo } from "react";
-import { queries, withApiData } from "../../api";
+import { queries, mutations, withApiData } from "../../api";
 import { getTeamScore } from "@/lib/getTeamScore";
 import { addTeamSolutionsToChallenges } from "@/lib/addTeamSolutionsToChallenges";
 import { AddMember } from "./AddMember";
@@ -10,8 +10,12 @@ import { Button } from "../Button";
 import { Section, Strong, Title } from "../Styles";
 import Member from "./Member";
 import { useSessionContext } from "@/lib/session";
+import { useMutation } from "@apollo/client";
+import { withRouter } from "next/router";
+import styled from "styled-components";
+import { GAME_MASTER } from "@/lib/constants";
 
-function TeamView({ data, isMyTeam = false }) {
+function TeamView({ data, isMyTeam = false, router }) {
   const [scorecardOpen, setScorecardOpen] = useState(false);
   const session = useSessionContext();
   const { isGameMaster } = session;
@@ -22,6 +26,19 @@ function TeamView({ data, isMyTeam = false }) {
     () => addTeamSolutionsToChallenges(data.allChallenges.data, data.team),
     [data]
   );
+
+  const [deleteTeam] = useMutation(mutations.deleteTeam, {
+    onCompleted: () => {
+      console.log("deleted!!");
+      router.push(`/`);
+    },
+  });
+
+  const handleDeleteTeam = () => {
+    deleteTeam({
+      variables: { id: data.team._id },
+    });
+  };
 
   return (
     <>
@@ -73,13 +90,25 @@ function TeamView({ data, isMyTeam = false }) {
           <AddMember data={data} />
         </Section>
       )}
+      {isGameMaster && data.team.name !== GAME_MASTER.name && (
+        <Section>
+          <DeleteButton onClick={handleDeleteTeam} text="Delete Team" />
+        </Section>
+      )}
     </>
   );
 }
+
+const DeleteButton = styled(Button)`
+  margin-top: 1000px;
+  color: black;
+  background-color: red;
+`;
 
 export default compose(
   withApiData({
     query: queries.teamMe,
     propMapper: ({ teamId }) => ({ id: teamId }),
-  })
+  }),
+  withRouter
 )(TeamView);
