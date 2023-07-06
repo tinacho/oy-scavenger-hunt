@@ -18,8 +18,7 @@ import { SubmitButton } from "@/components/Button";
 import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
 import { generateTeamCode } from "@/lib/generateTeamCode";
-
-const teamUploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_TEAM;
+import { UPLOAD_PRESETS, DEFAULT_TEAM_PIC } from "@/lib/constants";
 
 function CreateNewTeam({ router }) {
   const { login } = useContext(SessionContext);
@@ -57,11 +56,15 @@ function CreateNewTeam({ router }) {
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitClicked(true);
+    let logo = logoSrc;
+    if (!logoSrc) {
+      logo = DEFAULT_TEAM_PIC;
+    }
     createTeam({
       variables: {
         data: {
           name,
-          logoSrc,
+          logoSrc: logo,
           members:
             newMemberName.length > 1
               ? [...members, { name: newMemberName }]
@@ -90,9 +93,14 @@ function CreateNewTeam({ router }) {
             <TeamPicture path={logoSrc} />
           ) : (
             <UploadWidget
-              uploadPreset={teamUploadPreset}
+              uploadPreset={UPLOAD_PRESETS.TEAM}
               setUploadInfo={handleUpload}
               buttonText="Upload a Team Picture"
+              options={{
+                sources: ["local", "camera", "url", "image_search"],
+                resourceType: "image",
+                maxFileSize: 10 * 2 ** 20, // 10MB limit for pictures
+              }}
             />
           )}
         </Section>
@@ -119,9 +127,7 @@ function CreateNewTeam({ router }) {
       <SubmitButton
         type="submit"
         text="Create new team"
-        disabled={
-          !(name && logoSrc && (members.length > 0 || newMemberName.length > 1))
-        }
+        disabled={!(name && (members.length > 0 || newMemberName.length > 1))}
         form="create-team-form"
       />
     </Box>

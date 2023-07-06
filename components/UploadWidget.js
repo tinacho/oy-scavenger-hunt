@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import { Button } from "./Button";
+import { useFeedback } from "./Feedback";
 
 function UploadWidget({ options, uploadPreset, setUploadInfo, buttonText }) {
   const [uploadInfo, updateUploadInfo] = useState();
-  const [uploadError, updateUploadError] = useState();
+
+  const feedback = useFeedback();
 
   const handleOnUpload = ({ event, info }, widget) => {
     console.log("handleOnUpload", event, info);
@@ -18,8 +20,11 @@ function UploadWidget({ options, uploadPreset, setUploadInfo, buttonText }) {
   };
 
   const handleOnUploadError = (error) => {
-    console.error("handleOnUploadError", error);
-    updateUploadError(error);
+    // console.error("handleOnUploadError", error);
+    feedback.open({
+      message: error.statusText,
+      mode: "ERROR",
+    });
   };
 
   return (
@@ -31,16 +36,17 @@ function UploadWidget({ options, uploadPreset, setUploadInfo, buttonText }) {
           onUpload={handleOnUpload}
           onError={handleOnUploadError}
         >
-          {({ open }) => {
+          {({ error, open, isLoading }) => {
             function handleOnClick(e) {
               e.preventDefault();
-              open();
+              if (!isLoading && !error) {
+                open();
+              }
             }
             return <Button onClick={handleOnClick} text={buttonText} small />;
           }}
         </CldUploadWidget>
       )}
-      {uploadError && <p>{uploadError.status}</p>}
     </>
   );
 }
