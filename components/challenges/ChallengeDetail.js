@@ -108,10 +108,14 @@ function Unsolved({ challenge, team, onClose, editable }) {
 
   // TODO add upload widget in here and the detail body
   const needsMedia = challenge.type !== "SIMPLE";
-  const [media, setMedia] = useState(null);
+  const [media, setMedia] = useState(challenge.media);
 
   const handleMediaUpload = (info) => {
-    setMedia(getMediaUrl(info));
+    const mediaUrl = getMediaUrl(info);
+    setMedia(mediaUrl);
+    // immediately solve the challenge on upload
+    console.log("uploading", info);
+    solveChallenge(mediaUrl);
   };
 
   const [createSolution, { loading }] = useMutation(mutations.createSolution, {
@@ -124,40 +128,43 @@ function Unsolved({ challenge, team, onClose, editable }) {
     refetchQueries: [queries.teamMe],
   });
 
-  const solveChallenge = useCallback(() => {
-    createSolution({
-      variables: {
-        data: {
-          team: { connect: team._id },
-          challenge: { connect: challenge._id },
-          media,
+  const solveChallenge = useCallback(
+    (media) => {
+      createSolution({
+        variables: {
+          data: {
+            team: { connect: team._id },
+            challenge: { connect: challenge._id },
+            media,
+          },
         },
-      },
-    }).then(
-      () => {
-        feedback.open({
-          message: "solution submitted!",
-          mode: "SUCCESS",
-        });
-      },
-      (error) => {
-        // uniqueness is guaranteed by a database index
-        if (error.message.includes("is not unique")) {
+      }).then(
+        () => {
           feedback.open({
-            message: "Already Solved!",
-            mode: "ERROR",
-            timeout: null,
+            message: "solution submitted!",
+            mode: "SUCCESS",
           });
-        } else {
-          feedback.open({
-            message: "Error - could not create solution: " + error.message,
-            mode: "ERROR",
-            timeout: null,
-          });
+        },
+        (error) => {
+          // uniqueness is guaranteed by a database index
+          if (error.message.includes("is not unique")) {
+            feedback.open({
+              message: "Already Solved!",
+              mode: "ERROR",
+              timeout: null,
+            });
+          } else {
+            feedback.open({
+              message: "Error - could not create solution: " + error.message,
+              mode: "ERROR",
+              timeout: null,
+            });
+          }
         }
-      }
-    );
-  }, [team, challenge, media, createSolution, feedback]);
+      );
+    },
+    [team, challenge, createSolution, feedback]
+  );
 
   return (
     <Box>
@@ -169,7 +176,7 @@ function Unsolved({ challenge, team, onClose, editable }) {
           </button>
         </Header>
         <Content>
-          {editable && challenge.type !== "SIMPLE" && !media && (
+          {editable && challenge.type !== "SIMPLE" && (
             <UploadWidget
               uploadPreset={
                 challenge.type === "VIDEO"
@@ -191,24 +198,6 @@ function Unsolved({ challenge, team, onClose, editable }) {
               }}
             ></UploadWidget>
           )}
-          {media &&
-            (challenge.type === "IMAGE" ? (
-              <CldImage
-                src={media}
-                alt="challenge picture"
-                width="300"
-                height="300"
-              ></CldImage>
-            ) : (
-              challenge.type === "VIDEO" && (
-                <CldVideoPlayer
-                  src={media}
-                  alt="challenge video"
-                  width="300"
-                  height="300"
-                ></CldVideoPlayer>
-              )
-            ))}
         </Content>
         <Footer>
           <StyledPoints
