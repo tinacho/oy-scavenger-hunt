@@ -113,7 +113,7 @@ function Unsolved({ challenge, team, onClose, editable }) {
   const handleMediaUpload = (info) => {
     const mediaUrl = getMediaUrl(info);
     setMedia(mediaUrl);
-    // immediately solve the challenge on upload
+    // solve the challenge automatically
     solveChallenge(mediaUrl);
   };
 
@@ -175,7 +175,7 @@ function Unsolved({ challenge, team, onClose, editable }) {
           </button>
         </Header>
         <Content>
-          {editable && challenge.type !== "SIMPLE" && (
+          {editable && challenge.type !== "SIMPLE" && !media && (
             <UploadWidget
               uploadPreset={
                 challenge.type === "VIDEO"
@@ -197,6 +197,24 @@ function Unsolved({ challenge, team, onClose, editable }) {
               }}
             ></UploadWidget>
           )}
+          {media &&
+            (challenge.type === "IMAGE" ? (
+              <CldImage
+                src={media}
+                alt="challenge picture"
+                width="300"
+                height="300"
+              ></CldImage>
+            ) : (
+              challenge.type === "VIDEO" && (
+                <CldVideoPlayer
+                  src={media}
+                  alt="challenge video"
+                  width="300"
+                  height="300"
+                ></CldVideoPlayer>
+              )
+            ))}
         </Content>
         <Footer>
           <StyledPoints
