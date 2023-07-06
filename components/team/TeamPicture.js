@@ -26,8 +26,6 @@ function TeamPicture({
     setIsFullScreen(!isFullScreen);
   };
 
-  console.log("path", path);
-
   return (
     <>
       {!isFullScreen && (
