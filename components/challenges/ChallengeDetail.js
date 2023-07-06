@@ -140,7 +140,7 @@ function Unsolved({ challenge, team, onClose, editable }) {
       }).then(
         () => {
           feedback.open({
-            message: "solution submitted!",
+            message: "Solution submitted!",
             mode: "SUCCESS",
           });
         },
