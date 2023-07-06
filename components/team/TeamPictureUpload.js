@@ -3,8 +3,7 @@ import { useMutation } from "@apollo/client";
 import { mutations } from "../../api";
 import { TeamPicture } from "./TeamPicture";
 import { UploadWidget } from "../UploadWidget";
-
-const teamUploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_TEAM;
+import { UPLOAD_PRESETS } from "@/lib/constants";
 
 function TeamPictureUpload({ data, isMyTeam }) {
   const [logoSrc, setLogoSrc] = useState(data.team.logoSrc);
@@ -37,12 +36,13 @@ function TeamPictureUpload({ data, isMyTeam }) {
       )}
       {!logoSrc && isMyTeam && (
         <UploadWidget
-          uploadPreset={teamUploadPreset}
+          uploadPreset={UPLOAD_PRESETS.TEAM}
           setUploadInfo={handleTeamLogoUpdate}
           buttonText="Upload a Team Picture"
           options={{
             sources: ["local", "camera", "url", "image_search"],
             resourceType: "image",
+            maxFileSize: 10 * 2 ** 20, // 10MB limit for pictures
           }}
         ></UploadWidget>
       )}

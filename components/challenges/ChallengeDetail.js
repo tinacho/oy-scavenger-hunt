@@ -9,6 +9,7 @@ import { CloseIcon } from "../icons";
 import { Button } from "../Button";
 import { UploadWidget } from "../UploadWidget";
 import { Footer, StyledCheckmark, Points } from "./Styles";
+import { UPLOAD_PRESETS } from "@/lib/constants";
 
 const Box = styled.div`
   position: fixed;
@@ -160,13 +161,22 @@ function Unsolved({ challenge, team, onClose, editable }) {
         <Content>
           {editable && challenge.type !== "SIMPLE" && !media && (
             <UploadWidget
+              uploadPreset={
+                challenge.type === "VIDEO"
+                  ? UPLOAD_PRESETS.VIDS
+                  : UPLOAD_PRESETS.PICS
+              }
               setUploadInfo={handleMediaUpload}
               buttonText={
-                "Upload a " + (challenge.type === "IMAGE" ? "Picture" : "Video")
+                "Upload a " + (challenge.type === "VIDEO" ? "Video" : "Picture")
               }
               options={{
                 sources: ["local", "camera"],
-                resourceType: challenge.type === "IMAGE" ? "image" : "video",
+                resourceType: challenge.type === "VIDEO" ? "video" : "image",
+                maxFileSize:
+                  challenge.type === "VIDEO"
+                    ? 100 * 2 ** 20 // 100MB limit for videos
+                    : 10 * 2 ** 20, // 10MB limit for pictures
                 tags: [team.name],
               }}
             ></UploadWidget>
@@ -176,8 +186,8 @@ function Unsolved({ challenge, team, onClose, editable }) {
               <CldImage
                 src={media}
                 alt="challenge picture"
-                width={300}
-                height={300}
+                width="300"
+                height="300"
               ></CldImage>
             ) : (
               challenge.type === "VIDEO" && (

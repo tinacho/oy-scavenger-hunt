@@ -18,8 +18,7 @@ import { SubmitButton } from "@/components/Button";
 import { mutations } from "../../../api";
 import { SessionContext } from "@/lib/session";
 import { generateTeamCode } from "@/lib/generateTeamCode";
-
-const teamUploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_TEAM;
+import { UPLOAD_PRESETS } from "@/lib/constants";
 
 function CreateNewTeam({ router }) {
   const { login } = useContext(SessionContext);
@@ -90,12 +89,13 @@ function CreateNewTeam({ router }) {
             <TeamPicture path={logoSrc} />
           ) : (
             <UploadWidget
-              uploadPreset={teamUploadPreset}
+              uploadPreset={UPLOAD_PRESETS.TEAM}
               setUploadInfo={handleUpload}
               buttonText="Upload a Team Picture"
               options={{
                 sources: ["local", "camera", "url", "image_search"],
                 resourceType: "image",
+                maxFileSize: 10 * 2 ** 20, // 10MB limit for pictures
               }}
             />
           )}
