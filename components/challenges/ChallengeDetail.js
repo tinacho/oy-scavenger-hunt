@@ -108,7 +108,7 @@ function Unsolved({ challenge, team, onClose, editable }) {
 
   // TODO add upload widget in here and the detail body
   const needsMedia = challenge.type !== "SIMPLE";
-  const [media, setMedia] = useState(challenge.media);
+  const [media, setMedia] = useState("");
 
   const handleMediaUpload = (info) => {
     const mediaUrl = getMediaUrl(info);
