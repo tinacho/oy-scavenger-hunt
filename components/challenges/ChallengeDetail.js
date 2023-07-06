@@ -114,7 +114,6 @@ function Unsolved({ challenge, team, onClose, editable }) {
     const mediaUrl = getMediaUrl(info);
     setMedia(mediaUrl);
     // immediately solve the challenge on upload
-    console.log("uploading", info);
     solveChallenge(mediaUrl);
   };
 
