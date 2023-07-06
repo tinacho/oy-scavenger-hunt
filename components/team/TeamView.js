@@ -35,9 +35,15 @@ function TeamView({ data, isMyTeam = false, router }) {
   });
 
   const handleDeleteTeam = () => {
-    deleteTeam({
-      variables: { id: data.team._id },
-    });
+    if (
+      confirm(
+        "Are you sure you want to delete the team? All progress and the team will be lost!"
+      )
+    ) {
+      deleteTeam({
+        variables: { id: data.team._id },
+      });
+    }
   };
 
   return (
@@ -100,7 +106,6 @@ function TeamView({ data, isMyTeam = false, router }) {
 }
 
 const DeleteButton = styled(Button)`
-  margin-top: 1000px;
   color: black;
   background-color: red;
 `;
