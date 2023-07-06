@@ -186,7 +186,7 @@ function Unsolved({ challenge, team, onClose, editable }) {
                 maxFileSize:
                   challenge.type === "VIDEO"
                     ? 100 * 2 ** 20 // 100MB limit for videos
-                    : 10 * 2 ** 20, // 10MB limit for pictures
+                    : 20 * 2 ** 20, // 10MB limit for pictures
                 tags: [team.name],
               }}
             ></UploadWidget>

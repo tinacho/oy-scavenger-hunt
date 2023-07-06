@@ -99,7 +99,6 @@ function CreateNewTeam({ router }) {
               options={{
                 sources: ["local", "camera", "url", "image_search"],
                 resourceType: "image",
-                maxFileSize: 10 * 2 ** 20, // 10MB limit for pictures
               }}
             />
           )}

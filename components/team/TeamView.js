@@ -65,7 +65,7 @@ function TeamView({ data, isMyTeam = false, router }) {
         <h2>Team picture</h2>
         <TeamPictureUpload data={data} isMyTeam={isMyTeam} />
       </Section>
-      {isMyTeam && (
+      {(isMyTeam || isGameMaster) && (
         <Section>
           <h2>Use this code to enter the team</h2>
           <Strong>{data.team.code}</Strong>
