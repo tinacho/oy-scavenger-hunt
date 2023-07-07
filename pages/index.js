@@ -50,7 +50,7 @@ function Home({ data, refetch }) {
                         />
                       )}
                     </LogoBox>
-                    <span>{team.name}</span>
+                    <Name>{team.name}</Name>
                   </StyledLink>
                 </Cell>
                 <Cell>{team.score}</Cell>
@@ -80,7 +80,7 @@ const Icon = styled(RefreshIcon)`
 `;
 
 const StyledImage = styled(ImageWithFallback)`
-  width; 100%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
 `;
@@ -106,6 +106,12 @@ const LogoBox = styled.div`
   width: 50px;
   height: 50px;
   margin-right: 20px;
+  flex-shrink: 0;
+`;
+
+const Name = styled.span`
+  text-align: left;
+  line-height: 1.3;
 `;
 
 const Cell = styled.td`

@@ -202,16 +202,16 @@ function Unsolved({ challenge, team, onClose, editable }) {
               <CldImage
                 src={media}
                 alt="challenge picture"
-                width="300"
-                height="300"
+                width="900"
+                height="900"
               ></CldImage>
             ) : (
               challenge.type === "VIDEO" && (
                 <CldVideoPlayer
                   src={media}
                   alt="challenge video"
-                  width="300"
-                  height="300"
+                  width="900"
+                  height="900"
                 ></CldVideoPlayer>
               )
             ))}
@@ -292,15 +292,15 @@ function Solved({ challenge, onClose, editable }) {
               <CldImage
                 src={challenge.solution.media}
                 alt="challenge picture"
-                width={300}
-                height={300}
+                width="900"
+                height="900"
               ></CldImage>
             ) : (
               <CldVideoPlayer
                 src={challenge.solution.media}
                 alt="challenge video"
-                width="300"
-                height="300"
+                width="900"
+                height="900"
               ></CldVideoPlayer>
             ))}
         </Content>
