@@ -54,6 +54,11 @@ const Content = styled.div`
   .cld-video-player {
     height: 100% !important;
   }
+
+  img {
+    max-height: 70vh;
+    object-fit: contain;
+  }
 `;
 
 const Header = styled.div`
