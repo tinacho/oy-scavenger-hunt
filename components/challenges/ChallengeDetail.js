@@ -108,10 +108,13 @@ function Unsolved({ challenge, team, onClose, editable }) {
 
   // TODO add upload widget in here and the detail body
   const needsMedia = challenge.type !== "SIMPLE";
-  const [media, setMedia] = useState(null);
+  const [media, setMedia] = useState("");
 
   const handleMediaUpload = (info) => {
-    setMedia(getMediaUrl(info));
+    const mediaUrl = getMediaUrl(info);
+    setMedia(mediaUrl);
+    // solve the challenge automatically
+    solveChallenge(mediaUrl);
   };
 
   const [createSolution, { loading }] = useMutation(mutations.createSolution, {
@@ -124,40 +127,43 @@ function Unsolved({ challenge, team, onClose, editable }) {
     refetchQueries: [queries.teamMe],
   });
 
-  const solveChallenge = useCallback(() => {
-    createSolution({
-      variables: {
-        data: {
-          team: { connect: team._id },
-          challenge: { connect: challenge._id },
-          media,
+  const solveChallenge = useCallback(
+    (media) => {
+      createSolution({
+        variables: {
+          data: {
+            team: { connect: team._id },
+            challenge: { connect: challenge._id },
+            media,
+          },
         },
-      },
-    }).then(
-      () => {
-        feedback.open({
-          message: "solution submitted!",
-          mode: "SUCCESS",
-        });
-      },
-      (error) => {
-        // uniqueness is guaranteed by a database index
-        if (error.message.includes("is not unique")) {
+      }).then(
+        () => {
           feedback.open({
-            message: "Already Solved!",
-            mode: "ERROR",
-            timeout: null,
+            message: "Solution submitted!",
+            mode: "SUCCESS",
           });
-        } else {
-          feedback.open({
-            message: "Error - could not create solution: " + error.message,
-            mode: "ERROR",
-            timeout: null,
-          });
+        },
+        (error) => {
+          // uniqueness is guaranteed by a database index
+          if (error.message.includes("is not unique")) {
+            feedback.open({
+              message: "Already Solved!",
+              mode: "ERROR",
+              timeout: null,
+            });
+          } else {
+            feedback.open({
+              message: "Error - could not create solution: " + error.message,
+              mode: "ERROR",
+              timeout: null,
+            });
+          }
         }
-      }
-    );
-  }, [team, challenge, media, createSolution, feedback]);
+      );
+    },
+    [team, challenge, createSolution, feedback]
+  );
 
   return (
     <Box>
